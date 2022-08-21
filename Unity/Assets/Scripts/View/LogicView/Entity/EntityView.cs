@@ -1,5 +1,6 @@
 using Lockstep.Game;
 using Lockstep.Math;
+using Lockstep.Util;
 using UnityEngine;
 
 namespace Lockstep.Game {
@@ -34,12 +35,14 @@ namespace Lockstep.Game {
             GameObject.Destroy(gameObject);
         }
 
-        private void Update(){
+        private void Update()
+        {
+            var timeRate = Time.deltaTime / LTime.deltaTime.ToLFloat();
             var pos = entity.transform.Pos3.ToVector3();
-            transform.position = Vector3.Lerp(transform.position, pos, 0.3f);
+            transform.position = Vector3.Lerp(transform.position, pos, timeRate);
             var deg = entity.transform.deg.ToFloat();
             //deg = Mathf.Lerp(transform.rotation.eulerAngles.y, deg, 0.3f);
-            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0, deg, 0), 0.3f);
+            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0, deg, 0), timeRate);
         }    
         
         private void OnDrawGizmos(){

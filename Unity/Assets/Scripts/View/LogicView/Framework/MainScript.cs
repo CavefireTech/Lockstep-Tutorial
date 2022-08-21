@@ -46,9 +46,9 @@ public class MainScript : MonoBehaviour {
         HasInit = true;
     }
 
-    private void Update(){
+    private void FixedUpdate(){
         _serviceContainer.GetService<IConstStateService>().IsRunVideo = IsVideoMode;
-        launcher.DoUpdate(Time.deltaTime);
+        launcher.DoUpdate(Time.fixedDeltaTime);
     }
 
     private void OnDestroy(){

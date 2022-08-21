@@ -63,7 +63,7 @@ namespace Lockstep.Game {
         private int _tickOnLastJumpTo;
         private long _timestampOnLastJumpToMs;
 
-        private bool _isDebugRollback = true;
+        private bool _isDebugRollback = false;
 
         //refs 
         private IManagerContainer _mgrContainer;

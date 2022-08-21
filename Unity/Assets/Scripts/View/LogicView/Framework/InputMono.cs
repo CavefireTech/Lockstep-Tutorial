@@ -21,12 +21,12 @@ namespace Lockstep.Game {
             floorMask = LayerMask.GetMask("Floor");
         }
 
-        public void Update(){
+        public void FixedUpdate(){
             if (World.Instance != null && !IsReplay) {
                 float h = Input.GetAxisRaw("Horizontal");
                 float v = Input.GetAxisRaw("Vertical");
                 inputUV = new LVector2(h.ToLFloat(), v.ToLFloat());
-
+                
                 isInputFire = Input.GetButton("Fire1");
                 hasHitFloor = Input.GetMouseButtonDown(1);
                 if (hasHitFloor) {
