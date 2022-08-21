@@ -29,12 +29,12 @@ namespace Lockstep.Game {
             new Dictionary<ColliderProxy, ILPTriggerEventHandler>();
 
         public bool[] collisionMatrix => config.collisionMatrix;
-        public LVector3 pos => config.pos;
-        public LFloat worldSize => config.worldSize;
-        public LFloat minNodeSize => config.minNodeSize;
-        public LFloat loosenessval => config.loosenessval;
+        public FVector3 pos => config.pos;
+        public FP worldSize => config.worldSize;
+        public FP minNodeSize => config.minNodeSize;
+        public FP loosenessval => config.loosenessval;
 
-        private LFloat halfworldSize => worldSize / 2 - 5;
+        private FP halfworldSize => worldSize / 2 - 5;
 
         private int[] allTypes = new int[] {0, 1, 2};
 
@@ -64,7 +64,7 @@ namespace Lockstep.Game {
             collisionSystem.funcGlobalOnTriggerEvent += GlobalOnTriggerEvent;
         }
 
-        public override void DoUpdate(LFloat deltaTime){
+        public override void DoUpdate(FP deltaTime){
             collisionSystem.ShowTreeId = showTreeId;
             collisionSystem.DoUpdate(deltaTime);
         }
@@ -85,12 +85,12 @@ namespace Lockstep.Game {
         }
 
         public static bool Raycast(int layerMask, Ray2D ray, out LRaycastHit2D ret){
-            return Raycast(layerMask, ray, out ret, LFloat.MaxValue);
+            return Raycast(layerMask, ray, out ret, FP.MaxValue);
         }
 
-        public static bool Raycast(int layerMask, Ray2D ray, out LRaycastHit2D ret, LFloat maxDistance){
+        public static bool Raycast(int layerMask, Ray2D ray, out LRaycastHit2D ret, FP maxDistance){
             ret = new LRaycastHit2D();
-            LFloat t = LFloat.one; 
+            FP t = FP.one; 
             int id;
             if (_instance.DoRaycast(layerMask, ray, out t, out id, maxDistance)) {
                 ret.point = ray.origin + ray.direction * t;
@@ -102,24 +102,24 @@ namespace Lockstep.Game {
             return false;
         }
 
-        public static void QueryRegion(int layerType, LVector2 pos, LVector2 size, LVector2 forward,
+        public static void QueryRegion(int layerType, FVector2 pos, FVector2 size, FVector2 forward,
             FuncCollision callback){
             _instance._QueryRegion(layerType, pos, size, forward, callback);
         }
 
-        public static void QueryRegion(int layerType, LVector2 pos, LFloat radius, FuncCollision callback){
+        public static void QueryRegion(int layerType, FVector2 pos, FP radius, FuncCollision callback){
             _instance._QueryRegion(layerType, pos, radius, callback);
         }
 
-        private void _QueryRegion(int layerType, LVector2 pos, LVector2 size, LVector2 forward, FuncCollision callback){
+        private void _QueryRegion(int layerType, FVector2 pos, FVector2 size, FVector2 forward, FuncCollision callback){
             collisionSystem.QueryRegion(layerType, pos, size, forward, callback);
         }
 
-        private void _QueryRegion(int layerType, LVector2 pos, LFloat radius, FuncCollision callback){
+        private void _QueryRegion(int layerType, FVector2 pos, FP radius, FuncCollision callback){
             collisionSystem.QueryRegion(layerType, pos, radius, callback);
         }
 
-        public bool DoRaycast(int layerMask, Ray2D ray, out LFloat t, out int id, LFloat maxDistance){
+        public bool DoRaycast(int layerMask, Ray2D ray, out FP t, out int id, FP maxDistance){
             Profiler.BeginSample("DoRaycast ");
             var ret = collisionSystem.Raycast(layerMask, ray, out t, out id, maxDistance);
             Profiler.EndSample();

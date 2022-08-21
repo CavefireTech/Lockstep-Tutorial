@@ -13,10 +13,10 @@ namespace Lockstep.Collision2D {
         public uint[] _collisionMask = new uint[32];
 
         public List<BoundsQuadTree> boundsTrees = new List<BoundsQuadTree>();
-        public LFloat worldSize = 150.ToLFloat();
-        public LFloat minNodeSize = 1.ToLFloat();
-        public LFloat loosenessval = new LFloat(true, 1250);
-        public LVector3 pos;
+        public FP worldSize = 150.ToLFloat();
+        public FP minNodeSize = 1.ToLFloat();
+        public FP loosenessval = new FP(true, 1250);
+        public FVector3 pos;
 
         private Dictionary<int, ColliderProxy> id2Proxy = new Dictionary<int, ColliderProxy>();
         private HashSet<long> _curPairs = new HashSet<long>();
@@ -69,26 +69,26 @@ namespace Lockstep.Collision2D {
             id2Proxy.Remove(collider.Id);
         }
 
-        public bool Raycast(int layerType, Ray2D checkRay, out LFloat t, out int id, LFloat maxDistance){
+        public bool Raycast(int layerType, Ray2D checkRay, out FP t, out int id, FP maxDistance){
             return GetBoundTree(layerType).Raycast(checkRay, maxDistance, out t, out id);
         }
 
-        public bool Raycast(int layerType, Ray2D checkRay, out LFloat t, out int id){
-            return GetBoundTree(layerType).Raycast(checkRay, LFloat.MaxValue, out t, out id);
+        public bool Raycast(int layerType, Ray2D checkRay, out FP t, out int id){
+            return GetBoundTree(layerType).Raycast(checkRay, FP.MaxValue, out t, out id);
         }
 
-        public void QueryRegion(int layerType, LVector2 pos, LVector2 size, LVector2 forward, FuncCollision callback){
+        public void QueryRegion(int layerType, FVector2 pos, FVector2 size, FVector2 forward, FuncCollision callback){
             Debug.Trace($"QueryRegion layerType:{layerType} pos:{pos} size:{size}  forward:{forward} ");
             tempCallback = callback;
             _tempSize = size;
             _tempForward = forward;
             _tempPos = pos;
             var radius = size.magnitude;
-            var checkBounds = LRect.CreateRect(pos, new LVector2(radius, radius));
+            var checkBounds = LRect.CreateRect(pos, new FVector2(radius, radius));
             GetBoundTree(layerType).CheckCollision(ref checkBounds, _CheckRegionOBB);
         }
 
-        public void QueryRegion(int layerType, LVector2 pos, LFloat radius, FuncCollision callback){
+        public void QueryRegion(int layerType, FVector2 pos, FP radius, FuncCollision callback){
             Debug.Trace($"QueryRegion layerType:{layerType} pos:{pos} radius:{radius} ");
             tempCallback = callback;
             _tempPos = pos;
@@ -98,10 +98,10 @@ namespace Lockstep.Collision2D {
 
         //temp attris for call back
         private FuncCollision tempCallback;
-        private LVector2 _tempSize;
-        private LVector2 _tempForward;
-        private LVector2 _tempPos;
-        private LFloat _tempRadius;
+        private FVector2 _tempSize;
+        private FVector2 _tempForward;
+        private FVector2 _tempPos;
+        private FP _tempRadius;
 
         private void _CheckRegionOBB(ColliderProxy obj){
             Debug.Trace($"ColliderProxy _CheckRegionOBB {obj.Id} trans{obj.Transform2D} col{obj.Prefab}");
@@ -119,7 +119,7 @@ namespace Lockstep.Collision2D {
 
 
         //public List<>
-        public void DoUpdate(LFloat deltaTime){
+        public void DoUpdate(FP deltaTime){
             tempLst.Clear();
             //deal layer
             foreach (var pair in BoundsQuadTreeNode.obj2Node) {

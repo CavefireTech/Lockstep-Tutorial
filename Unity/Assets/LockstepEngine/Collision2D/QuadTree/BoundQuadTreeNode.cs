@@ -21,19 +21,19 @@ namespace Lockstep.Collision2D {
         public Transform monoTrans;
 #endif
         // Centre of this node
-        public LVector2 Center { get; private set; }
+        public FVector2 Center { get; private set; }
 
         // Length of this node if it has a looseness of 1.0
-        public LFloat BaseLength { get; private set; }
+        public FP BaseLength { get; private set; }
 
         // Looseness value for this node
-        LFloat looseness;
+        FP looseness;
 
         // Minimum size for a node in this octree
-        LFloat minSize;
+        FP minSize;
 
         // Actual length of sides, taking the looseness value into account
-        LFloat adjLength;
+        FP adjLength;
 
         // Bounding box that represents this node
         LRect bounds = default(LRect);
@@ -71,8 +71,8 @@ namespace Lockstep.Collision2D {
         /// <param name="minSizeVal">Minimum size of nodes in this octree.</param>
         /// <param name="loosenessVal">Multiplier for baseLengthVal to get the actual size.</param>
         /// <param name="centerVal">Centre position of this node.</param>
-        public BoundsQuadTreeNode(BoundsQuadTreeNode parent, LFloat baseLengthVal, LFloat minSizeVal,
-            LFloat loosenessVal, LVector2 centerVal){
+        public BoundsQuadTreeNode(BoundsQuadTreeNode parent, FP baseLengthVal, FP minSizeVal,
+            FP loosenessVal, FVector2 centerVal){
 #if SHOW_NODES
             monoTrans = new GameObject(MonoID++.ToString()).transform;
             if (parent != null) {
@@ -249,10 +249,10 @@ namespace Lockstep.Collision2D {
             }
         }
 
-        public bool CheckCollision(ref Ray2D checkRay, LFloat maxDistance, out LFloat t, out int id){
+        public bool CheckCollision(ref Ray2D checkRay, FP maxDistance, out FP t, out int id){
             t = maxDistance;
             id = int.MaxValue;
-            LFloat distance;
+            FP distance;
             bool hasCollider = false;
             if (!bounds.IntersectRay(checkRay, out distance) || distance > maxDistance) {
                 return false;
@@ -347,7 +347,7 @@ namespace Lockstep.Collision2D {
         /// </summary>
         /// <param name="minLength">Minimum dimensions of a node in this octree.</param>
         /// <returns>The new root, or the existing one if we didn't shrink.</returns>
-        public BoundsQuadTreeNode ShrinkIfPossible(LFloat minLength){
+        public BoundsQuadTreeNode ShrinkIfPossible(FP minLength){
             if (BaseLength < (2 * minLength)) {
                 return this;
             }
@@ -419,7 +419,7 @@ namespace Lockstep.Collision2D {
         /// </summary>
         /// <param name="objBounds">The object's bounds.</param>
         /// <returns>One of the eight child octants.</returns>
-        public int BestFitChild(LVector2 objBoundsCenter){
+        public int BestFitChild(FVector2 objBoundsCenter){
             return (objBoundsCenter.x <= Center.x ? 0 : 1) + (objBoundsCenter.y <= Center.y ? 0 : 2);
         }
 
@@ -465,7 +465,7 @@ namespace Lockstep.Collision2D {
         /// <param name="minSizeVal">Minimum size of nodes in this octree.</param>
         /// <param name="loosenessVal">Multiplier for baseLengthVal to get the actual size.</param>
         /// <param name="centerVal">Centre position of this node.</param>
-        void SetValues(LFloat baseLengthVal, LFloat minSizeVal, LFloat loosenessVal, LVector2 centerVal){
+        void SetValues(FP baseLengthVal, FP minSizeVal, FP loosenessVal, FVector2 centerVal){
             BaseLength = baseLengthVal;
             minSize = minSizeVal;
             looseness = loosenessVal;
@@ -473,20 +473,20 @@ namespace Lockstep.Collision2D {
             adjLength = looseness * baseLengthVal;
 
             // Create the bounding box.
-            LVector2 size = new LVector2(adjLength, adjLength);
+            FVector2 size = new FVector2(adjLength, adjLength);
             bounds = CreateLRect(Center, size);
 
-            LFloat quarter = BaseLength / 4;
-            LFloat childActualLength = (BaseLength / 2) * looseness;
-            LVector2 childActualSize = new LVector2(childActualLength, childActualLength);
+            FP quarter = BaseLength / 4;
+            FP childActualLength = (BaseLength / 2) * looseness;
+            FVector2 childActualSize = new FVector2(childActualLength, childActualLength);
             childBounds = new LRect[NUM_CHILDREN];
-            childBounds[0] = CreateLRect(Center + new LVector2(-quarter, -quarter), childActualSize);
-            childBounds[1] = CreateLRect(Center + new LVector2(quarter, -quarter), childActualSize);
-            childBounds[2] = CreateLRect(Center + new LVector2(-quarter, quarter), childActualSize);
-            childBounds[3] = CreateLRect(Center + new LVector2(quarter, quarter), childActualSize);
+            childBounds[0] = CreateLRect(Center + new FVector2(-quarter, -quarter), childActualSize);
+            childBounds[1] = CreateLRect(Center + new FVector2(quarter, -quarter), childActualSize);
+            childBounds[2] = CreateLRect(Center + new FVector2(-quarter, quarter), childActualSize);
+            childBounds[3] = CreateLRect(Center + new FVector2(quarter, quarter), childActualSize);
         }
 
-        LRect CreateLRect(LVector2 center, LVector2 size){
+        LRect CreateLRect(FVector2 center, FVector2 size){
             return new LRect(center - size / 2, size);
         }
 
@@ -591,17 +591,17 @@ namespace Lockstep.Collision2D {
         /// Splits the octree into eight children.
         /// </summary>
         void Split(){
-            LFloat quarter = BaseLength / 4;
-            LFloat newLength = BaseLength / 2;
+            FP quarter = BaseLength / 4;
+            FP newLength = BaseLength / 2;
             children = new BoundsQuadTreeNode[NUM_CHILDREN];
             children[0] = new BoundsQuadTreeNode(this, newLength, minSize, looseness,
-                Center + new LVector2(-quarter, -quarter));
+                Center + new FVector2(-quarter, -quarter));
             children[1] = new BoundsQuadTreeNode(this, newLength, minSize, looseness,
-                Center + new LVector2(quarter, -quarter));
+                Center + new FVector2(quarter, -quarter));
             children[2] = new BoundsQuadTreeNode(this, newLength, minSize, looseness,
-                Center + new LVector2(-quarter, quarter));
+                Center + new FVector2(-quarter, quarter));
             children[3] = new BoundsQuadTreeNode(this, newLength, minSize, looseness,
-                Center + new LVector2(quarter, quarter));
+                Center + new FVector2(quarter, quarter));
         }
 
         /// <summary>

@@ -4,8 +4,8 @@ using Lockstep.Math;
 namespace Lockstep.Game {
     public partial class CommonStateService : ICommonStateService, ITimeMachine {
         public int Tick { get; set; }
-        public LFloat DeltaTime { get; set; }
-        public LFloat TimeSinceGameStart { get; set; }
+        public FP DeltaTime { get; set; }
+        public FP TimeSinceGameStart { get; set; }
         public int Hash { get; set; }
         public bool IsPause { get; set; }
 
@@ -13,11 +13,11 @@ namespace Lockstep.Game {
             Tick = val;
         }
 
-        public void SetDeltaTime(LFloat val){
+        public void SetDeltaTime(FP val){
             DeltaTime = val;
         }
 
-        public void SetTimeSinceGameStart(LFloat val){
+        public void SetTimeSinceGameStart(FP val){
             TimeSinceGameStart = val;
         }
 

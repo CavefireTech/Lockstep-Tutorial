@@ -6,7 +6,7 @@ using UnityEngine;
 
 [Serializable]
 public class EventPointInfo {
-    public LFloat timeStamp;
+    public FP timeStamp;
     public int eventId;
 }
 
@@ -20,10 +20,10 @@ public class AnimBindInfo {
 }
 [Serializable]
 public struct AnimOffsetInfo {
-    public LVector3 pos;
-    public LFloat deg;
+    public FVector3 pos;
+    public FP deg;
 
-    public AnimOffsetInfo(LVector3 pos, LFloat deg){
+    public AnimOffsetInfo(FVector3 pos, FP deg){
         this.pos = pos;
         this.deg = deg;
     }
@@ -39,7 +39,7 @@ public struct AnimOffsetInfo {
 [Serializable]
 public class AnimInfo {
     public string name;
-    public LFloat length;
+    public FP length;
     public List<AnimOffsetInfo> offsets = new List<AnimOffsetInfo>();
     public int OffsetCount => offsets.Count;
 
@@ -55,7 +55,7 @@ public class AnimInfo {
 
 [CreateAssetMenu(menuName = "AnimatorConfig")]
 public class AnimatorConfig : ScriptableObject {
-    public static readonly LFloat FrameInterval = new LFloat(true, 33);
+    public static readonly FP FrameInterval = new FP(true, 33);
     public List<AnimInfo> anims = new List<AnimInfo>();
     public List<AnimBindInfo> events = new List<AnimBindInfo>();
 }

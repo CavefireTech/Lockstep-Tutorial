@@ -75,7 +75,7 @@ namespace Lockstep.Game {
             //create Players 
             for (int i = 0; i < playerCount; i++) {
                 var PrefabId = 0; //TODO
-                var initPos = LVector2.zero; //TODO
+                var initPos = FVector2.zero; //TODO
                 var player = _gameStateService.CreateEntity<Player>(PrefabId, initPos);
                 player.localId = i;
             }
@@ -100,7 +100,7 @@ namespace Lockstep.Game {
 
         public void Step(bool isNeedGenSnap = true){
             if (_commonStateService.IsPause) return;
-            var deltaTime = new LFloat(true, 30);
+            var deltaTime = new FP(true, 30);
             foreach (var system in _systems) {
                 if (system.enable) {
                     system.DoUpdate(deltaTime);

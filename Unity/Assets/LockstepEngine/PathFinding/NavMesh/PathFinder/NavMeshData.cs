@@ -5,30 +5,30 @@ using Lockstep.Math;
 namespace Lockstep.PathFinding {
     [Serializable]
     public class NavMeshData {
-        public LFloat agentRadius = LFloat.half;
+        public FP agentRadius = FP.half;
         private static long serialVersionUID = 1L;
 
         /** 行走区顶点序号 */
         public int[] pathTriangles;
 
         /** 行走区坐标 */
-        public LVector3[] pathVertices;
+        public FVector3[] pathVertices;
 
         /** 开始坐标 */
-        public LFloat startX;
+        public FP startX;
 
-        public LFloat startZ;
+        public FP startZ;
 
         /** 结束坐标 */
-        public LFloat endX;
+        public FP endX;
 
-        public LFloat endZ;
+        public FP endZ;
 
         /** navmesh地图id */
         public int mapID;
 
-        public LFloat width; // 宽
-        public LFloat height; // 高
+        public FP width; // 宽
+        public FP height; // 高
 
         /**
          * 数据检测，客户端的顶点坐标和三角形数据有可能是重复的ç∂
@@ -45,7 +45,7 @@ namespace Lockstep.PathFinding {
         /**
          * 缩放向量
          */
-        protected void scaleVector(LVector3[] vertices, int scale){
+        protected void scaleVector(FVector3[] vertices, int scale){
             if (vertices == null || scale == 1) {
                 return;
             }
@@ -64,12 +64,12 @@ namespace Lockstep.PathFinding {
          * unity的NavMeshData有一些共边的三角形，共边的三角形其实不是连通关系，共边的三角形只是他们共同构成一个凸多边形，并且这种共边的三角形，全部都是扇形排列。
          * </p>
          */
-        public void amendmentSameVector(int[] indexs, LVector3[] vertices){
+        public void amendmentSameVector(int[] indexs, FVector3[] vertices){
             if (indexs == null || vertices == null) {
                 return;
             }
 
-            Dictionary<LVector3, int> map = new Dictionary<LVector3, int>();
+            Dictionary<FVector3, int> map = new Dictionary<FVector3, int>();
             // 检测路径重复点
             for (int i = 0; i < vertices.Length; i++) {
                 // 重复出现的坐标
@@ -99,43 +99,43 @@ namespace Lockstep.PathFinding {
             this.pathTriangles = pathTriangles;
         }
 
-        public LVector3[] GetPathVertices(){
+        public FVector3[] GetPathVertices(){
             return pathVertices;
         }
 
-        public void setPathVertices(LVector3[] pathVertices){
+        public void setPathVertices(FVector3[] pathVertices){
             this.pathVertices = pathVertices;
         }
 
-        public LFloat getStartX(){
+        public FP getStartX(){
             return startX;
         }
 
-        public void setStartX(LFloat startX){
+        public void setStartX(FP startX){
             this.startX = startX;
         }
 
-        public LFloat getStartZ(){
+        public FP getStartZ(){
             return startZ;
         }
 
-        public void setStartZ(LFloat startZ){
+        public void setStartZ(FP startZ){
             this.startZ = startZ;
         }
 
-        public LFloat getEndX(){
+        public FP getEndX(){
             return endX;
         }
 
-        public void setEndX(LFloat endX){
+        public void setEndX(FP endX){
             this.endX = endX;
         }
 
-        public LFloat getEndZ(){
+        public FP getEndZ(){
             return endZ;
         }
 
-        public void setEndZ(LFloat endZ){
+        public void setEndZ(FP endZ){
             this.endZ = endZ;
         }
 
@@ -148,19 +148,19 @@ namespace Lockstep.PathFinding {
         }
 
 
-        public LFloat getWidth(){
+        public FP getWidth(){
             return width;
         }
 
-        public void setWidth(LFloat width){
+        public void setWidth(FP width){
             this.width = width;
         }
 
-        public LFloat getHeight(){
+        public FP getHeight(){
             return height;
         }
 
-        public void setHeight(LFloat height){
+        public void setHeight(FP height){
             this.height = height;
         }
     }

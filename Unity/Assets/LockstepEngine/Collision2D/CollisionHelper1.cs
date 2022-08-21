@@ -77,7 +77,7 @@ namespace Lockstep.Collision2D {
             return false;
         }
         public static Transform2D tempTrans = new Transform2D();
-        public static COBB tempOBB = new COBB(LVector2.zero, LFloat.zero);
+        public static COBB tempOBB = new COBB(FVector2.zero, FP.zero);
         public static CCircle tempCircle = new CCircle();
         public static bool CheckCollision(ColliderPrefab col1, CTransform2D trans1, ColliderPrefab col2,
             CTransform2D trans2){
@@ -90,7 +90,7 @@ namespace Lockstep.Collision2D {
             }
             return false;
         }
-        public static bool CheckCollision(ColliderPrefab col1, CTransform2D trans1,LVector2 pos,LVector2 size,LVector2 up ){
+        public static bool CheckCollision(ColliderPrefab col1, CTransform2D trans1,FVector2 pos,FVector2 size,FVector2 up ){
             tempOBB.size = size;
             tempOBB.up = up;
             tempTrans.pos = pos;
@@ -101,7 +101,7 @@ namespace Lockstep.Collision2D {
             }
             return false;
         }
-        public static bool CheckCollision(ColliderPrefab col1, CTransform2D trans1,LVector2 pos,LFloat radius){
+        public static bool CheckCollision(ColliderPrefab col1, CTransform2D trans1,FVector2 pos,FP radius){
             tempCircle.radius = radius;
             tempTrans.pos = pos;
             foreach (var part1 in col1.parts) {

@@ -39,7 +39,7 @@ namespace Lockstep.Game {
             //Utils.StartServices();
         }
 
-        public void DoUpdate(LFloat deltaTime){
+        public void DoUpdate(FP deltaTime){
             if (_noNetwork) return;
             //Utils.UpdateServices();
             _roomMsgMgr?.DoUpdate(deltaTime);

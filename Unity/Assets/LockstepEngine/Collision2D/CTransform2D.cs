@@ -6,35 +6,34 @@ using Lockstep.Util;
 namespace Lockstep.Collision2D {
     [Serializable]
     public partial class CTransform2D : IComponent {
-        public LVector2 pos;
-        public LFloat y;
-        public LFloat deg; //same as Unity CW deg(up) =0
+        public FVector2 pos;
+        public FP rot; //same as Unity CW deg(up) =0
 
         [NoBackup]
-        public LVector2 forward { //等同于2D  up
+        public FVector2 up {
             get {
-                LFloat s, c;
-                var ccwDeg = (-deg + 90);
+                FP s, c;
+                var ccwDeg = (-rot + 90);
                 LMath.SinCos(out s, out c, LMath.Deg2Rad * ccwDeg);
-                return new LVector2(c, s);
+                return new FVector2(c, s);
             }
-            set => deg = ToDeg(value);
+            set => rot = ToDeg(value);
         }
 
-        public static LFloat ToDeg(LVector2 value){
+        public static FP ToDeg(FVector2 value){
             var ccwDeg = LMath.Atan2(value.y, value.x) * LMath.Rad2Deg;
             var deg = 90 - ccwDeg;
             return AbsDeg(deg);
         }
 
-        public static LFloat TurnToward(LVector2 targetPos, LVector2 currentPos, LFloat cursDeg, LFloat turnVal,
+        public static FP TurnToward(FVector2 targetPos, FVector2 currentPos, FP cursDeg, FP turnVal,
             out bool isLessDeg){
             var toTarget = (targetPos - currentPos).normalized;
             var toDeg = CTransform2D.ToDeg(toTarget);
             return TurnToward(toDeg, cursDeg, turnVal, out isLessDeg);
         }
 
-        public static LFloat TurnToward(LFloat toDeg, LFloat cursDeg, LFloat turnVal,
+        public static FP TurnToward(FP toDeg, FP cursDeg, FP turnVal,
             out bool isLessDeg){
             var curDeg = CTransform2D.AbsDeg(cursDeg);
             var diff = toDeg - curDeg;
@@ -57,63 +56,58 @@ namespace Lockstep.Collision2D {
             }
         }
 
-        public static LFloat AbsDeg(LFloat deg){
-            var rawVal = deg._val % ((LFloat) 360)._val;
-            return new LFloat(true, rawVal);
+        public static FP AbsDeg(FP deg){
+            var rawVal = deg._val % ((FP) 360)._val;
+            return new FP(true, rawVal);
         }
 
         public CTransform2D(){ }
-        public CTransform2D(LVector2 pos, LFloat y) : this(pos, y, LFloat.zero){ }
-        public CTransform2D(LVector2 pos) : this(pos, LFloat.zero, LFloat.zero){ }
+        public CTransform2D(FVector2 pos) : this(pos, FP.zero){ }
 
-        public CTransform2D(LVector2 pos, LFloat y, LFloat deg){
+        public CTransform2D(FVector2 pos, FP rot){
             this.pos = pos;
-            this.y = y;
-            this.deg = deg;
+            this.rot = rot;
         }
 
 
         public void Reset(){
-            pos = LVector2.zero;
-            y = LFloat.zero;
-            deg = LFloat.zero;
+            pos = FVector2.zero;
+            rot = FP.zero;
         }
 
-        public LVector2 TransformPoint(LVector2 point){
+        public FVector2 TransformPoint(FVector2 point){
             return pos + TransformDirection(point);
         }
 
-        public LVector2 TransformVector(LVector2 vec){
+        public FVector2 TransformVector(FVector2 vec){
             return TransformDirection(vec);
         }
 
-        public LVector2 TransformDirection(LVector2 dir){
-            var y = forward;
-            var x = forward.RightVec();
+        public FVector2 TransformDirection(FVector2 dir){
+            var y = up;
+            var x = up.RightVec();
             return dir.x * x + dir.y * y;
         }
 
         public static Transform2D operator +(CTransform2D a, CTransform2D b){
-            return new Transform2D {pos = a.pos + b.pos, y = a.y + b.y, deg = a.deg + b.deg};
+            return new Transform2D {pos = a.pos + b.pos, rot = a.rot + b.rot};
         }
         [NoBackup]
-        public LVector3 Pos3 {
-            get => new LVector3(pos.x, y, pos.y);
+        public FVector3 Pos3 {
+            get => new FVector3(pos.x, pos.y, FP.zero);
             set {
-                pos = new LVector2(value.x, value.z);
-                y = value.y;
+                pos = new FVector2(value.x, value.y);
             }
         }
 
         public override string ToString(){
-            return $"(deg:{deg} pos:{pos} y:{y})";
+            return $"(rot:{rot}, pos:{pos})";
         }
     }
 
     [StructLayout(LayoutKind.Sequential, Pack = NativeHelper.STRUCT_PACK)]
     public unsafe struct Transform2D {
-        public LVector2 pos;
-        public LFloat y;
-        public LFloat deg;
+        public FVector2 pos;
+        public FP rot;
     }
 }

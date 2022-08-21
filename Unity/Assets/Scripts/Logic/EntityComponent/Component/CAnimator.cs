@@ -14,7 +14,7 @@ using HideInInspector = UnityEngine.HideInInspector;
 namespace Lockstep.Game {
     public interface IAnimatorView {
         void Play(string name, bool isCross);
-        void Sample(LFloat time);
+        void Sample(FP time);
     }
 
 
@@ -26,13 +26,13 @@ namespace Lockstep.Game {
         [HideInInspector] [ReRefBackup] public IAnimatorView view;
         [HideInInspector] [ReRefBackup] public AnimBindInfo curAnimBindInfo;
 
-        [Backup] private LFloat _animLen;
-        [Backup] private LFloat _timer;
+        [Backup] private FP _animLen;
+        [Backup] private FP _timer;
         [Backup] private string _curAnimName = "";
         [Backup] private int _curAnimIdx = -1;
 
         private List<string> _animNames = new List<string>();
-        private LVector3 _intiPos;
+        private FVector3 _intiPos;
 
         private List<AnimInfo> _animInfos => config.anims;
         public AnimInfo curAnimInfo => _curAnimIdx == -1 ? null : _animInfos[_curAnimIdx];
@@ -57,7 +57,7 @@ namespace Lockstep.Game {
             Play(AnimDefine.Idle);
         }
 
-        public override void DoUpdate(LFloat deltaTime){
+        public override void DoUpdate(FP deltaTime){
             if (config == null) return;
             _animLen = curAnimInfo.length;
             _timer += deltaTime;
@@ -102,7 +102,7 @@ namespace Lockstep.Game {
             view?.Play(_curAnimName, isCrossfade);
         }
 
-        public void SetTime(LFloat timer){
+        public void SetTime(FP timer){
             if (config == null) return;
             var idx = GetTimeIdx(timer);
             _intiPos = transform.Pos3 - curAnimInfo[idx].pos;
@@ -113,12 +113,12 @@ namespace Lockstep.Game {
         }
 
         private void ResetAnim(){
-            _timer = LFloat.zero;
-            SetTime(LFloat.zero);
+            _timer = FP.zero;
+            SetTime(FP.zero);
         }
 
 
-        private int GetTimeIdx(LFloat timer){
+        private int GetTimeIdx(FP timer){
             var idx = (int) (timer / AnimatorConfig.FrameInterval);
             idx = System.Math.Min(curAnimInfo.OffsetCount - 1, idx);
             return idx;

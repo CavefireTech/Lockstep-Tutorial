@@ -5,14 +5,14 @@ using Lockstep.Math;
 namespace Lockstep.PathFinding {
 /** @author Nathan Sweet */
     public class Node {
-        public LFloat value; //节点排序比较值
+        public FP value; //节点排序比较值
         public int index; //节点索引
 
-        public Node(LFloat value){
+        public Node(FP value){
             this.value = value;
         }
 
-        public LFloat GetValue(){
+        public FP GetValue(){
             return value;
         }
 
@@ -52,7 +52,7 @@ namespace Lockstep.PathFinding {
             return node;
         }
 
-        public T Add(T node, LFloat value){
+        public T Add(T node, FP value){
             node.value = value;
             return Add(node);
         }
@@ -89,8 +89,8 @@ namespace Lockstep.PathFinding {
             size = 0;
         }
 
-        public void SetValue(T node, LFloat value){
-            LFloat oldValue = node.value;
+        public void SetValue(T node, FP value){
+            FP oldValue = node.value;
             node.value = value;
             if ((value < oldValue) ^ _isMaxHeap)
                 Up(node.index);
@@ -101,7 +101,7 @@ namespace Lockstep.PathFinding {
         private void Up(int index){
             Node[] nodes = this._nodes;
             Node node = nodes[index];
-            LFloat value = node.value;
+            FP value = node.value;
             while (index > 0) {
                 int parentIndex = (index - 1) >> 1;
                 Node parent = nodes[parentIndex];
@@ -118,14 +118,14 @@ namespace Lockstep.PathFinding {
             node.index = index;
         }
 
-        public static readonly LFloat MinValue = new LFloat(true, int.MinValue);
+        public static readonly FP MinValue = new FP(true, int.MinValue);
 
         private void Down(int index){
             Node[] nodes = this._nodes;
             int size = this.size;
 
             Node node = nodes[index];
-            LFloat value = node.value;
+            FP value = node.value;
 
             while (true) {
                 int leftIndex = 1 + (index << 1);
@@ -134,15 +134,15 @@ namespace Lockstep.PathFinding {
 
                 // Always have a left child.
                 Node leftNode = nodes[leftIndex];
-                LFloat leftValue = leftNode.value;
+                FP leftValue = leftNode.value;
 
                 // May have a right child.
                 int rightIndex = leftIndex + 1;
                 Node rightNode;
-                LFloat rightValue;
+                FP rightValue;
                 if (rightIndex >= size) {
                     rightNode = null;
-                    rightValue = _isMaxHeap ? LFloat.MinValue : LFloat.MaxValue;
+                    rightValue = _isMaxHeap ? FP.MinValue : FP.MaxValue;
                 }
                 else {
                     rightNode = nodes[rightIndex];

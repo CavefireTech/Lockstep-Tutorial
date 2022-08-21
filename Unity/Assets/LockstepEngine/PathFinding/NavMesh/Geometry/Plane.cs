@@ -5,38 +5,38 @@ namespace Lockstep.PathFinding {
     public class Plane {
         private static long serialVersionUID = -1240652082930747866L;
 
-        public LVector3 normal = new LVector3(); // 单位长度
-        public LFloat d = LFloat.zero; // 距离
+        public FVector3 normal = new FVector3(); // 单位长度
+        public FP d = FP.zero; // 距离
 
         public Plane(){ }
 
-        public Plane(LVector3 normal, LFloat d){
+        public Plane(FVector3 normal, FP d){
             this.normal.set(normal).nor();
             this.d = d;
         }
 
-        public Plane(LVector3 normal, LVector3 point){
+        public Plane(FVector3 normal, FVector3 point){
             this.normal.set(normal).nor();
             this.d = -this.normal.dot(point);
         }
 
-        public Plane(LVector3 point1, LVector3 point2, LVector3 point3){
+        public Plane(FVector3 point1, FVector3 point2, FVector3 point3){
             set(point1, point2, point3);
         }
 
-        public void set(LVector3 point1, LVector3 point2, LVector3 point3){
+        public void set(FVector3 point1, FVector3 point2, FVector3 point3){
             normal = (point1).sub(point2).cross(point2.x - point3.x, point2.y - point3.y, point2.z - point3.z).nor();
             d = -point1.dot(normal);
         }
 
 
 
-        public LFloat distance(LVector3 point){
+        public FP distance(FVector3 point){
             return normal.dot(point) + d;
         }
 
-        public PlaneSide testPoint(LVector3 point){
-            LFloat dist = normal.dot(point) + d;
+        public PlaneSide testPoint(FVector3 point){
+            FP dist = normal.dot(point) + d;
 
             if (dist == 0)
                 return PlaneSide.OnPlane;
@@ -47,8 +47,8 @@ namespace Lockstep.PathFinding {
         }
 
 
-        public PlaneSide testPoint(LFloat x, LFloat y, LFloat z){
-            LFloat dist = normal.dot(x, y, z) + d;
+        public PlaneSide testPoint(FP x, FP y, FP z){
+            FP dist = normal.dot(x, y, z) + d;
 
             if (dist == 0)
                 return PlaneSide.OnPlane;
@@ -59,28 +59,28 @@ namespace Lockstep.PathFinding {
         }
 
 
-        public bool isFrontFacing(LVector3 direction){
-            LFloat dot = normal.dot(direction);
+        public bool isFrontFacing(FVector3 direction){
+            FP dot = normal.dot(direction);
             return dot <= 0;
         }
 
         /** @return The normal */
-        public LVector3 getNormal(){
+        public FVector3 getNormal(){
             return normal;
         }
 
         /** @return The distance to the origin */
-        public LFloat getD(){
+        public FP getD(){
             return d;
         }
 
 
-        public void set(LVector3 point, LVector3 normal){
+        public void set(FVector3 point, FVector3 normal){
             this.normal.set(normal);
             d = -point.dot(normal);
         }
 
-        public void set(LFloat pointX, LFloat pointY, LFloat pointZ, LFloat norX, LFloat norY, LFloat norZ){
+        public void set(FP pointX, FP pointY, FP pointZ, FP norX, FP norY, FP norZ){
             this.normal.set(norX, norY, norZ);
             d = -(pointX * norX + pointY * norY + pointZ * norZ);
         }

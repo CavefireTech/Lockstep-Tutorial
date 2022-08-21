@@ -5,7 +5,7 @@ using Lockstep.Math;
 using UnityEngine;
 using UnityEditor;
 
-[CustomPropertyDrawer(typeof(LFloat))]
+[CustomPropertyDrawer(typeof(FP))]
 public class EditorLFloat : UnityEditor.PropertyDrawer {
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label){
         var xProperty = property.FindPropertyRelative("_val");
@@ -16,8 +16,8 @@ public class EditorLFloat : UnityEditor.PropertyDrawer {
         float filedWid = (position.width - LabelWidth);
         float initX = position.x + LabelWidth;
         var valRect = new Rect(initX, position.y, filedWid, position.height);
-        var fVal = EditorGUI.FloatField(valRect, xProperty.intValue * 1.0f / LFloat.Precision);
-        xProperty.intValue = (int) (fVal * LFloat.Precision);
+        var fVal = EditorGUI.FloatField(valRect, xProperty.intValue * 1.0f / FP.Precision);
+        xProperty.intValue = (int) (fVal * FP.Precision);
     }
 }
 #endif

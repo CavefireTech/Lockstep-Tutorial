@@ -7,27 +7,27 @@ namespace Lockstep.PathFinding {
 	public abstract class NavMesh {
 
 		/** 地图宽x轴 */
-		protected LFloat width;
+		protected FP width;
 
 		/** 地图高y轴 */
-		protected LFloat height;
+		protected FP height;
 
 		/** 配置id */
 		protected int mapId;
 
-		public LFloat getWidth(){
+		public FP getWidth(){
 			return width;
 		}
 
-		public void setWidth(LFloat width){
+		public void setWidth(FP width){
 			this.width = width;
 		}
 
-		public LFloat getHeight(){
+		public FP getHeight(){
 			return height;
 		}
 
-		public void setHeight(LFloat height){
+		public void setHeight(FP height){
 			this.height = height;
 		}
 

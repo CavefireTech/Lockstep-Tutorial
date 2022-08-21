@@ -17,7 +17,7 @@ namespace Lockstep.Game {
             base.BindRef();
             RegisterComponent(mover);
         }
-        public override void DoUpdate(LFloat deltaTime){
+        public override void DoUpdate(FP deltaTime){
             base.DoUpdate(deltaTime);
             if (input.skillId != 0) {
                 Fire(input.skillId);

@@ -32,7 +32,7 @@ namespace Lockstep.Math {
             public static int Max(int a, int b){
                 return a <= b ? b : a;
             }  
-            public static LFloat Sqrt(LFloat val){
+            public static FP Sqrt(FP val){
                 return Lockstep.Math.LMath.Sqrt(val);
             }
         }
@@ -124,8 +124,8 @@ namespace Lockstep.Math {
         /// <summary>
         ///   <para>Returns the length of this vector (Read Only).</para>
         /// </summary>
-        public LFloat magnitude {
-            get { return Mathf.Sqrt(new LFloat(this.x * this.x + this.y * this.y + this.z * this.z)); }
+        public FP magnitude {
+            get { return Mathf.Sqrt(new FP(this.x * this.x + this.y * this.y + this.z * this.z)); }
         }
      
         /// <summary>
@@ -140,7 +140,7 @@ namespace Lockstep.Math {
         /// </summary>
         /// <param name="a"></param>
         /// <param name="b"></param>
-        public static LFloat Distance(LVector3Int a, LVector3Int b){
+        public static FP Distance(LVector3Int a, LVector3Int b){
             return (a - b).magnitude;
         }
 

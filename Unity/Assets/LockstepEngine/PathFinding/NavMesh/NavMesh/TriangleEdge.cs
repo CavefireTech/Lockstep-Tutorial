@@ -20,8 +20,8 @@ using System.Text;
 namespace Lockstep.PathFinding {
 	public class TriangleEdge : Connection<Triangle> {
 		/** 右顶点 */
-		public LVector3 rightVertex;
-		public LVector3 leftVertex;
+		public FVector3 rightVertex;
+		public FVector3 leftVertex;
 
 		/** 源三角形 */
 		public Triangle fromNode;
@@ -29,17 +29,17 @@ namespace Lockstep.PathFinding {
 		/** 指向的三角形 */
 		public Triangle toNode;
 
-		public TriangleEdge(LVector3 rightVertex, LVector3 leftVertex) : this(null, null, rightVertex, leftVertex){ }
+		public TriangleEdge(FVector3 rightVertex, FVector3 leftVertex) : this(null, null, rightVertex, leftVertex){ }
 
-		public TriangleEdge(Triangle fromNode, Triangle toNode, LVector3 rightVertex, LVector3 leftVertex){
+		public TriangleEdge(Triangle fromNode, Triangle toNode, FVector3 rightVertex, FVector3 leftVertex){
 			this.fromNode = fromNode;
 			this.toNode = toNode;
 			this.rightVertex = rightVertex;
 			this.leftVertex = leftVertex;
 		}
 
-		public LFloat GetCost(){
-			return LFloat.one;
+		public FP GetCost(){
+			return FP.one;
 		}
 
 		public Triangle GetFromNode(){

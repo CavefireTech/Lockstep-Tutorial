@@ -5,14 +5,14 @@ namespace Lockstep.Game {
 
     public interface ICommonStateService : IService {
         int Tick { get; }
-        LFloat DeltaTime { get;  }
-        LFloat TimeSinceGameStart { get; }
+        FP DeltaTime { get;  }
+        FP TimeSinceGameStart { get; }
         int Hash { get; set; }
         bool IsPause { get; set; }
 
         void SetTick(int val);
-        void SetDeltaTime(LFloat val);
-        void SetTimeSinceGameStart(LFloat val);
+        void SetDeltaTime(FP val);
+        void SetTimeSinceGameStart(FP val);
     }
 
     public interface IConstStateService : IService {

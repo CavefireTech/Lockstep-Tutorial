@@ -37,7 +37,7 @@ namespace Lockstep.Game {
             return new List<InputCmd>() {
                 new InputCmd() {
                     content = new PlayerInput() {
-                        inputUV = new LVector2(LRandom.Range(-1,2),LRandom.Range(-1,2)),
+                        inputUV = new FVector2(LRandom.Range(-1,2),LRandom.Range(-1,2)),
                         skillId = LRandom.Range(0,3)
                     }.ToBytes()
                 }

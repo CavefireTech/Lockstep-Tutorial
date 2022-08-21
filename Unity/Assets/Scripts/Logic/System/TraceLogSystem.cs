@@ -7,7 +7,7 @@ namespace Lockstep.Game {
     public class TraceLogSystem : BaseSystem {
         StringBuilder _dumpSb = new StringBuilder();
 
-        public override void DoUpdate(LFloat deltaTime){
+        public override void DoUpdate(FP deltaTime){
             _dumpSb.AppendLine("Tick: " + World.Instance.Tick);
             //trace input
             foreach (var input in World.Instance.PlayerInputs) {
@@ -42,7 +42,7 @@ namespace Lockstep.Game {
             _dumpSb.Append("    ");
             _dumpSb.Append(" " + entity.EntityId);
             _dumpSb.Append(" " + entity.transform.Pos3);
-            _dumpSb.Append(" " + entity.transform.deg);
+            _dumpSb.Append(" " + entity.transform.rot);
             _dumpSb.AppendLine();
         }
     }

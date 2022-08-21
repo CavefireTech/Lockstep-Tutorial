@@ -8,7 +8,7 @@ namespace Lockstep.Game {
         public AnimationState animState;
         private CAnimator cAnim;
         private Animator anim;
-        public LFloat speed;
+        public FP speed;
 
         void Start(){
             if (animComp == null) {
@@ -46,7 +46,7 @@ namespace Lockstep.Game {
             }
         }
 
-        public void Sample(LFloat time){
+        public void Sample(FP time){
             if (Application.isPlaying) {
                 return;
             }

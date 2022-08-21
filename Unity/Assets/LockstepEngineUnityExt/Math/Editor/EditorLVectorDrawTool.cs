@@ -14,8 +14,8 @@ public static class EditorLVectorDrawTool {
         var lableRect = new Rect(initX + offset, position.y, 70, position.height);
         EditorGUI.LabelField(lableRect, label.text);
         var valRect = new Rect(initX + offset + lableWid, position.y, filedWid, position.height);
-        var fVal = EditorGUI.FloatField(valRect, property.intValue * 1.0f / LFloat.Precision);
-        property.intValue = (int) (fVal * LFloat.Precision);
+        var fVal = EditorGUI.FloatField(valRect, property.intValue * 1.0f / FP.Precision);
+        property.intValue = (int) (fVal * FP.Precision);
         offset += filedWid + lableWid;
     }
 }

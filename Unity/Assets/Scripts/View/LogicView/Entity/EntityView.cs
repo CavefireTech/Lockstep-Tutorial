@@ -20,7 +20,7 @@ namespace Lockstep.Game {
             }
         }
 
-        public override void OnTakeDamage(int amount, LVector3 hitPoint){
+        public override void OnTakeDamage(int amount, FVector3 hitPoint){
             uiFloatBar.UpdateHp(entity.curHealth, entity.maxHealth);
             FloatTextManager.CreateFloatText(hitPoint.ToVector3(), -amount);
         }
@@ -40,7 +40,7 @@ namespace Lockstep.Game {
             var timeRate = Time.deltaTime / LTime.deltaTime.ToLFloat();
             var pos = entity.transform.Pos3.ToVector3();
             transform.position = Vector3.Lerp(transform.position, pos, timeRate);
-            var deg = entity.transform.deg.ToFloat();
+            var deg = entity.transform.rot.ToFloat();
             //deg = Mathf.Lerp(transform.rotation.eulerAngles.y, deg, 0.3f);
             transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0, deg, 0), timeRate);
         }    

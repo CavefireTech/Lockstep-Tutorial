@@ -22,7 +22,7 @@ namespace Lockstep.Game {
                 if (prefab == null) return;
                 var obj = (GameObject) GameObject.Instantiate(prefab,
                     entity.transform.Pos3.ToVector3(),
-                    Quaternion.Euler(new Vector3(0, entity.transform.deg, 0)));
+                    Quaternion.Euler(new Vector3(0, entity.transform.rot, 0)));
                 entity.engineTransform = obj.transform;
                 var views = obj.GetComponents<IView>();
                 if (views.Length <= 0) {

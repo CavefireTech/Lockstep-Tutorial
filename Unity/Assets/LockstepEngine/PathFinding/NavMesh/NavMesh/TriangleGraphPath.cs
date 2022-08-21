@@ -7,12 +7,12 @@ namespace Lockstep.PathFinding {
 		/**
 		 * The start point when generating a point path for this triangle path
 		 */
-		public LVector3 start;
+		public FVector3 start;
 
 		/**
 		 * The end point when generating a point path for this triangle path
 		 */
-		public LVector3 end;
+		public FVector3 end;
 
 		/**
 		 * If the triangle path is empty, the point path will span this triangle

@@ -18,7 +18,7 @@ namespace Lockstep.Game {
 
         public virtual void DoAwake(){ }
         public virtual void DoStart(){ }
-        public virtual void DoUpdate(LFloat deltaTime){ }
+        public virtual void DoUpdate(FP deltaTime){ }
         public virtual void DoDestroy(){ }
     }
 }

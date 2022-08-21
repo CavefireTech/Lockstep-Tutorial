@@ -97,7 +97,7 @@ namespace Lockstep.Game {
              }
         }
 
-        public void DoUpdate(LFloat deltaTime){
+        public void DoUpdate(FP deltaTime){
             if (CurGameState == EGameState.Loading) {
                 if (_nextSendLoadProgressTimer < Time.realtimeSinceStartup) {
                     SendLoadingProgress(CurProgress);

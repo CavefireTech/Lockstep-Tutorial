@@ -163,7 +163,7 @@ namespace Lockstep.PathFinding {
         }
 
         private static Dictionary<Triangle, List<Connection<Triangle>>> CreateSharedEdgesMap(
-            HashSet<IndexConnection> indexConnections, List<Triangle> triangles, LVector3[] vertexVectors){
+            HashSet<IndexConnection> indexConnections, List<Triangle> triangles, FVector3[] vertexVectors){
             var connectionMap = new Dictionary<Triangle, List<Connection<Triangle>>>();
 
             foreach (Triangle tri in triangles) {
@@ -252,7 +252,7 @@ namespace Lockstep.PathFinding {
             return _triangles;
         }
 
-        public Triangle GetTriangle(LVector3 point){
+        public Triangle GetTriangle(FVector3 point){
             //TODO space partition bsp
             Profiler.BeginSample("_GetTriangle");
             var ret = _GetTriangle(point);
@@ -260,7 +260,7 @@ namespace Lockstep.PathFinding {
             return ret;
         }
 
-        private Triangle _GetTriangle(LVector3 point){
+        private Triangle _GetTriangle(FVector3 point){
             var triId = bspTree.GetTriangle(point);
             if (_id2Tri.TryGetValue(triId, out var tri)) {
                 return tri;

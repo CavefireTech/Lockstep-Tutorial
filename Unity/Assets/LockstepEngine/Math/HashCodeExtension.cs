@@ -41,15 +41,15 @@ namespace Lockstep.Util {
         public static int GetHash(this string val,ref int idx){
             return val?.GetHashCode() ?? 0;
         }
-        public static int GetHash(this LFloat val,ref int idx){
+        public static int GetHash(this FP val,ref int idx){
             return PrimerLUT.GetPrimer(val._val);
         }
 
-        public static int GetHash(this LVector2 val,ref int idx){
+        public static int GetHash(this FVector2 val,ref int idx){
             return PrimerLUT.GetPrimer(val._x) + PrimerLUT.GetPrimer(val._y) * 17;
         }
 
-        public static int GetHash(this LVector3 val,ref int idx){
+        public static int GetHash(this FVector3 val,ref int idx){
             return PrimerLUT.GetPrimer(val._x)
                    + PrimerLUT.GetPrimer(val._y) * 31
                    + PrimerLUT.GetPrimer(val._z) * 37;

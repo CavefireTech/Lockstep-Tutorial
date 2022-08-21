@@ -1,35 +1,35 @@
 using Lockstep.Math;
-using static Lockstep.Math.LVector3;
+using static Lockstep.Math.FVector3;
 
 namespace Lockstep.Math
 {
     public struct LAxis3D
     {
-        public LVector3 x;
-        public LVector3 y;
-        public LVector3 z;
-        public static readonly LAxis3D identity = new LAxis3D(LVector3.right, LVector3.up, LVector3.forward);
+        public FVector3 x;
+        public FVector3 y;
+        public FVector3 z;
+        public static readonly LAxis3D identity = new LAxis3D(FVector3.right, FVector3.up, FVector3.forward);
 
-        public LAxis3D(LVector3 right, LVector3 up, LVector3 forward)
+        public LAxis3D(FVector3 right, FVector3 up, FVector3 forward)
         {
             this.x = right;
             this.y = up;
             this.z = forward;
         }
 
-        public LVector3 WorldToLocal(LVector3 vec)
+        public FVector3 WorldToLocal(FVector3 vec)
         {
             var _x = Dot(x, vec);
             var _y = Dot(y, vec);
             var _z = Dot(z, vec);
-            return new LVector3(_x, _y, _z);
+            return new FVector3(_x, _y, _z);
         }
-        public LVector3 LocalToWorld(LVector3 vec)
+        public FVector3 LocalToWorld(FVector3 vec)
         {
             return x * vec.x + y * vec.y + z * vec.z;
         }
 
-        public LVector3 this[int index]
+        public FVector3 this[int index]
         {
             get
             {

@@ -25,7 +25,7 @@ namespace Lockstep.Game {
             }
         }
 
-        public override void DoUpdate(LFloat deltaTime){
+        public override void DoUpdate(FP deltaTime){
             foreach (var spawner in Spawners) {
                 spawner.DoUpdate(deltaTime);
             }

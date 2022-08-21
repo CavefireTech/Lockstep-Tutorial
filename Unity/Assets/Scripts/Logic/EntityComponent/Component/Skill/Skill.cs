@@ -34,9 +34,9 @@ namespace Lockstep.Game {
         [ReRefBackup] public Entity entity { get; private set; }
         [ReRefBackup] public SkillInfo SkillInfo;
 
-        public LFloat CdTimer;
+        public FP CdTimer;
         public ESkillState State;
-        public LFloat skillTimer;
+        public FP skillTimer;
         public int[] partCounter = new int[0];
         [Backup] private int _curPartIdx;
 
@@ -45,11 +45,11 @@ namespace Lockstep.Game {
         private float _showTimer;
 #endif
 
-        public LFloat CD => SkillInfo.CD;
-        public LFloat DoneDelay => SkillInfo.doneDelay;
+        public FP CD => SkillInfo.CD;
+        public FP DoneDelay => SkillInfo.doneDelay;
         public List<SkillPart> Parts => SkillInfo.parts;
         public int TargetLayer => SkillInfo.targetLayer;
-        public LFloat MaxPartTime => SkillInfo.maxPartTime;
+        public FP MaxPartTime => SkillInfo.maxPartTime;
         public string AnimName => SkillInfo.animName;
 
         public void ForceStop(){ }
@@ -71,7 +71,7 @@ namespace Lockstep.Game {
         public bool Fire(){
             if (CdTimer <= 0 && State == ESkillState.Idle) {
                 CdTimer = CD;
-                skillTimer = LFloat.zero;
+                skillTimer = FP.zero;
                 for (int i = 0; i < partCounter.Length; i++) {
                     partCounter[i] = 0;
                 }
@@ -96,7 +96,7 @@ namespace Lockstep.Game {
             entity.animator?.Play(AnimDefine.Idle);
         }
 
-        public void DoUpdate(LFloat deltaTime){
+        public void DoUpdate(FP deltaTime){
             CdTimer -= deltaTime;
             skillTimer += deltaTime;
             if (skillTimer < MaxPartTime) {
@@ -108,7 +108,7 @@ namespace Lockstep.Game {
                 foreach (var part in Parts) { }
 
                 if (CurPart != null && CurPart.moveSpd != 0) {
-                    entity.transform.pos += CurPart.moveSpd * deltaTime * entity.transform.forward;
+                    entity.transform.pos += CurPart.moveSpd * deltaTime * entity.transform.up;
                 }
             }
             else {
@@ -167,7 +167,7 @@ namespace Lockstep.Game {
             //add force
             if (part.needForce) {
                 var force = part.impulseForce;
-                var forward = entity.transform.forward;
+                var forward = entity.transform.up;
                 var right = forward.RightVec();
                 var z = forward * force.z + right * force.x;
                 force.x = z.x;
@@ -179,7 +179,7 @@ namespace Lockstep.Game {
 
             if (part.isResetForce) {
                 foreach (var other in _tempEntities) {
-                    other.rigidbody.ResetSpeed(new LFloat(3));
+                    other.rigidbody.ResetSpeed(new FP(3));
                 }
             }
 
@@ -191,7 +191,7 @@ namespace Lockstep.Game {
         private void _OnTriggerEnter(ColliderProxy other){
             if (CurPart.collider.IsCircle && CurPart.collider.deg > 0) {
                 var deg = (other.Transform2D.pos - entity.transform.pos).ToDeg();
-                var degDiff = entity.transform.deg.Abs() - deg;
+                var degDiff = entity.transform.rot.Abs() - deg;
                 if (LMath.Abs(degDiff) <= CurPart.collider.deg) {
                     _tempEntities.Add(other.Entity);
                 }
@@ -232,17 +232,17 @@ namespace Lockstep.Game {
             if (col.radius > 0) {
                 //circle
                 var pos = entity?.transform.TransformPoint(col.pos) ?? col.pos;
-                Gizmos.DrawSphere(pos.ToVector3XZ(LFloat.one), col.radius.ToFloat());
+                Gizmos.DrawSphere(pos.ToVector3XZ(FP.one), col.radius.ToFloat());
             }
             else {
                 //aabb
                 var pos = entity?.transform.TransformPoint(col.pos) ?? col.pos;
-                Gizmos.DrawCube(pos.ToVector3XZ(LFloat.one), col.size.ToVector3XZ(LFloat.one));
+                Gizmos.DrawCube(pos.ToVector3XZ(FP.one), col.size.ToVector3XZ(FP.one));
                 DebugExtension.DebugLocalCube(Matrix4x4.TRS(
-                        pos.ToVector3XZ(LFloat.one),
-                        Quaternion.Euler(0, entity.transform.deg.ToFloat(), 0),
+                        pos.ToVector3XZ(FP.one),
+                        Quaternion.Euler(0, entity.transform.rot.ToFloat(), 0),
                         Vector3.one),
-                    col.size.ToVector3XZ(LFloat.one), Gizmos.color);
+                    col.size.ToVector3XZ(FP.one), Gizmos.color);
             }
 #endif
         }

@@ -4,8 +4,8 @@ using Lockstep.Serialization;
 
 namespace Lockstep.Game {
     public partial class PlayerInput : BaseFormater,IComponent {
-        public LVector2 mousePos;
-        public LVector2 inputUV;
+        public FVector2 mousePos;
+        public FVector2 inputUV;
         public bool isInputFire;
         public int skillId;
         public bool isSpeedUp;
@@ -19,16 +19,16 @@ namespace Lockstep.Game {
         }
 
         public void Reset(){
-            mousePos = LVector2.zero;
-            inputUV = LVector2.zero;
+            mousePos = FVector2.zero;
+            inputUV = FVector2.zero;
             isInputFire = false;
             skillId = 0;
             isSpeedUp = false;
         }
 
         public override void Deserialize(Deserializer reader){
-            mousePos = reader.ReadLVector2();
-            inputUV = reader.ReadLVector2();
+            mousePos = reader.ReadFVector2();
+            inputUV = reader.ReadFVector2();
             isInputFire = reader.ReadBoolean();
             skillId = reader.ReadInt32();
             isSpeedUp = reader.ReadBoolean();

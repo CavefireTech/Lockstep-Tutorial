@@ -11,11 +11,11 @@ namespace Lockstep.Game {
             this.baseEntity = e;
             var updateEntity = oldEntity ?? e;
             transform.position = updateEntity.transform.Pos3.ToVector3();
-            transform.rotation = Quaternion.Euler(0, updateEntity.transform.deg.ToFloat(), 0);
+            transform.rotation = Quaternion.Euler(0, updateEntity.transform.rot.ToFloat(), 0);
         }
 
 
-        public virtual void OnTakeDamage(int amount, LVector3 hitPoint){
+        public virtual void OnTakeDamage(int amount, FVector3 hitPoint){
             FloatTextManager.CreateFloatText(hitPoint.ToVector3(), -amount);
         }
 

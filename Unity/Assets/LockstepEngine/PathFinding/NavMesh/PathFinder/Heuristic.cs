@@ -21,6 +21,6 @@ namespace Lockstep.PathFinding {
 		 * @param node the start node
 		 * @param endNode the end node
 		 * @return the estimated cost */
-		LFloat Estimate(N node, N endNode);
+		FP Estimate(N node, N endNode);
 	}
 }

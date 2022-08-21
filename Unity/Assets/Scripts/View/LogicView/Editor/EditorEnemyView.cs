@@ -7,8 +7,8 @@ using UnityEngine;
 [CustomEditor(typeof(EntityView))]
 public class EditorEnemyView : Editor {
     private EntityView owner;
-    public LVector3 force;
-    public LFloat resetYSpd;
+    public FVector3 force;
+    public FP resetYSpd;
     public override void OnInspectorGUI(){
         base.OnInspectorGUI();
         owner = target as EntityView;

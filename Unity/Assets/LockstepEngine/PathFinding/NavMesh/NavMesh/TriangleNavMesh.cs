@@ -21,7 +21,7 @@ namespace Lockstep.PathFinding {
 
         public TriangleGraphPath navMeshGraphPath = null;
 
-        public List<LVector3> FindPath(LVector3 fromPoint, LVector3 toPoint, TrianglePointPath navMeshPointPath){
+        public List<FVector3> FindPath(FVector3 fromPoint, FVector3 toPoint, TrianglePointPath navMeshPointPath){
             navMeshGraphPath = new TriangleGraphPath();
             bool find = FindPath(fromPoint, toPoint, navMeshGraphPath);
             if (!find) {
@@ -32,7 +32,7 @@ namespace Lockstep.PathFinding {
             return navMeshPointPath.getVectors();
         }
 
-        private bool FindPath(LVector3 fromPoint, LVector3 toPoint, TriangleGraphPath path){
+        private bool FindPath(FVector3 fromPoint, FVector3 toPoint, TriangleGraphPath path){
             path.Clear();
             Triangle fromTriangle = GetTriangle(fromPoint);
             var toTriangle = GetTriangle(toPoint);
@@ -59,7 +59,7 @@ namespace Lockstep.PathFinding {
         }
 
 
-        public Triangle GetTriangle(LVector3 point){
+        public Triangle GetTriangle(FVector3 point){
             return _graph.GetTriangle(point);
         }
     }

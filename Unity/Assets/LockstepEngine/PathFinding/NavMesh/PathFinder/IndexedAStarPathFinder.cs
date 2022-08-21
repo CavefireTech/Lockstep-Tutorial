@@ -112,9 +112,9 @@ namespace Lockstep.PathFinding {
 
                 // Get the cost estimate for the node
                 N node = connection.GetToNode(); //周围目标节点
-                LFloat nodeCost = _current.costSoFar + connection.GetCost(); //节点到目标的消耗
+                FP nodeCost = _current.costSoFar + connection.GetCost(); //节点到目标的消耗
 
-                LFloat nodeHeuristic;
+                FP nodeHeuristic;
                 NodeRecord<N> nodeRecord = GetNodeRecord(node);
                 if (nodeRecord.category == CLOSED) { // The node is closed
 
@@ -179,7 +179,7 @@ namespace Lockstep.PathFinding {
             outPath.reverse();
         }
 
-        protected void AddToOpenList(NodeRecord<N> nodeRecord, LFloat estimatedTotalCost){
+        protected void AddToOpenList(NodeRecord<N> nodeRecord, FP estimatedTotalCost){
             _openList.Add(nodeRecord, estimatedTotalCost);
             nodeRecord.category = OPEN;
             if (metrics != null) {
@@ -214,7 +214,7 @@ namespace Lockstep.PathFinding {
             public Connection<N> connection;
 
             /** The actual cost from the start node. */
-            public LFloat costSoFar;
+            public FP costSoFar;
 
             /** The node category: {@link #UNVISITED}, {@link #OPEN} or {@link #CLOSED}. */
             public int category;
@@ -223,10 +223,10 @@ namespace Lockstep.PathFinding {
             public int searchId;
 
             /** Creates a {@code NodeRecord}. */
-            public NodeRecord() : base(LFloat.zero){ }
+            public NodeRecord() : base(FP.zero){ }
 
             /** Returns the estimated total cost. */
-            public LFloat GetEstimatedTotalCost(){
+            public FP GetEstimatedTotalCost(){
                 return value;
             }
         }

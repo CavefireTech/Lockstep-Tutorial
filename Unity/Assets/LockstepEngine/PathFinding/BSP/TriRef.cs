@@ -9,21 +9,21 @@ namespace Lockstep.PathFinding {
         public int index; //正数为 原三角形，否则为
         public bool isSplit = false;
 
-        public bool Contain(LVector2 pos){
-            var isRightA = LVector2.Cross(b - a, pos - a) > 0;
+        public bool Contain(FVector2 pos){
+            var isRightA = FVector2.Cross(b - a, pos - a) > 0;
             if (isRightA) return false;
-            var isRightB = LVector2.Cross(c - b, pos - b) > 0;
+            var isRightB = FVector2.Cross(c - b, pos - b) > 0;
             if (isRightB) return false;
-            var isRightC = LVector2.Cross(a - c, pos - c) > 0;
+            var isRightC = FVector2.Cross(a - c, pos - c) > 0;
             if (isRightC) return false;
             return true;
         }
 
-        public TriRef(List<LVector2> vertexs, TriRef tri)
+        public TriRef(List<FVector2> vertexs, TriRef tri)
             : this(vertexs[0], vertexs[1], vertexs[2], tri){ }
 
 
-        public TriRef(LVector2 a, LVector2 b, LVector2 c, TriRef tri)
+        public TriRef(FVector2 a, FVector2 b, FVector2 c, TriRef tri)
             : this(a, b, c, tri.index){
             isSplit = true;
         }
@@ -34,7 +34,7 @@ namespace Lockstep.PathFinding {
             tri.c.ToLVector2XZ(),
             tri.index){ }
 
-        public TriRef(LVector2 a, LVector2 b, LVector2 c, int idx){
+        public TriRef(FVector2 a, FVector2 b, FVector2 c, int idx){
             this.a = a;
             this.b = b;
             this.c = c;
@@ -51,19 +51,19 @@ namespace Lockstep.PathFinding {
 
         void CheckValid(){
             for (int i = 0; i < 3; i++) {
-                if (borders[i].dir == LVector2.zero) {
+                if (borders[i].dir == FVector2.zero) {
                     Debug.Assert(false);
                 }
             }
         }
 
-        public LVector2 a;
-        public LVector2 b;
-        public LVector2 c;
+        public FVector2 a;
+        public FVector2 b;
+        public FVector2 c;
 
         public SplitPlane[] borders;
 
-        public LVector2 this[int index] {
+        public FVector2 this[int index] {
             get {
                 switch (index) {
                     case 0: return a;

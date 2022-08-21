@@ -13,8 +13,8 @@ namespace Lockstep.Game {
         public CAnimator animator = new CAnimator();
         public CSkillBox skillBox = new CSkillBox();
 
-        public LFloat moveSpd = 5;
-        public LFloat turnSpd = 360;
+        public FP moveSpd = 5;
+        public FP turnSpd = 360;
         public int curHealth;
         public int maxHealth = 100;
         public int damage = 10;
@@ -38,7 +38,7 @@ namespace Lockstep.Game {
             curHealth = maxHealth;
         }
 
-        public override void DoUpdate(LFloat deltaTime){
+        public override void DoUpdate(FP deltaTime){
             rigidbody.DoUpdate(deltaTime);
             base.DoUpdate(deltaTime);
         }
@@ -51,7 +51,7 @@ namespace Lockstep.Game {
             skillBox.ForceStop(idx);
         }
 
-        public virtual void TakeDamage(BaseEntity atker,int amount, LVector3 hitPoint){
+        public virtual void TakeDamage(BaseEntity atker,int amount, FVector3 hitPoint){
             if (isInvincible || isDead) return;
             DebugService.Trace($"{atker.EntityId} attack {EntityId}  damage:{amount} hitPos:{hitPoint}");
             curHealth -= amount;
@@ -62,7 +62,7 @@ namespace Lockstep.Game {
             }
         }
 
-        protected virtual void OnTakeDamage(int amount, LVector3 hitPoint){ }
+        protected virtual void OnTakeDamage(int amount, FVector3 hitPoint){ }
 
         protected virtual void OnDead(){
             EntityView?.OnDead();

@@ -17,7 +17,7 @@ namespace Lockstep.Collision2D {
             switch (type) {
                 case EShape2D.Circle: {
                     var radius = ((CCircle) col).radius;
-                    return LRect.CreateRect(tran.pos, new LVector2(radius, radius));
+                    return LRect.CreateRect(tran.pos, new FVector2(radius, radius));
                 }
                 case EShape2D.AABB: {
                     var halfSize = ((CAABB) col).size;
@@ -25,7 +25,7 @@ namespace Lockstep.Collision2D {
                 }
                 case EShape2D.OBB: {
                     var radius = ((COBB) col).radius;
-                    return LRect.CreateRect(tran.pos, new LVector2(radius, radius));
+                    return LRect.CreateRect(tran.pos, new FVector2(radius, radius));
                 }
             }
 

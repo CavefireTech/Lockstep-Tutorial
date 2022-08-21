@@ -8234,9 +8234,9 @@ namespace Lockstep.Math
             return num & LUTSinCos.MASK;
         }
 
-        public static int getIndex(LFloat val)
+        public static int getIndex(FP val)
         {
-            return getIndex(val._val, LFloat.Precision);
+            return getIndex(val._val, FP.Precision);
         }
     }
 }

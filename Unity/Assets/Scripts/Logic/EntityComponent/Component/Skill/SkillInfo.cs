@@ -6,11 +6,11 @@ using UnityEngine;
 namespace Lockstep.Game {
     [Serializable]
     public class SkillColliderInfo {
-        public LVector2 pos;
-        public LVector2 size;
-        public LFloat radius;
-        public LFloat deg = new LFloat(180);
-        public LFloat maxY;
+        public FVector2 pos;
+        public FVector2 size;
+        public FP radius;
+        public FP deg = new FP(180);
+        public FP maxY;
 
         public bool IsCircle => radius > 0;
     }
@@ -18,21 +18,21 @@ namespace Lockstep.Game {
     [Serializable]
     public class SkillPart {
         public bool _DebugShow;
-        public LFloat moveSpd;
-        public LFloat startFrame;
-        public LFloat startTimer => startFrame * SkillPart.AnimFrameScale;
+        public FP moveSpd;
+        public FP startFrame;
+        public FP startTimer => startFrame * SkillPart.AnimFrameScale;
         public SkillColliderInfo collider;
-        public LVector3 impulseForce;
+        public FVector3 impulseForce;
         public bool needForce;
         public bool isResetForce;
 
-        public LFloat interval;
+        public FP interval;
         public int otherCount;
         public int damage;
-        public static LFloat AnimFrameScale = new LFloat(true, 1667);
-        [HideInInspector] public LFloat DeadTimer => startTimer + interval * (otherCount + LFloat.half);
+        public static FP AnimFrameScale = new FP(true, 1667);
+        [HideInInspector] public FP DeadTimer => startTimer + interval * (otherCount + FP.half);
 
-        public LFloat NextTriggerTimer(int counter){
+        public FP NextTriggerTimer(int counter){
             return startTimer + interval * counter;
         }
     }
@@ -40,15 +40,15 @@ namespace Lockstep.Game {
     [Serializable]
     public class SkillInfo {
         public string animName;
-        public LFloat CD;
-        public LFloat doneDelay;
+        public FP CD;
+        public FP doneDelay;
         public int targetLayer;
-        public LFloat maxPartTime;
+        public FP maxPartTime;
         public List<SkillPart> parts = new List<SkillPart>();
 
         public void DoInit(){
             parts.Sort((a, b) => LMath.Sign(a.startFrame - b.startFrame));
-            var time = LFloat.MinValue;
+            var time = FP.MinValue;
             foreach (var part in parts) {
                 var partDeadTime = part.DeadTimer;
                 if (partDeadTime > time) {

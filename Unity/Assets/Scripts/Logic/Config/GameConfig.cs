@@ -94,12 +94,12 @@ namespace Lockstep.Game {
             return collisionMatrix[a * (int) EColliderLayer.EnumCount + b];
         }
 
-        public LVector3 pos;
-        public LFloat worldSize = new LFloat(60);
-        public LFloat minNodeSize = new LFloat(1);
-        public LFloat loosenessval = new LFloat(true, 1250);
+        public FVector3 pos;
+        public FP worldSize = new FP(60);
+        public FP minNodeSize = new FP(1);
+        public FP loosenessval = new FP(true, 1250);
 
-        public LFloat percent = new LFloat(true, 100);
+        public FP percent = new FP(true, 100);
         public int count = 100;
 
         public int showTreeId = 0;

@@ -300,11 +300,11 @@ namespace Lockstep.Serialization {
 
         public void Write(bool[] value){_PutArray(value, sizeof(bool), FastBitConverter.GetBytes);}
 
-        public void Write(LFloat val){Write(val._val);}
+        public void Write(FP val){Write(val._val);}
 
-        public void Write(LVector2 val){Write(val._x);Write(val._y);}
+        public void Write(FVector2 val){Write(val._x);Write(val._y);}
 
-        public void Write(LVector3 val){Write(val._x);Write(val._y);Write(val._z);}
+        public void Write(FVector3 val){Write(val._x);Write(val._y);Write(val._z);}
 
 
         public void Write<T>(T[] value) where T : BaseFormater{

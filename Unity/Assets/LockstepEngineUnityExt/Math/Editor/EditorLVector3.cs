@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEditor;
 
 
-[CustomPropertyDrawer(typeof(LVector3))]
+[CustomPropertyDrawer(typeof(FVector3))]
 public class EditorLVector3 : UnityEditor.PropertyDrawer {
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label){
         var xProperty = property.FindPropertyRelative("_x");

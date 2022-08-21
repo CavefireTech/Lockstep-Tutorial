@@ -31,7 +31,7 @@ namespace Lockstep.PathFinding {
 #endif
         }
 
-        public int GetTriangle(LVector3 pos){
+        public int GetTriangle(FVector3 pos){
             var pos2d = pos.ToLVector2XZ();
             return root.GetTriangle(pos2d);
         }
@@ -74,7 +74,7 @@ namespace Lockstep.PathFinding {
             var or = plane.a;
             var s = or - dir * worldSize;
             var e = or + dir * worldSize;
-            var perp = new LVector2(-dir.y, dir.x);
+            var perp = new FVector2(-dir.y, dir.x);
             const float lineSize = 0.3f;
             var s1 = perp * lineSize.ToLFloat() + s;
             var e1 = perp * lineSize.ToLFloat() + e;

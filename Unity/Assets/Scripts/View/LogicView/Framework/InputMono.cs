@@ -11,8 +11,8 @@ namespace Lockstep.Game {
         public float camRayLength = 100;
 
         public bool hasHitFloor;
-        public LVector2 mousePos;
-        public LVector2 inputUV;
+        public FVector2 mousePos;
+        public FVector2 inputUV;
         public bool isInputFire;
         public int skillId;
         public bool isSpeedUp;
@@ -25,7 +25,7 @@ namespace Lockstep.Game {
             if (World.Instance != null && !IsReplay) {
                 float h = Input.GetAxisRaw("Horizontal");
                 float v = Input.GetAxisRaw("Vertical");
-                inputUV = new LVector2(h.ToLFloat(), v.ToLFloat());
+                inputUV = new FVector2(h.ToLFloat(), v.ToLFloat());
                 
                 isInputFire = Input.GetButton("Fire1");
                 hasHitFloor = Input.GetMouseButtonDown(1);

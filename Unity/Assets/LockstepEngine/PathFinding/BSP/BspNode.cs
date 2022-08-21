@@ -33,7 +33,7 @@ namespace Lockstep.PathFinding {
             get => BspTree.maxDepthNodeId;
             set => BspTree.maxDepthNodeId = value;
         }
-        public int GetTriangle(LVector2 pos){
+        public int GetTriangle(FVector2 pos){
             if (IsLeaf) {
                 foreach (var tri in tris) {
                     if (tri.Contain(pos)) {
@@ -44,7 +44,7 @@ namespace Lockstep.PathFinding {
                 return -1;
             }
             else {
-                var isLeft = LVector2.Cross(SplitPlane.b - SplitPlane.a, pos - SplitPlane.a) >= 0;
+                var isLeft = FVector2.Cross(SplitPlane.b - SplitPlane.a, pos - SplitPlane.a) >= 0;
                 if (isLeft) {
                     return leftChild.GetTriangle(pos);
                 }
@@ -99,8 +99,8 @@ namespace Lockstep.PathFinding {
             rightChild.Init(rTris, depth + 1);
         }
 
-        List<LVector2> rVerts = new List<LVector2>();
-        List<LVector2> lVerts = new List<LVector2>();
+        List<FVector2> rVerts = new List<FVector2>();
+        List<FVector2> lVerts = new List<FVector2>();
 
         private void SplitTri(List<TriRef> lTris, List<TriRef> rTris, TriRef tri){
             int numVerts = 3;
@@ -180,7 +180,7 @@ namespace Lockstep.PathFinding {
             }
         }
 
-        void AddTriangle(List<TriRef> rTris,LVector2 a, LVector2 b, LVector2 c, TriRef tri){
+        void AddTriangle(List<TriRef> rTris,FVector2 a, FVector2 b, FVector2 c, TriRef tri){
             if(a == b || b == c || c ==a)
                 return;
             rTris.Add(new TriRef(a,b,c, tri));;

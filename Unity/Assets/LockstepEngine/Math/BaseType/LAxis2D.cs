@@ -6,16 +6,16 @@ namespace Lockstep.Math
    
     public struct LAxis2D
     {
-        public LVector3 x;
-        public LVector3 y;
+        public FVector3 x;
+        public FVector3 y;
         
-        public static readonly LAxis2D identity = new LAxis2D(LVector3.right, LVector3.up);
-        public LAxis2D(LVector3 x, LVector3 y)
+        public static readonly LAxis2D identity = new LAxis2D(FVector3.right, FVector3.up);
+        public LAxis2D(FVector3 x, FVector3 y)
         {
             this.x = x;
             this.y = y;
         }
-        public LVector3 this[int index]
+        public FVector3 this[int index]
         {
             get
             {

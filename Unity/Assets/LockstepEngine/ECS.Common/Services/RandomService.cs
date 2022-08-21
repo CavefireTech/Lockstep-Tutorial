@@ -6,7 +6,7 @@ using Random = Lockstep.Math.Random;
 namespace Lockstep.Game {
     public partial class RandomService : BaseService, IRandomService {
         Random _i = new Math.Random();
-        public LFloat value => _i.value;
+        public FP value => _i.value;
 
         public uint Next(){
             return _i.Next();
@@ -28,7 +28,7 @@ namespace Lockstep.Game {
             return _i.Range(min, max);
         }
 
-        public LFloat Range(LFloat min, LFloat max){
+        public FP Range(FP min, FP max){
             return _i.Range(min, max);
         }
 

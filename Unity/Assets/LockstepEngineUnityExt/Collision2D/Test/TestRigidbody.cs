@@ -7,13 +7,13 @@ namespace Lockstep.Collision2D {
         public CRigidbody CRigidbody;
         public CTransform2D CTransform2D;
 
-        public LFloat G;
-        public LVector3 force;
+        public FP G;
+        public FVector3 force;
         
-        public LFloat MinSleepSpeed = new LFloat(true, 100);
-        public LFloat FloorFriction = new LFloat(3);
-        public LFloat Mass = LFloat.one;
-        public LFloat resetYSpd = new LFloat(true,100);
+        public FP MinSleepSpeed = new FP(true, 100);
+        public FP FloorFriction = new FP(3);
+        public FP Mass = FP.one;
+        public FP resetYSpd = new FP(true,100);
         private void Start(){
             CRigidbody = new CRigidbody();
             CTransform2D = new CTransform2D();
@@ -35,7 +35,7 @@ namespace Lockstep.Collision2D {
         public void AddImpulse(){
             CRigidbody.AddImpulse(force);
         }  
-        public void ResetSpeed(LFloat ySpeed){
+        public void ResetSpeed(FP ySpeed){
             CRigidbody.ResetSpeed(ySpeed);
         }
     }

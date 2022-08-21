@@ -17,14 +17,14 @@ namespace Lockstep.Collision2D {
         public int LayerType { get; set; }
         public ColliderPrefab Prefab;
         public CTransform2D Transform2D;
-        public LFloat Height;
+        public FP Height;
         public bool IsTrigger = true;
         public bool IsStatic = false;
 
 
-        private LVector2 _prePos;
-        private LFloat _preDeg;
-        public static LFloat DegGap = new LFloat(true, 100);
+        private FVector2 _prePos;
+        private FP _preDeg;
+        public static FP DegGap = new FP(true, 100);
 
         private LRect _bound;
 
@@ -33,17 +33,13 @@ namespace Lockstep.Collision2D {
         private BoundsQuadTree _quadTree;
 
         private static int autoIncId = 0;
-
-        public void Init(ColliderPrefab prefab, LVector2 pos, LFloat y){
-            Init(prefab, pos, y, LFloat.zero);
+        
+        public void Init(ColliderPrefab prefab, FVector2 pos){
+            Init(prefab, pos, FP.zero);
         }
 
-        public void Init(ColliderPrefab prefab, LVector2 pos){
-            Init(prefab, pos, LFloat.zero, LFloat.zero);
-        }
-
-        public void Init(ColliderPrefab prefab, LVector2 pos, LFloat y, LFloat deg){
-            Init(prefab, new CTransform2D(pos, y, deg));
+        public void Init(ColliderPrefab prefab, FVector2 pos, FP rot){
+            Init(prefab, new CTransform2D(pos, rot));
         }
 
         public void Init(ColliderPrefab prefab, CTransform2D trans){
@@ -51,20 +47,20 @@ namespace Lockstep.Collision2D {
             _bound = prefab.GetBounds();
             Transform2D = trans;
             _prePos = Transform2D.pos;
-            _preDeg = Transform2D.deg;
+            _preDeg = Transform2D.rot;
             unchecked {
                 Id = autoIncId++;
             }
         }
 
-        public void DoUpdate(LFloat deltaTime){
+        public void DoUpdate(FP deltaTime){
             var curPos = Transform2D.pos;
             if (_prePos != curPos) {
                 _prePos = curPos;
                 IsMoved = true;
             }
 
-            var curDeg = Transform2D.deg;
+            var curDeg = Transform2D.rot;
             if (LMath.Abs(curDeg - _preDeg) > DegGap) {
                 _preDeg = curDeg;
                 IsMoved = true;
@@ -74,7 +70,7 @@ namespace Lockstep.Collision2D {
 
         public bool IsMoved = true;
 
-        public LVector2 pos {
+        public FVector2 pos {
             get => Transform2D.pos;
             set {
                 IsMoved = true;
@@ -82,19 +78,11 @@ namespace Lockstep.Collision2D {
             }
         }
 
-        public LFloat y {
-            get => Transform2D.y;
+        public FP rot {
+            get => Transform2D.rot;
             set {
                 IsMoved = true;
-                Transform2D.y = value;
-            }
-        }
-
-        public LFloat deg {
-            get => Transform2D.deg;
-            set {
-                IsMoved = true;
-                Transform2D.deg = value;
+                Transform2D.rot = value;
             }
         }
 

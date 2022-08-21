@@ -62,10 +62,10 @@ public class EditorNavMeshTool : UnityEditor.Editor {
         GameObject UnWalkAble = CreateOb("MapTest", 0, new Mesh());
         Mesh UnWalkMesh = UnWalkAble.GetComponent<MeshFilter>().sharedMesh;
         UnWalkMesh.vertices = new Vector3[] {
-            new LVector3(_property.startX, LFloat.zero, _property.startZ).ToVector3(),
-            new LVector3(_property.startX, LFloat.zero, _property.endZ + _property.startZ).ToVector3(),
-            new LVector3(_property.endX + _property.startX, LFloat.zero, _property.endZ + _property.startZ).ToVector3(),
-            new LVector3(_property.endX + _property.startX, LFloat.zero, _property.startZ).ToVector3()
+            new FVector3(_property.startX, FP.zero, _property.startZ).ToVector3(),
+            new FVector3(_property.startX, FP.zero, _property.endZ + _property.startZ).ToVector3(),
+            new FVector3(_property.endX + _property.startX, FP.zero, _property.endZ + _property.startZ).ToVector3(),
+            new FVector3(_property.endX + _property.startX, FP.zero, _property.startZ).ToVector3()
         };
         UnWalkMesh.triangles = new int[] {0, 1, 2, 0, 2, 3};
     }

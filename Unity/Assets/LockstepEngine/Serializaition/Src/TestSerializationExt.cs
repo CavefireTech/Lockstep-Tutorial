@@ -14,7 +14,7 @@ namespace Lockstep.Serialization.Test {
     public partial class TestClassBase  {
         [Index(0)] public int val0;
         public int val1;
-        [Index(2)] public LFloat val2 = 100;
+        [Index(2)] public FP val2 = 100;
         [Index(3)] public bool val3;
         [Index(4)] public int[] val4;
     }
@@ -26,7 +26,7 @@ namespace Lockstep.Serialization.Test {
 
     [TypeId(idx: (int) ETypeId.TestClass2)]
     public partial class TestClass2 : TestClassBase {
-        [Index(5)] public LVector3 val5;
+        [Index(5)] public FVector3 val5;
     }
 
     public partial class NormalClass : ICompatible {
@@ -60,7 +60,7 @@ namespace Lockstep.Serialization.Test {
         public virtual void DeserializeExt(Deserializer reader, int dataOffset, 
                 int vTblOffset, int vTableLen, byte slotSize){
             if (reader.SetSlotOffset((int) vTblOffset, slotSize, 0))val0 = reader.ReadInt32();
-            if (reader.SetSlotOffset((int) vTblOffset, slotSize, 2))val2 = reader.ReadLFloat();
+            if (reader.SetSlotOffset((int) vTblOffset, slotSize, 2))val2 = reader.ReadFP();
             if (reader.SetSlotOffset((int) vTblOffset, slotSize, 3))val3 = reader.ReadBoolean();
             if (reader.SetSlotOffset((int) vTblOffset, slotSize, 4))val4 = reader.ReadArray(val4);
         }
@@ -84,7 +84,7 @@ namespace Lockstep.Serialization.Test {
         public override void DeserializeExt(Deserializer reader, int dataOffset, 
             int vTblOffset, int vTableLen, byte slotSize){
             if (reader.SetSlotOffset((int) vTblOffset, slotSize, 0))val0 = reader.ReadInt32();
-            if (reader.SetSlotOffset((int) vTblOffset, slotSize, 2))val2 = reader.ReadLFloat();
+            if (reader.SetSlotOffset((int) vTblOffset, slotSize, 2))val2 = reader.ReadFP();
             if (reader.SetSlotOffset((int) vTblOffset, slotSize, 3))val3 = reader.ReadBoolean();
             if (reader.SetSlotOffset((int) vTblOffset, slotSize, 4))val4 = reader.ReadArray(val4);
         }

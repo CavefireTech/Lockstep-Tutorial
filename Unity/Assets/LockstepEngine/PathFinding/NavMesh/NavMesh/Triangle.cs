@@ -7,14 +7,14 @@ namespace Lockstep.PathFinding {
     public class Triangle {
         /** 三角形序号 */
         public int index;
-        public LVector3 a;
-        public LVector3 b;
-        public LVector3 c;
+        public FVector3 a;
+        public FVector3 b;
+        public FVector3 c;
 
-        public LFloat y; //三角形高度，三个顶点的平均高度
+        public FP y; //三角形高度，三个顶点的平均高度
 
         /** 中点 */
-        public LVector3 center;
+        public FVector3 center;
 
         /** 三角形和其他三角形的共享边 */
         public List<Connection<Triangle>> connections;
@@ -22,7 +22,7 @@ namespace Lockstep.PathFinding {
         /**三角形顶点序号*/
         public int[] vectorIndex;
 
-        public Triangle(LVector3 a, LVector3 b, LVector3 c, int index, params int[] vectorIndex){
+        public Triangle(FVector3 a, FVector3 b, FVector3 c, int index, params int[] vectorIndex){
             this.a = a;
             this.b = b;
             this.c = c;
@@ -47,7 +47,7 @@ namespace Lockstep.PathFinding {
 
     
 
-        public bool IsInnerPoint(LVector3 point){
+        public bool IsInnerPoint(FVector3 point){
             bool res = pointInLineLeft(a, b, point);
             if (res != pointInLineLeft(b, c, point)) {
                 return false;
@@ -64,11 +64,11 @@ namespace Lockstep.PathFinding {
             return true;
         }
 
-        public static LFloat cross2D(LVector3 fromPoint, LVector3 toPoint, LVector3 p){
+        public static FP cross2D(FVector3 fromPoint, FVector3 toPoint, FVector3 p){
             return (toPoint.x - fromPoint.x) * (p.z - fromPoint.z) - (toPoint.z - fromPoint.z) * (p.x - fromPoint.x);
         }
 
-        public static bool pointInLineLeft(LVector3 fromPoint, LVector3 toPoint, LVector3 p){
+        public static bool pointInLineLeft(FVector3 fromPoint, FVector3 toPoint, FVector3 p){
             return cross2D(fromPoint, toPoint, p) > 0;
         }
 

@@ -13,18 +13,18 @@ namespace Lockstep.PathFinding {
  * A point where an edge on the navmesh is crossed.
  */
     public class TrianglePointPath {
-        public static LVector3 V3_UP = LVector3.up;
-        public static LVector3 V3_DOWN = LVector3.down;
+        public static FVector3 V3_UP = FVector3.up;
+        public static FVector3 V3_DOWN = FVector3.down;
 
         private Plane crossingPlane = new Plane(); // 横跨平面
-        private static LVector3 tmp1 = new LVector3();
-        private static LVector3 tmp2 = new LVector3();
+        private static FVector3 tmp1 = new FVector3();
+        private static FVector3 tmp2 = new FVector3();
         private List<Connection<Triangle>> nodes; // 路径连接点
-        private LVector3 start; // 起点
-        private LVector3 end; // 终点
+        private FVector3 start; // 起点
+        private FVector3 end; // 终点
         private Triangle startTri; // 起始三角形
         private EdgePoint lastPointAdded; // 最后一个边点
-        private List<LVector3> vectors = new List<LVector3>(); // 路径坐标点
+        private List<FVector3> vectors = new List<FVector3>(); // 路径坐标点
         private List<EdgePoint> pathPoints = new List<EdgePoint>();
         private TriangleEdge lastEdge; // 最后一个边
 
@@ -42,10 +42,10 @@ namespace Lockstep.PathFinding {
             // segments.
             Ray ray = new Ray((V3_UP.scl(1000.ToLFloat())).Add(start), V3_DOWN); // 起始坐标从上向下的射线
             if (!GeometryUtil.IntersectRayTriangle(ray, startTri.a, startTri.b, startTri.c, out var ss)) {
-                LFloat minDst = LFloat.MaxValue;
-                LVector3 projection = new LVector3(); // 规划坐标
-                LVector3 newStart = new LVector3(); // 新坐标
-                LFloat dst;
+                FP minDst = FP.MaxValue;
+                FVector3 projection = new FVector3(); // 规划坐标
+                FVector3 newStart = new FVector3(); // 新坐标
+                FP dst;
                 // A-B
                 if ((dst = GeometryUtil.nearestSegmentPointSquareDistance(projection, startTri.a, startTri.b,
                         start)) < minDst) {
@@ -99,7 +99,7 @@ namespace Lockstep.PathFinding {
             return nodes.Count + 1;
         }
 
-        public LVector3 getVector(int index){
+        public FVector3 getVector(int index){
             return vectors.get(index);
         }
 
@@ -108,7 +108,7 @@ namespace Lockstep.PathFinding {
         }
 
         /** All vectors in the path     */
-        public List<LVector3> getVectors(){
+        public List<FVector3> getVectors(){
             return vectors;
         }
 
@@ -127,7 +127,7 @@ namespace Lockstep.PathFinding {
             return pathPoints.get(index).connectingEdges;
         }
 
-        private void addPoint(LVector3 point, Triangle toNode){
+        private void addPoint(FVector3 point, Triangle toNode){
             addPoint(new EdgePoint(point, toNode));
         }
 
@@ -251,7 +251,7 @@ namespace Lockstep.PathFinding {
          * Edge crossings are calculated as intersections with the plane from the start,
          * end and up vectors.
          */
-        private void CalculateEdgeCrossings(int startIndex, int endIndex, LVector3 startPoint, LVector3 endPoint){
+        private void CalculateEdgeCrossings(int startIndex, int endIndex, FVector3 startPoint, FVector3 endPoint){
             if (startIndex >= numEdges() || endIndex >= numEdges()) {
                 return;
             }
@@ -296,10 +296,10 @@ namespace Lockstep.PathFinding {
             }
         }
 
-        public static bool IntersectSegmentPlane(LVector3 start, LVector3 end, Plane plane, LVector3 intersection){
-            LVector3 dir = end.sub(start);
-            LFloat denom = dir.dot(plane.getNormal());
-            LFloat t = -(start.dot(plane.getNormal()) + plane.getD()) / denom;
+        public static bool IntersectSegmentPlane(FVector3 start, FVector3 end, Plane plane, FVector3 intersection){
+            FVector3 dir = end.sub(start);
+            FP denom = dir.dot(plane.getNormal());
+            FP t = -(start.dot(plane.getNormal()) + plane.getD()) / denom;
             if (t < 0 || t > 1)
                 return false;
 

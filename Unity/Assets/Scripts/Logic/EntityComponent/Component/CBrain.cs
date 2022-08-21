@@ -7,23 +7,23 @@ namespace Lockstep.Game {
     public partial class CBrain : Component {
         public Entity target { get; private set; }
         public int targetId;
-        public LFloat stopDistSqr = 1 * 1;
-        public LFloat atkInterval = 1;
-        [Backup] private LFloat _atkTimer;
+        public FP stopDistSqr = 1 * 1;
+        public FP atkInterval = 1;
+        [Backup] private FP _atkTimer;
 
         public override void BindEntity(BaseEntity e){
             base.BindEntity(e);
             target = GameStateService.GetEntity(targetId) as Entity;
         }
 
-        public override void DoUpdate(LFloat deltaTime){
+        public override void DoUpdate(FP deltaTime){
             if (!entity.rigidbody.isOnFloor) {
                 return;
             }
 
             //find target
             var allPlayer = GameStateService.GetPlayers();
-            var minDist = LFloat.MaxValue;
+            var minDist = FP.MaxValue;
             Entity minTarget = null;
             foreach (var player in allPlayer) {
                 if (player.isDead) continue;
@@ -44,9 +44,9 @@ namespace Lockstep.Game {
                 var targetPos = minTarget.transform.pos;
                 var currentPos = transform.pos;
                 var turnVal = entity.turnSpd * deltaTime;
-                var targetDeg = CTransform2D.TurnToward(targetPos, currentPos, transform.deg, turnVal,
+                var targetDeg = CTransform2D.TurnToward(targetPos, currentPos, transform.rot, turnVal,
                     out var isFinishedTurn);
-                transform.deg = targetDeg;
+                transform.rot = targetDeg;
                 //move to target
                 var distToTarget = (targetPos - currentPos).magnitude;
                 var movingStep = entity.moveSpd * deltaTime;

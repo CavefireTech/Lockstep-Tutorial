@@ -29,10 +29,10 @@ namespace Lockstep.Game{
        }                                                                                            
                                                                                                     
        public void ReadBackup(Deserializer reader){                                       
-			_animLen = reader.ReadLFloat();
+			_animLen = reader.ReadFP();
 			_curAnimIdx = reader.ReadInt32();
 			_curAnimName = reader.ReadString();
-			_timer = reader.ReadLFloat();
+			_timer = reader.ReadFP();
 			configId = reader.ReadInt32();                                                                                     
        }                                                                                            
                                                                                                     
@@ -66,9 +66,9 @@ namespace Lockstep.Game{
        }                                                                                            
                                                                                                     
        public void ReadBackup(Deserializer reader){                                       
-			_atkTimer = reader.ReadLFloat();
-			atkInterval = reader.ReadLFloat();
-			stopDistSqr = reader.ReadLFloat();
+			_atkTimer = reader.ReadFP();
+			atkInterval = reader.ReadFP();
+			stopDistSqr = reader.ReadFP();
 			targetId = reader.ReadInt32();                                                                                     
        }                                                                                            
                                                                                                     
@@ -127,8 +127,8 @@ namespace Lockstep.Game{
        }                                                                                            
                                                                                                     
        public void ReadBackup(Deserializer reader){                                       
-			Mass = reader.ReadLFloat();
-			Speed = reader.ReadLVector3();
+			Mass = reader.ReadFP();
+			Speed = reader.ReadFVector3();
 			isEnable = reader.ReadBoolean();
 			isOnFloor = reader.ReadBoolean();
 			isSleep = reader.ReadBoolean();                                                                                     
@@ -191,29 +191,25 @@ namespace Lockstep.Game{
 namespace Lockstep.Collision2D{                                                                                               
     public partial class CTransform2D :IBackup{                                                                  
        public void WriteBackup(Serializer writer){                                           
-			writer.Write(deg);
 			writer.Write(pos);
-			writer.Write(y);                                                                                     
+			writer.Write(rot);                                                                                     
        }                                                                                            
                                                                                                     
        public void ReadBackup(Deserializer reader){                                       
-			deg = reader.ReadLFloat();
-			pos = reader.ReadLVector2();
-			y = reader.ReadLFloat();                                                                                     
+			pos = reader.ReadFVector2();
+			rot = reader.ReadFP();                                                                                     
        }                                                                                            
                                                                                                     
        public int GetHash(ref int idx){                                      
            int hash = 1;                                                                             
-			hash += deg.GetHash(ref idx) * PrimerLUT.GetPrimer(idx++);
 			hash += pos.GetHash(ref idx) * PrimerLUT.GetPrimer(idx++);
-			hash += y.GetHash(ref idx) * PrimerLUT.GetPrimer(idx++);                                                                                     
+			hash += rot.GetHash(ref idx) * PrimerLUT.GetPrimer(idx++);                                                                                     
            return hash;                                                                                    
        }                                                                                            
                                                                                                     
        public void DumpStr(StringBuilder sb,string prefix){                                       
-			sb.AppendLine(prefix + "deg"+":" + deg.ToString());
 			sb.AppendLine(prefix + "pos"+":" + pos.ToString());
-			sb.AppendLine(prefix + "y"+":" + y.ToString());                                                                                     
+			sb.AppendLine(prefix + "rot"+":" + rot.ToString());                                                                                     
        }                                                                                            
     }                                                               
 }                                                              
@@ -231,13 +227,13 @@ namespace Lockstep.Collision2D{
        }                                                                                            
                                                                                                     
        public void ReadBackup(Deserializer reader){                                       
-			deg = reader.ReadLFloat();
-			high = reader.ReadLFloat();
-			pos = reader.ReadLVector2();
-			radius = reader.ReadLFloat();
-			size = reader.ReadLVector2();
-			up = reader.ReadLVector2();
-			y = reader.ReadLFloat();                                                                                     
+			deg = reader.ReadFP();
+			high = reader.ReadFP();
+			pos = reader.ReadFVector2();
+			radius = reader.ReadFP();
+			size = reader.ReadFVector2();
+			up = reader.ReadFVector2();
+			y = reader.ReadFP();                                                                                     
        }                                                                                            
                                                                                                     
        public int GetHash(ref int idx){                                      
@@ -292,8 +288,8 @@ namespace Lockstep.Game{
 			isFire = reader.ReadBoolean();
 			isInvincible = reader.ReadBoolean();
 			maxHealth = reader.ReadInt32();
-			moveSpd = reader.ReadLFloat();
-			turnSpd = reader.ReadLFloat();
+			moveSpd = reader.ReadFP();
+			turnSpd = reader.ReadFP();
 			animator.ReadBackup(reader);
 			brain.ReadBackup(reader);
 			colliderData.ReadBackup(reader);
@@ -373,8 +369,8 @@ namespace Lockstep.Game{
 			isInvincible = reader.ReadBoolean();
 			localId = reader.ReadInt32();
 			maxHealth = reader.ReadInt32();
-			moveSpd = reader.ReadLFloat();
-			turnSpd = reader.ReadLFloat();
+			moveSpd = reader.ReadFP();
+			turnSpd = reader.ReadFP();
 			animator.ReadBackup(reader);
 			colliderData.ReadBackup(reader);
 			input.ReadBackup(reader);
@@ -439,10 +435,10 @@ namespace Lockstep.Game{
        }                                                                                            
                                                                                                     
        public void ReadBackup(Deserializer reader){                                       
-			inputUV = reader.ReadLVector2();
+			inputUV = reader.ReadFVector2();
 			isInputFire = reader.ReadBoolean();
 			isSpeedUp = reader.ReadBoolean();
-			mousePos = reader.ReadLVector2();
+			mousePos = reader.ReadFVector2();
 			skillId = reader.ReadInt32();                                                                                     
        }                                                                                            
                                                                                                     
@@ -477,9 +473,9 @@ namespace Lockstep.Game{
        }                                                                                            
                                                                                                     
        public void ReadBackup(Deserializer reader){                                       
-			CdTimer = reader.ReadLFloat();
+			CdTimer = reader.ReadFP();
 			_curPartIdx = reader.ReadInt32();
-			skillTimer = reader.ReadLFloat();
+			skillTimer = reader.ReadFP();
 			State = (ESkillState)reader.ReadInt32();
 			partCounter = reader.ReadArray(this.partCounter);                                                                                     
        }                                                                                            
@@ -517,7 +513,7 @@ namespace Lockstep.Game{
        public void ReadBackup(Deserializer reader){                                       
 			EntityId = reader.ReadInt32();
 			PrefabId = reader.ReadInt32();
-			Timer = reader.ReadLFloat();
+			Timer = reader.ReadFP();
 			Info.ReadBackup(reader);
 			transform.ReadBackup(reader);                                                                                     
        }                                                                                            
@@ -552,8 +548,8 @@ namespace Lockstep.Game{
                                                                                                     
        public void ReadBackup(Deserializer reader){                                       
 			prefabId = reader.ReadInt32();
-			spawnPoint = reader.ReadLVector3();
-			spawnTime = reader.ReadLFloat();                                                                                     
+			spawnPoint = reader.ReadFVector3();
+			spawnTime = reader.ReadFP();                                                                                     
        }                                                                                            
                                                                                                     
        public int GetHash(ref int idx){                                      

@@ -66,7 +66,7 @@ namespace Lockstep.Game {
             }
         }
 
-        public override void DoUpdate(LFloat deltaTime){
+        public override void DoUpdate(FP deltaTime){
             if (allComponents == null) return;
             foreach (var comp in allComponents) {
                 comp.DoUpdate(deltaTime);

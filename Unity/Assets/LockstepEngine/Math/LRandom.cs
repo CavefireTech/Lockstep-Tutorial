@@ -7,7 +7,7 @@ namespace Lockstep.Math {
         public Random(uint seed = 17){
             randSeed = seed;
         }
-        public LFloat value => new LFloat(true, Range(0, 1000));
+        public FP value => new FP(true, Range(0, 1000));
 
         public uint Next(){
             randSeed = randSeed * 1103515245 + 36153;
@@ -37,13 +37,13 @@ namespace Lockstep.Math {
             return this.Next(num) + min;
         }
 
-        public LFloat Range(LFloat min, LFloat max){
+        public FP Range(FP min, FP max){
             if (min > max)
                 throw new ArgumentOutOfRangeException("minValue",
                     string.Format("'{0}' cannot be greater than {1}.", min, max));
 
             uint num = (uint) (max._val - min._val);
-            return new LFloat(true, Next(num) + min._val);
+            return new FP(true, Next(num) + min._val);
         }
     }
 #if false

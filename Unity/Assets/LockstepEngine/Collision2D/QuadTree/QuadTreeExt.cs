@@ -22,7 +22,7 @@ namespace Lockstep.Collision2D {
             float tintVal = depth / 7; // Will eventually get values > 1. Color rounds to 1 automatically
             Gizmos.color = new Color(tintVal, 0, 1.0f - tintVal);
 
-            LRect thisBounds = CreateLRect(Center, new LVector2(adjLength, adjLength));
+            LRect thisBounds = CreateLRect(Center, new FVector2(adjLength, adjLength));
             Gizmos.DrawWireCube(thisBounds.center.ToLVector3().ToVector3(), thisBounds.size.ToLVector3().ToVector3());
 
             if (children != null) {

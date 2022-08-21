@@ -3,15 +3,15 @@ using Lockstep.Math;
 
 namespace Lockstep.PathFinding {
     public class GeometryUtil {
-        public static LFloat FLOAT_ROUNDING_ERROR = new LFloat(true,1);
+        public static FP FLOAT_ROUNDING_ERROR = new FP(true,1);
 
-        private static LVector3 TMP_VEC_1 = new LVector3();
-        private static LVector3 TMP_VEC_2 = new LVector3();
-        private static LVector3 TMP_VEC_3 = new LVector3();
+        private static FVector3 TMP_VEC_1 = new FVector3();
+        private static FVector3 TMP_VEC_2 = new FVector3();
+        private static FVector3 TMP_VEC_3 = new FVector3();
 
         /** Projects a point to a line segment. This implementation is thread-safe.	 */
-        public static LFloat nearestSegmentPointSquareDistance
-            (LVector3 nearest, LVector3 start, LVector3 end, LVector3 point){
+        public static FP nearestSegmentPointSquareDistance
+            (FVector3 nearest, FVector3 start, FVector3 end, FVector3 point){
             nearest.set(start);
             var abX = end.x - start.x;
             var abY = end.y - start.y;
@@ -35,7 +35,7 @@ namespace Lockstep.PathFinding {
          * <p>
          * This implementation is NOT thread-safe.
          */
-        public static LFloat getClosestPointOnTriangle(LVector3 a, LVector3 b, LVector3 c, LVector3 p, ref LVector3 _out){
+        public static FP getClosestPointOnTriangle(FVector3 a, FVector3 b, FVector3 c, FVector3 p, ref FVector3 _out){
             // Check if P in vertex region outside A
             var ab = b.sub(a);
             var ac = c.sub(a);
@@ -92,20 +92,20 @@ namespace Lockstep.PathFinding {
             // P inside face region. Compute Q through its barycentric coordinates (u,v,w)
             var denom = 1 / (va + vb + vc);
             {
-                LFloat v = vb * denom;
-                LFloat w = vc * denom;
+                FP v = vb * denom;
+                FP w = vc * denom;
                 _out.set(a).mulAdd(ab, v).mulAdd(ac, w);
             }
             return _out.dst2(p);
         }
 
-        public static bool IntersectRayTriangle(Ray ray, LVector3 t1, LVector3 t2, LVector3 t3, out LVector3 intersection){
-            intersection = LVector3.zero;
-            LVector3 edge1 = t2.sub(t1);
-            LVector3 edge2 = t3.sub(t1);
+        public static bool IntersectRayTriangle(Ray ray, FVector3 t1, FVector3 t2, FVector3 t3, out FVector3 intersection){
+            intersection = FVector3.zero;
+            FVector3 edge1 = t2.sub(t1);
+            FVector3 edge2 = t3.sub(t1);
 
-            LVector3 pvec = ray.direction.cross(edge2);
-            LFloat det = edge1.dot(pvec);
+            FVector3 pvec = ray.direction.cross(edge2);
+            FP det = edge1.dot(pvec);
             if (IsZero(det)) {
                 var p = new Plane(t1, t2, t3);
                 if (p.testPoint(ray.origin) == PlaneSide.OnPlane && IsPointInTriangle(ray.origin, t1, t2, t3)) {
@@ -118,17 +118,17 @@ namespace Lockstep.PathFinding {
 
             det = 1 / det;
 
-            LVector3 tvec = ray.origin.sub(t1);
-            LFloat u = tvec.dot(pvec) * det;
+            FVector3 tvec = ray.origin.sub(t1);
+            FP u = tvec.dot(pvec) * det;
             if (u < 0 || u > 1)
                 return false;
 
-            LVector3 qvec = tvec.cross(edge1);
-            LFloat v = ray.direction.dot(qvec) * det;
+            FVector3 qvec = tvec.cross(edge1);
+            FP v = ray.direction.dot(qvec) * det;
             if (v < 0 || u + v > 1)
                 return false;
 
-            LFloat t = edge2.dot(qvec) * det;
+            FP t = edge2.dot(qvec) * det;
             if (t < 0)
                 return false;
 
@@ -142,7 +142,7 @@ namespace Lockstep.PathFinding {
             return true;
         }
 
-        public static bool IsPointInTriangle(LVector3 point, LVector3 t1, LVector3 t2, LVector3 t3){
+        public static bool IsPointInTriangle(FVector3 point, FVector3 t1, FVector3 t2, FVector3 t3){
             var v0 = (t1).sub(point);
             var v1 = (t2).sub(point);
             var v2 = (t3).sub(point);
@@ -160,7 +160,7 @@ namespace Lockstep.PathFinding {
             return true;
         }
 
-        public static bool IsZero(LFloat value){
+        public static bool IsZero(FP value){
             return LMath.Abs(value) <= GeometryUtil.FLOAT_ROUNDING_ERROR;
         }
     }

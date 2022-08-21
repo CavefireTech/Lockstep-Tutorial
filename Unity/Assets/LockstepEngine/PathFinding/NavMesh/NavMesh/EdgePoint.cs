@@ -21,9 +21,9 @@ namespace Lockstep.PathFinding {
 		/**
 		 * The point where the path crosses an edge.
 		 */
-		public LVector3 point;
+		public FVector3 point;
 
-		public EdgePoint(LVector3 point, Triangle toNode){
+		public EdgePoint(FVector3 point, Triangle toNode){
 			this.point = point;
 			this.toNode = toNode;
 		}

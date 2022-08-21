@@ -201,22 +201,22 @@ namespace Lockstep.Serialization {
             return result;
         }
 
-        public LFloat ReadLFloat(){
+        public FP ReadFP(){
             var x = ReadInt32();
-            return new LFloat(true, x);
+            return new FP(true, x);
         }
 
-        public LVector2 ReadLVector2(){
+        public FVector2 ReadFVector2(){
             var x = ReadInt32();
             var y = ReadInt32();
-            return new LVector2(true, x, y);
+            return new FVector2(true, x, y);
         }
 
-        public LVector3 ReadLVector3(){
+        public FVector3 ReadFVector3(){
             var x = ReadInt32();
             var y = ReadInt32();
             var z = ReadInt32();
-            return new LVector3(true, x, y, z);
+            return new FVector3(true, x, y, z);
         }
 
 

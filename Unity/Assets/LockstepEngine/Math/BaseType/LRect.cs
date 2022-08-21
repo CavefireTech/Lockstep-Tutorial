@@ -5,35 +5,35 @@ using Ray2D = Lockstep.Collision2D.Ray2D;
 
 namespace Lockstep.UnsafeCollision2D {
     public struct LRect {
-        public LFloat x;
-        public LFloat y;
-        public LFloat xMax;
-        public LFloat yMax;
+        public FP x;
+        public FP y;
+        public FP xMax;
+        public FP yMax;
 
-        public LRect(LFloat x, LFloat y, LFloat width, LFloat heigh){
+        public LRect(FP x, FP y, FP width, FP heigh){
             this.x = x;
             this.y = y;
             this.xMax = x + width;
             this.yMax = y + heigh;
         }
 
-        public LRect(LVector2 position, LVector2 size){
+        public LRect(FVector2 position, FVector2 size){
             this.x = position.x;
             this.y = position.y;
             this.xMax = x + size.x;
             this.yMax = y + size.y;
         }
 
-        public static LRect CreateRect(LVector2 center, LVector2 halfSize){
+        public static LRect CreateRect(FVector2 center, FVector2 halfSize){
             return new LRect(center - halfSize, halfSize * 2);
         }
 
-        public LFloat width {
+        public FP width {
             get => xMax - x;
             set => xMax = x + width;
         }
 
-        public LFloat height {
+        public FP height {
             get => yMax - y;
             set => yMax = y + width;
         }
@@ -42,30 +42,30 @@ namespace Lockstep.UnsafeCollision2D {
         ///   <para>Shorthand for writing new LRect(0,0,0,0).</para>
         /// </summary>
         public static LRect zero {
-            get { return new LRect(LFloat.zero, LFloat.zero, LFloat.zero, LFloat.zero); }
+            get { return new LRect(FP.zero, FP.zero, FP.zero, FP.zero); }
         }
 
-        public static LRect MinMaxRect(LFloat xmin, LFloat ymin, LFloat xmax, LFloat ymax){
+        public static LRect MinMaxRect(FP xmin, FP ymin, FP xmax, FP ymax){
             return new LRect(xmin, ymin, xmax - xmin, ymax - ymin);
         }
 
-        public void Set(LFloat x, LFloat y, LFloat width, LFloat height){
+        public void Set(FP x, FP y, FP width, FP height){
             this.x = x;
             this.y = y;
             this.xMax = x + width;
             this.yMax = y + height;
         }
 
-        public LVector2 position {
-            get { return new LVector2(this.x, this.y); }
+        public FVector2 position {
+            get { return new FVector2(this.x, this.y); }
             set {
                 this.x = value.x;
                 this.y = value.y;
             }
         }
 
-        public LVector2 center {
-            get { return new LVector2((x + xMax) / 2, (y + yMax) / 2); }
+        public FVector2 center {
+            get { return new FVector2((x + xMax) / 2, (y + yMax) / 2); }
             set {
                 var wid = width;
                 var high = height;
@@ -79,8 +79,8 @@ namespace Lockstep.UnsafeCollision2D {
         /// <summary>
         ///   <para>The position of the minimum corner of the rectangle.</para>
         /// </summary>
-        public LVector2 min {
-            get { return new LVector2(this.x, this.y); }
+        public FVector2 min {
+            get { return new FVector2(this.x, this.y); }
             set {
                 this.x = value.x;
                 this.y = value.y;
@@ -90,8 +90,8 @@ namespace Lockstep.UnsafeCollision2D {
         /// <summary>
         ///   <para>The position of the maximum corner of the rectangle.</para>
         /// </summary>
-        public LVector2 max {
-            get { return new LVector2(this.xMax, this.yMax); }
+        public FVector2 max {
+            get { return new FVector2(this.xMax, this.yMax); }
             set {
                 this.xMax = value.x;
                 this.yMax = value.y;
@@ -101,34 +101,34 @@ namespace Lockstep.UnsafeCollision2D {
         /// <summary>
         ///   <para>The width and height of the rectangle.</para>
         /// </summary>
-        public LVector2 size {
-            get { return new LVector2(xMax - x, yMax - y); }
+        public FVector2 size {
+            get { return new FVector2(xMax - x, yMax - y); }
             set {
                 this.xMax = value.x + x;
                 this.yMax = value.y + y;
             }
         }
-        public LVector2 halfSize => new LVector2(xMax - x, yMax - y)/2;
+        public FVector2 halfSize => new FVector2(xMax - x, yMax - y)/2;
 
-        public bool Contains(LVector2 point){
+        public bool Contains(FVector2 point){
             return point.x >= this.x && point.x < this.xMax &&
                    point.y >= this.y && point.y < this.yMax;
         }
 
-        public bool Contains(LVector3 point){
+        public bool Contains(FVector3 point){
             return point.x >= this.x && point.x < this.xMax &&
                    point.y >= this.y && point.y < this.yMax;
         }
 
         private static LRect OrderMinMax(LRect rect){
             if (rect.x > rect.xMax) {
-                LFloat xMin = rect.x;
+                FP xMin = rect.x;
                 rect.x = rect.xMax;
                 rect.xMax = xMin;
             }
 
             if (rect.y > rect.yMax) {
-                LFloat yMin = rect.y;
+                FP yMin = rect.y;
                 rect.y = rect.yMax;
                 rect.yMax = yMin;
             }
@@ -148,7 +148,7 @@ namespace Lockstep.UnsafeCollision2D {
                 && other.yMax > this.y
                 && other.y < this.yMax;
         }
-        public bool IntersectRay(Ray2D other,out LFloat distance){
+        public bool IntersectRay(Ray2D other,out FP distance){
             return Utils.TestRayAABB(other.origin, other.direction, min, max,out  distance);
         }
         
@@ -169,10 +169,10 @@ namespace Lockstep.UnsafeCollision2D {
         /// <summary>
         ///   <para>Returns a point inside a rectangle, given normalized coordinates.</para>
         /// </summary>
-        public static LVector2 NormalizedToPoint(
+        public static FVector2 NormalizedToPoint(
             LRect rectangle,
-            LVector2 normalizedRectCoordinates){
-            return new LVector2(LMath.Lerp(rectangle.x, rectangle.xMax, normalizedRectCoordinates.x),
+            FVector2 normalizedRectCoordinates){
+            return new FVector2(LMath.Lerp(rectangle.x, rectangle.xMax, normalizedRectCoordinates.x),
                 LMath.Lerp(rectangle.y, rectangle.yMax, normalizedRectCoordinates.y));
         }
 

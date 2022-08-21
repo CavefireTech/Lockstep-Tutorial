@@ -44,7 +44,7 @@ namespace Lockstep.Game {
             }
         }
 
-        public override void DoUpdate(LFloat deltaTime){
+        public override void DoUpdate(FP deltaTime){
             if (config == null) return;
             foreach (var skill in _skills) {
                 skill.DoUpdate(deltaTime);

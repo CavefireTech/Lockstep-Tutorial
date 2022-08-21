@@ -80,7 +80,7 @@ namespace Lockstep.Game {
             return null;
         }
 
-        public T CreateEntity<T>(int prefabId, LVector3 position) where T : BaseEntity, new(){
+        public T CreateEntity<T>(int prefabId, FVector3 position) where T : BaseEntity, new(){
             var baseEntity = new T();
             _gameConfigService.GetEntityConfig(prefabId)?.CopyTo(baseEntity);
             baseEntity.EntityId = _idService.GenId();
@@ -193,8 +193,8 @@ namespace Lockstep.Game {
         }
 
         public struct GameState {
-            public LFloat RemainTime;
-            public LFloat DeltaTime;
+            public FP RemainTime;
+            public FP DeltaTime;
             public int MaxEnemyCount;
             public int CurEnemyCount;
             public int CurEnemyId;
@@ -208,12 +208,12 @@ namespace Lockstep.Game {
             }
         }
 
-        public LFloat RemainTime {
+        public FP RemainTime {
             get => _curGameState.RemainTime;
             set => _curGameState.RemainTime = value;
         }
 
-        public LFloat DeltaTime {
+        public FP DeltaTime {
             get => _curGameState.DeltaTime;
             set => _curGameState.DeltaTime = value;
         }

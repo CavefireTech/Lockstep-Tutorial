@@ -50,7 +50,7 @@ namespace Lockstep.Collision2D {
             void CreatePrefab(CBaseShape collider){
                 var prefab = new ColliderPrefab();
                 prefab.parts.Add(new ColliderPart() {
-                    transform = new CTransform2D(LVector2.zero),
+                    transform = new CTransform2D(FVector2.zero),
                     collider = collider
                 });
                 prefabs.Add(prefab);
@@ -58,8 +58,8 @@ namespace Lockstep.Collision2D {
 
             for (int i = 1; i < size; i++) {
                 for (int j = 1; j < size; j++) {
-                    CreatePrefab(new CAABB(new LVector2(i, j)));
-                    CreatePrefab(new COBB(new LVector2(i, j), LFloat.zero));
+                    CreatePrefab(new CAABB(new FVector2(i, j)));
+                    CreatePrefab(new COBB(new FVector2(i, j), FP.zero));
                     CreatePrefab(new CCircle(((i + j) * 0.5f).ToLFloat()));
                 }
             }

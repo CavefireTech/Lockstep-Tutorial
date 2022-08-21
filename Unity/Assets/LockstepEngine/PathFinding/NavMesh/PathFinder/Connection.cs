@@ -6,7 +6,7 @@ namespace Lockstep.PathFinding {
 	public interface Connection<N> {
 
 		/** Returns the non-negative cost of this connection */
-		LFloat GetCost();
+		FP GetCost();
 
 		/** Returns the node that this connection came from */
 		N GetFromNode();

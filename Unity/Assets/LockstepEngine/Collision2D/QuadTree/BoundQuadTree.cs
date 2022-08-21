@@ -29,15 +29,15 @@ using UnityEngine;
 // Using a LINQ expression is worse again than Foreach.
 namespace Lockstep.Collision2D {
     public static partial class LRectExt {
-        public static LVector2 ToLVector2XZ(this LVector3 vec){
-            return new LVector2(vec.x, vec.z);
+        public static FVector2 ToLVector2XZ(this FVector3 vec){
+            return new FVector2(vec.x, vec.z);
         }
 
-        public static LVector3 ToLVector3(this LVector2 vec, int y = 1){
-            return new LVector3(vec.x, y.ToLFloat(), vec.y);
+        public static FVector3 ToLVector3(this FVector2 vec, int y = 1){
+            return new FVector3(vec.x, y.ToLFloat(), vec.y);
         }
-        public static LVector3 ToLVector3XZ(this LVector2 vec,LFloat y){
-            return new LVector3(vec.x, y,vec.y);
+        public static FVector3 ToLVector3XZ(this FVector2 vec,FP y){
+            return new FVector3(vec.x, y,vec.y);
         }
     }
 
@@ -56,13 +56,13 @@ namespace Lockstep.Collision2D {
 
         // Should be a value between 1 and 2. A multiplier for the base size of a node.
         // 1.0 is a "normal" octree, while values > 1 have overlap
-        readonly LFloat looseness;
+        readonly FP looseness;
 
         // Size that the octree was on creation
-        readonly LFloat initialSize;
+        readonly FP initialSize;
 
         // Minimum side length that a node can be - essentially an alternative to having a max depth
-        readonly LFloat minSize;
+        readonly FP minSize;
         // For collision visualisation. Automatically removed in builds.
 #if UNITY_EDITOR
         const int numCollisionsToSave = 4;
@@ -77,7 +77,7 @@ namespace Lockstep.Collision2D {
         /// <param name="initialWorldPos">Position of the centre of the initial node.</param>
         /// <param name="minNodeSize">Nodes will stop splitting if the new nodes would be smaller than this (metres).</param>
         /// <param name="loosenessVal">Clamped between 1 and 2. Values > 1 let nodes overlap.</param>
-        public BoundsQuadTree(LFloat initialWorldSize, LVector2 initialWorldPos, LFloat minNodeSize, LFloat loosenessVal){
+        public BoundsQuadTree(FP initialWorldSize, FVector2 initialWorldPos, FP minNodeSize, FP loosenessVal){
             if (minNodeSize > initialWorldSize) {
                 Debug.Log("Minimum node size must be at least as big as the initial world size. Was: " +
                                  minNodeSize + " Adjusted to: " + initialWorldSize);
@@ -197,13 +197,13 @@ namespace Lockstep.Collision2D {
         public void CheckCollision(ref LRect checkBounds, FuncCollision callback){
             rootNode.CheckCollision(ref checkBounds, callback);
         }
-        public void CheckCollision( LVector2 pos, LFloat radius, FuncCollision callback){
-            var rect = LRect.CreateRect(pos,new LVector2(radius,radius));
+        public void CheckCollision( FVector2 pos, FP radius, FuncCollision callback){
+            var rect = LRect.CreateRect(pos,new FVector2(radius,radius));
             rootNode.CheckCollision(rect, callback);
         }
 
        
-        public bool Raycast(Ray2D checkRay, LFloat maxDistance,out LFloat t,out int id) {
+        public bool Raycast(Ray2D checkRay, FP maxDistance,out FP t,out int id) {
             return rootNode.CheckCollision(ref checkRay, maxDistance,out t,out id);
         }
         /// <summary>
@@ -248,14 +248,14 @@ namespace Lockstep.Collision2D {
         /// Grow the octree to fit in all objects.
         /// </summary>
         /// <param name="direction">Direction to grow.</param>
-        void Grow(LVector2 direction){
+        void Grow(FVector2 direction){
             Debug.Trace("Grow");
             int xDirection = direction.x >= 0 ? 1 : -1;
             int yDirection = direction.y >= 0 ? 1 : -1;
             BoundsQuadTreeNode oldRoot = rootNode;
-            LFloat half = rootNode.BaseLength / 2;
-            LFloat newLength = rootNode.BaseLength * 2;
-            LVector2 newCenter = rootNode.Center + new LVector2(xDirection * half, yDirection * half);
+            FP half = rootNode.BaseLength / 2;
+            FP newLength = rootNode.BaseLength * 2;
+            FVector2 newCenter = rootNode.Center + new FVector2(xDirection * half, yDirection * half);
 
             // Create a new, bigger octree root node
             rootNode = new BoundsQuadTreeNode(null, newLength, minSize, looseness, newCenter);
@@ -272,7 +272,7 @@ namespace Lockstep.Collision2D {
                         xDirection = i % 2 == 0 ? -1 : 1;
                         yDirection = i > 1 ? -1 : 1;
                         children[i] = new BoundsQuadTreeNode(rootNode, oldRoot.BaseLength, minSize, looseness,
-                            newCenter + new LVector2(xDirection * half, yDirection * half));
+                            newCenter + new FVector2(xDirection * half, yDirection * half));
                     }
                 }
 

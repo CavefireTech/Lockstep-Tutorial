@@ -5,7 +5,7 @@ using Lockstep.Math;
 using UnityEngine;
 using UnityEditor;
 
-[CustomPropertyDrawer(typeof(LVector2))]
+[CustomPropertyDrawer(typeof(FVector2))]
 public class EditorLVector2 : UnityEditor.PropertyDrawer {
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label){
         var xProperty = property.FindPropertyRelative("_x");

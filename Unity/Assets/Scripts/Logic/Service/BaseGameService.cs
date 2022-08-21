@@ -5,7 +5,7 @@ using Lockstep.Game;
 namespace Lockstep.Game {
     public class BaseSystem : BaseGameService {
         public bool enable = true;
-        public virtual void DoUpdate(LFloat deltaTime){ }
+        public virtual void DoUpdate(FP deltaTime){ }
     }
 
     public abstract class BaseGameService : BaseService,IBaseGameManager {

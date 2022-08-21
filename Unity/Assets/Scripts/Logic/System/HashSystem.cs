@@ -6,7 +6,7 @@ using Lockstep.Game;
 
 namespace Lockstep.Game {
     public class HashSystem : BaseSystem {
-        public override void DoUpdate(LFloat deltaTime){
+        public override void DoUpdate(FP deltaTime){
             //_commonStateService.Hash = GetHash(_gameStateService);
         }
 
