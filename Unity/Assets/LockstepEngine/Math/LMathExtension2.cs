@@ -22,28 +22,28 @@ namespace Lockstep.Math {
 
     public static partial class LMathExtension {
         public static FP ToLFloat(this float v){
-            return LMath.ToLFloat(v);
+            return FMath.ToLFloat(v);
         }
 
         public static FP ToLFloat(this int v){
-            return LMath.ToLFloat(v);
+            return FMath.ToLFloat(v);
         }
 
         public static FP ToLFloat(this long v){
-            return LMath.ToLFloat(v);
+            return FMath.ToLFloat(v);
         }
     }
 
     public static partial class LMathExtension {
         public static LVector2Int Floor(this FVector2 vec){
-            return new LVector2Int(LMath.FloorToInt(vec.x), LMath.FloorToInt(vec.y));
+            return new LVector2Int(FMath.FloorToInt(vec.x), FMath.FloorToInt(vec.y));
         }
 
         public static LVector3Int Floor(this FVector3 vec){
             return new LVector3Int(
-                LMath.FloorToInt(vec.x),
-                LMath.FloorToInt(vec.y),
-                LMath.FloorToInt(vec.z)
+                FMath.FloorToInt(vec.x),
+                FMath.FloorToInt(vec.y),
+                FMath.FloorToInt(vec.z)
             );
         }
     }
@@ -61,11 +61,11 @@ namespace Lockstep.Math {
             return new FVector2(true, -vec._x, -vec._y);
         }
         public static FP ToDeg(this FVector2 vec){
-            return CTransform2D.ToDeg(vec);
+            return CTransform2D.ToRot(vec);
         }
         
         public static FP Abs(this FP val){
-            return LMath.Abs(val);
+            return FMath.Abs(val);
         }
     }
 }

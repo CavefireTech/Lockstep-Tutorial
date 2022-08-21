@@ -46,7 +46,7 @@ namespace Lockstep.Game {
             if (!isSleep) {
                 if (!isOnFloor) {
                     Speed.y -= G * deltaTime;
-                    Speed.y = LMath.Max(MinYSpd, Speed.y);
+                    Speed.y = FMath.Max(MinYSpd, Speed.y);
                 }
 
                 var pos = transform.Pos3;
@@ -70,7 +70,7 @@ namespace Lockstep.Game {
 
                 if (isOnFloor) {
                     var speedVal = Speed.magnitude - FloorFriction * deltaTime;
-                    speedVal = LMath.Max(speedVal, FP.zero);
+                    speedVal = FMath.Max(speedVal, FP.zero);
                     Speed = Speed.normalized * speedVal;
                     if (speedVal < MinSleepSpeed) {
                         isSleep = true;

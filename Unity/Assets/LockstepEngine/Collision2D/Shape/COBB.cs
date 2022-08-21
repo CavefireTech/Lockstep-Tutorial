@@ -28,14 +28,14 @@ namespace Lockstep.Collision2D {
 
         public void SetUp(FVector2 up){
             this.up = up;
-            this.deg = LMath.Atan2(-up.x, up.y);
+            this.deg = FMath.Atan2(-up.x, up.y);
         }
 
         public void SetDeg(FP rdeg){
             deg = rdeg;
-            var rad = LMath.Deg2Rad * deg;
-            var c = LMath.Cos(rad);
-            var s = LMath.Sin(rad);
+            var rad = FMath.Deg2Rad * deg;
+            var c = FMath.Cos(rad);
+            var s = FMath.Sin(rad);
             up = new FVector2(-s, c);
         }
         public override string ToString(){

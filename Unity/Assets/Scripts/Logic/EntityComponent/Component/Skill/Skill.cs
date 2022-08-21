@@ -192,7 +192,7 @@ namespace Lockstep.Game {
             if (CurPart.collider.IsCircle && CurPart.collider.deg > 0) {
                 var deg = (other.Transform2D.pos - entity.transform.pos).ToDeg();
                 var degDiff = entity.transform.rot.Abs() - deg;
-                if (LMath.Abs(degDiff) <= CurPart.collider.deg) {
+                if (FMath.Abs(degDiff) <= CurPart.collider.deg) {
                     _tempEntities.Add(other.Entity);
                 }
             }

@@ -213,8 +213,8 @@ namespace Lockstep.PathFinding {
                         continue;
                     }
 
-                    var balanceVal = LMath.Abs(leftCount - rightCount);
-                    var sameVal = LMath.Min(leftCount, rightCount);
+                    var balanceVal = FMath.Abs(leftCount - rightCount);
+                    var sameVal = FMath.Min(leftCount, rightCount);
                     int score = sameVal * 3 - balanceVal - splitCount * 2;
 
                     if (score > minScore) {

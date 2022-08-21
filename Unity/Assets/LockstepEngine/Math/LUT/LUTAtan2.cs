@@ -23,7 +23,7 @@ namespace Lockstep.Math
             BITS2 = BITS << 1;
             MASK = ~(-1 << BITS2);
             COUNT = MASK + 1;
-            DIM = LMath.Sqrt((long) COUNT);
+            DIM = FMath.Sqrt((long) COUNT);
             table = new int[]
             {
                 0,

@@ -81,28 +81,28 @@ namespace Lockstep.Math {
         }
 
         public FVector2 Rotate( FP deg){
-            var rad = LMath.Deg2Rad * deg;
+            var rad = FMath.Deg2Rad * deg;
             FP cos, sin;
-            LMath.SinCos(out sin, out cos, rad);
+            FMath.SinCos(out sin, out cos, rad);
             return new FVector2(x * cos - y * sin, x * sin + y * cos);
         }
 
         public static FVector2 Min(FVector2 a, FVector2 b){
-            return new FVector2(true, LMath.Min(a._x, b._x), LMath.Min(a._y, b._y));
+            return new FVector2(true, FMath.Min(a._x, b._x), FMath.Min(a._y, b._y));
         }
 
         public static FVector2 Max(FVector2 a, FVector2 b){
-            return new FVector2(true, LMath.Max(a._x, b._x), LMath.Max(a._y, b._y));
+            return new FVector2(true, FMath.Max(a._x, b._x), FMath.Max(a._y, b._y));
         }
 
         public void Min(ref FVector2 r){
-            this._x = LMath.Min(this._x, r._x);
-            this._y = LMath.Min(this._y, r._y);
+            this._x = FMath.Min(this._x, r._x);
+            this._y = FMath.Min(this._y, r._y);
         }
 
         public void Max(ref FVector2 r){
-            this._x = LMath.Max(this._x, r._x);
-            this._y = LMath.Max(this._y, r._y);
+            this._x = FMath.Max(this._x, r._x);
+            this._y = FMath.Max(this._y, r._y);
         }
 
 
@@ -114,7 +114,7 @@ namespace Lockstep.Math {
                 return;
             }
 
-            long b = (long) LMath.Sqrt(num3);
+            long b = (long) FMath.Sqrt(num3);
             this._x = (int) (num * 1000L / b);
             this._y = (int) (num2 * 1000L / b);
         }
@@ -139,7 +139,7 @@ namespace Lockstep.Math {
             get {
                 long num = (long) this._x;
                 long num2 = (long) this._y;
-                return new FP(true, LMath.Sqrt(num * num + num2 * num2));
+                return new FP(true, FMath.Sqrt(num * num + num2 * num2));
             }
         }
 

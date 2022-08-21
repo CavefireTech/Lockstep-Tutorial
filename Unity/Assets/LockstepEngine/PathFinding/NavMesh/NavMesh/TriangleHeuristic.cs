@@ -43,7 +43,7 @@ namespace Lockstep.PathFinding {
             if ((dst2 = A_CA.dst2(B_CA)) < minDst2)
                 minDst2 = dst2;
 
-            return (FP) LMath.Sqrt(minDst2);
+            return (FP) FMath.Sqrt(minDst2);
         }
     }
 }

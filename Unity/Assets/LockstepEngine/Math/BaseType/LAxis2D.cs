@@ -1,5 +1,5 @@
 using Lockstep.Math;
-using static Lockstep.Math.LMath;
+using static Lockstep.Math.FMath;
 
 namespace Lockstep.Math
 {

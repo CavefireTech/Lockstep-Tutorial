@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Lockstep.Math;
-using static Lockstep.Math.LMath;
+using static Lockstep.Math.FMath;
 
 namespace Lockstep.Collision2D {
     public enum ECollisionEvent {
@@ -157,7 +157,7 @@ namespace Lockstep.Collision2D {
             var d2 = p3 - p2;
 
             var demo = Cross2D(d1, d2); //det
-            if (LMath.Abs(demo) < FP.EPSILON) //parallel
+            if (FMath.Abs(demo) < FP.EPSILON) //parallel
                 return FP.negOne;
 
             var t1 = Cross2D(d2, diff) / demo; // Cross2D(diff,-d2)
@@ -175,7 +175,7 @@ namespace Lockstep.Collision2D {
 
 
             var demo = Cross2D(d1, d2); //det
-            if (LMath.Abs(demo) < FP.EPSILON) //parallel
+            if (FMath.Abs(demo) < FP.EPSILON) //parallel
                 return FP.negOne;
 
             var t1 = Cross2D(d2, diff) / demo; // Cross2D(diff,-d2)
@@ -200,7 +200,7 @@ namespace Lockstep.Collision2D {
                 return false;
             }
             else {
-                discriminant = LMath.Sqrt(discriminant);
+                discriminant = FMath.Sqrt(discriminant);
                 var t1 = (-b - discriminant) / (2 * a);
                 var t2 = (-b + discriminant) / (2 * a);
                 if (t1 >= 0) {
@@ -268,12 +268,12 @@ namespace Lockstep.Collision2D {
             }
 
 //空间转换
-            var absX = LMath.Abs(FVector2.Dot(diff, new FVector2(up.y, -up.x)));
-            var absY = LMath.Abs(FVector2.Dot(diff, up));
+            var absX = FMath.Abs(FVector2.Dot(diff, new FVector2(up.y, -up.x)));
+            var absY = FMath.Abs(FVector2.Dot(diff, up));
             var size = sizeB;
             var radius = rA;
-            var x = LMath.Max(absX - size.x, FP.zero);
-            var y = LMath.Max(absY - size.y, FP.zero);
+            var x = FMath.Max(absX - size.x, FP.zero);
+            var y = FMath.Max(absY - size.y, FP.zero);
             return x * x + y * y < radius * radius;
         }
 
@@ -287,12 +287,12 @@ namespace Lockstep.Collision2D {
                 return false;
             }
 
-            var absUPX = LMath.Abs(upB.x); //abs(up dot aabb.right)
-            var absUPY = LMath.Abs(upB.y); //abs(right dot aabb.right)
+            var absUPX = FMath.Abs(upB.x); //abs(up dot aabb.right)
+            var absUPY = FMath.Abs(upB.y); //abs(right dot aabb.right)
             {
 //轴 投影 AABBx
                 var distX = absUPX * sizeB.y + absUPY * sizeB.x;
-                if (LMath.Abs(diff.x) > distX + sizeA.x) {
+                if (FMath.Abs(diff.x) > distX + sizeA.x) {
                     return false;
                 }
 
@@ -300,7 +300,7 @@ namespace Lockstep.Collision2D {
 //absUPX is abs(right dot aabb.up)
 //absUPY is abs(up dot aabb.up)
                 var distY = absUPY * sizeB.y + absUPX * sizeB.x;
-                if (LMath.Abs(diff.y) > distY + sizeA.y) {
+                if (FMath.Abs(diff.y) > distY + sizeA.y) {
                     return false;
                 }
             }
@@ -313,7 +313,7 @@ namespace Lockstep.Collision2D {
 //absUPY is abs(aabb.right dot right)
 //轴 投影 OBBx
                 var distX = absUPX * sizeA.y + absUPY * sizeA.x;
-                if (LMath.Abs(diffPObbX) > distX + sizeB.x) {
+                if (FMath.Abs(diffPObbX) > distX + sizeB.x) {
                     return false;
                 }
 
@@ -321,7 +321,7 @@ namespace Lockstep.Collision2D {
 //absUPY is abs(aabb.up dot up)
 //轴 投影 OBBy
                 var distY = absUPY * sizeA.y + absUPX * sizeA.x;
-                if (LMath.Abs(diffPObbY) > distY + sizeB.y) {
+                if (FMath.Abs(diffPObbY) > distY + sizeB.y) {
                     return false;
                 }
             }
@@ -343,18 +343,18 @@ namespace Lockstep.Collision2D {
             var rightB = new FVector2(upB.y, -upB.x);
             {
 //轴投影到 A.right
-                var BuProjAr = LMath.Abs(FVector2.Dot(upB, rightA));
-                var BrProjAr = LMath.Abs(FVector2.Dot(rightB, rightA));
-                var DiffProjAr = LMath.Abs(FVector2.Dot(diff, rightA));
+                var BuProjAr = FMath.Abs(FVector2.Dot(upB, rightA));
+                var BrProjAr = FMath.Abs(FVector2.Dot(rightB, rightA));
+                var DiffProjAr = FMath.Abs(FVector2.Dot(diff, rightA));
                 var distX = BuProjAr * sizeB.y + BrProjAr * sizeB.x;
                 if (DiffProjAr > distX + sizeA.x) {
                     return false;
                 }
 
 //轴投影到 A.up
-                var BuProjAu = LMath.Abs(FVector2.Dot(upB, upA));
-                var BrProjAu = LMath.Abs(FVector2.Dot(rightB, upA));
-                var DiffProjAu = LMath.Abs(FVector2.Dot(diff, upA));
+                var BuProjAu = FMath.Abs(FVector2.Dot(upB, upA));
+                var BrProjAu = FMath.Abs(FVector2.Dot(rightB, upA));
+                var DiffProjAu = FMath.Abs(FVector2.Dot(diff, upA));
                 var distY = BuProjAu * sizeB.y + BrProjAu * sizeB.x;
                 if (DiffProjAu > distY + sizeA.y) {
                     return false;
@@ -362,18 +362,18 @@ namespace Lockstep.Collision2D {
             }
             {
 //轴投影到 B.right
-                var AuProjBr = LMath.Abs(FVector2.Dot(upA, rightB));
-                var ArProjBr = LMath.Abs(FVector2.Dot(rightA, rightB));
-                var DiffProjBr = LMath.Abs(FVector2.Dot(diff, rightB));
+                var AuProjBr = FMath.Abs(FVector2.Dot(upA, rightB));
+                var ArProjBr = FMath.Abs(FVector2.Dot(rightA, rightB));
+                var DiffProjBr = FMath.Abs(FVector2.Dot(diff, rightB));
                 var distX = AuProjBr * sizeA.y + ArProjBr * sizeA.x;
                 if (DiffProjBr > distX + sizeB.x) {
                     return false;
                 }
 
 //轴投影到 B.right
-                var AuProjBu = LMath.Abs(FVector2.Dot(upA, upB));
-                var ArProjBu = LMath.Abs(FVector2.Dot(rightA, upB));
-                var DiffProjBu = LMath.Abs(FVector2.Dot(diff, upB));
+                var AuProjBu = FMath.Abs(FVector2.Dot(upA, upB));
+                var ArProjBu = FMath.Abs(FVector2.Dot(rightA, upB));
+                var DiffProjBu = FMath.Abs(FVector2.Dot(diff, upB));
                 var distY = AuProjBu * sizeA.y + ArProjBu * sizeA.x;
                 if (DiffProjBu > distY + sizeB.x) {
                     return false;
@@ -396,14 +396,14 @@ namespace Lockstep.Collision2D {
                 return false;
             }
 
-            var absX = LMath.Abs(diff.x);
-            var absY = LMath.Abs(diff.y);
+            var absX = FMath.Abs(diff.x);
+            var absY = FMath.Abs(diff.y);
 
 //AABB & circle
             var size = sizeB;
             var radius = rA;
-            var x = LMath.Max(absX - size.x, FP.zero);
-            var y = LMath.Max(absY - size.y, FP.zero);
+            var x = FMath.Max(absX - size.x, FP.zero);
+            var y = FMath.Max(absY - size.y, FP.zero);
             return x * x + y * y < radius * radius;
         }
 
@@ -416,8 +416,8 @@ namespace Lockstep.Collision2D {
                 return false;
             }
 
-            var absX = LMath.Abs(diff.x);
-            var absY = LMath.Abs(diff.y);
+            var absX = FMath.Abs(diff.x);
+            var absY = FMath.Abs(diff.y);
 
 //AABB and AABB
             var allSize = sizeA + sizeB;
@@ -465,10 +465,10 @@ namespace Lockstep.Collision2D {
             var maxY = polygon[0]._y;
             for (int i = 1; i < polygon.Length; i++) {
                 FVector2 q = polygon[i];
-                minX = LMath.Min(q._x, minX);
-                maxX = LMath.Max(q._x, maxX);
-                minY = LMath.Min(q._y, minY);
-                maxY = LMath.Max(q._y, maxY);
+                minX = FMath.Min(q._x, minX);
+                maxX = FMath.Max(q._x, maxX);
+                minY = FMath.Min(q._y, minY);
+                maxY = FMath.Max(q._y, maxY);
             }
 
             if (p._x < minX || p._x > maxX || p._y < minY || p._y > maxY) {

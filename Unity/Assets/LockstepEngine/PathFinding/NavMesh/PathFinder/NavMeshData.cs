@@ -38,8 +38,8 @@ namespace Lockstep.PathFinding {
             amendmentSameVector(pathTriangles, pathVertices);
             scaleVector(pathVertices, scale);
 
-            this.width = LMath.Abs(this.getEndX() - this.getStartX());
-            this.height = LMath.Abs(this.getEndZ() - this.getStartZ());
+            this.width = FMath.Abs(this.getEndX() - this.getStartX());
+            this.height = FMath.Abs(this.getEndZ() - this.getStartZ());
         }
 
         /**

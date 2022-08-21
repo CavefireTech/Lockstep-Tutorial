@@ -14,33 +14,33 @@ namespace Lockstep.Collision2D {
             get {
                 FP s, c;
                 var ccwDeg = (-rot + 90);
-                LMath.SinCos(out s, out c, LMath.Deg2Rad * ccwDeg);
+                FMath.SinCos(out s, out c, FMath.Deg2Rad * ccwDeg);
                 return new FVector2(c, s);
             }
-            set => rot = ToDeg(value);
+            set => rot = ToRot(value);
         }
 
-        public static FP ToDeg(FVector2 value){
-            var ccwDeg = LMath.Atan2(value.y, value.x) * LMath.Rad2Deg;
-            var deg = 90 - ccwDeg;
+        public static FP ToRot(FVector2 value){
+            var ccwRot = FMath.Atan2(value.y, value.x) * FMath.Rad2Deg;
+            var deg = 90 - ccwRot;
             return AbsDeg(deg);
         }
 
         public static FP TurnToward(FVector2 targetPos, FVector2 currentPos, FP cursDeg, FP turnVal,
             out bool isLessDeg){
             var toTarget = (targetPos - currentPos).normalized;
-            var toDeg = CTransform2D.ToDeg(toTarget);
+            var toDeg = CTransform2D.ToRot(toTarget);
             return TurnToward(toDeg, cursDeg, turnVal, out isLessDeg);
         }
 
-        public static FP TurnToward(FP toDeg, FP cursDeg, FP turnVal,
+        public static FP TurnToward(FP toRot, FP cursRot, FP turnVal,
             out bool isLessDeg){
-            var curDeg = CTransform2D.AbsDeg(cursDeg);
-            var diff = toDeg - curDeg;
-            var absDiff = LMath.Abs(diff);
+            var curRot = CTransform2D.AbsDeg(cursRot);
+            var diff = toRot - curRot;
+            var absDiff = FMath.Abs(diff);
             isLessDeg = absDiff < turnVal;
             if (isLessDeg) {
-                return toDeg;
+                return toRot;
             }
             else {
                 if (absDiff > 180) {
@@ -52,7 +52,7 @@ namespace Lockstep.Collision2D {
                     }
                 }
 
-                return curDeg + turnVal * LMath.Sign(diff);
+                return curRot + turnVal * FMath.Sign(diff);
             }
         }
 

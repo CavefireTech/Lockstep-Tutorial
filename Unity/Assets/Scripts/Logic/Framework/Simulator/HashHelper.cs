@@ -24,7 +24,7 @@ namespace Lockstep.Game {
         public void CheckAndSendHashCodes(){
             //only sends the hashCodes whose FrameInputs was checked
             if (_cmdBuffer.NextTickToCheck > _firstHashTick) {
-                var count = LMath.Min(_allHashCodes.Count, (int) (_cmdBuffer.NextTickToCheck - _firstHashTick),
+                var count = FMath.Min(_allHashCodes.Count, (int) (_cmdBuffer.NextTickToCheck - _firstHashTick),
                     (480 / 4));
                 if (count > 0) {
                     _networkService.SendHashCodes(_firstHashTick, _allHashCodes, 0, count);

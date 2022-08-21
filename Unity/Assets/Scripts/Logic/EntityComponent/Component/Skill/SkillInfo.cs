@@ -47,7 +47,7 @@ namespace Lockstep.Game {
         public List<SkillPart> parts = new List<SkillPart>();
 
         public void DoInit(){
-            parts.Sort((a, b) => LMath.Sign(a.startFrame - b.startFrame));
+            parts.Sort((a, b) => FMath.Sign(a.startFrame - b.startFrame));
             var time = FP.MinValue;
             foreach (var part in parts) {
                 var partDeadTime = part.DeadTimer;

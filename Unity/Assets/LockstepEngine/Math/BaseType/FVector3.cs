@@ -92,7 +92,7 @@ namespace Lockstep.Math
                 long x = (long) this._x;
                 long y = (long) this._y;
                 long z = (long) this._z;
-                return new FP(true,LMath.Sqrt(x * x + y * y + z * z));
+                return new FP(true,FMath.Sqrt(x * x + y * y + z * z));
             }
         }
 
@@ -110,7 +110,7 @@ namespace Lockstep.Math
 
         public FVector3 abs
         {
-            get { return new FVector3(true,LMath.Abs(this._x), LMath.Abs(this._y), LMath.Abs(this._z)); }
+            get { return new FVector3(true,FMath.Abs(this._x), FMath.Abs(this._y), FMath.Abs(this._z)); }
         }
 
         public FVector3 Normalize()
@@ -129,7 +129,7 @@ namespace Lockstep.Math
                 return this;
             }
 
-            long b = (long) LMath.Sqrt(num4);
+            long b = (long) FMath.Sqrt(num4);
             long num5 = newMagn._val;
             this._x = (int) (num * num5 / b);
             this._y = (int) (num2 * num5 / b);
@@ -151,7 +151,7 @@ namespace Lockstep.Math
                 }
 
                 var ret = new FVector3();
-                long b = (long) LMath.Sqrt(num4);
+                long b = (long) FMath.Sqrt(num4);
                 long num5 = FP.Precision;
                 ret._x = (int) (num * num5 / b);
                 ret._y = (int) (num2 * num5 / b);
@@ -164,7 +164,7 @@ namespace Lockstep.Math
         {
             FP s;
             FP c;
-            LMath.SinCos(out s, out c, new FP(true,degree._val * 31416L / 1800000L));
+            FMath.SinCos(out s, out c, new FP(true,degree._val * 31416L / 1800000L));
             FVector3 vInt;
             vInt._x = (int) (((long) this._x * s._val + (long) this._z * c._val) / FP.Precision);
             vInt._z = (int) (((long) this._x * -c._val + (long) this._z * s._val) / FP.Precision);

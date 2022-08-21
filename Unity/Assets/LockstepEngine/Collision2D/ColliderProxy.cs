@@ -61,7 +61,7 @@ namespace Lockstep.Collision2D {
             }
 
             var curDeg = Transform2D.rot;
-            if (LMath.Abs(curDeg - _preDeg) > DegGap) {
+            if (FMath.Abs(curDeg - _preDeg) > DegGap) {
                 _preDeg = curDeg;
                 IsMoved = true;
             }

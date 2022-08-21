@@ -32,20 +32,20 @@ namespace Lockstep.Math {
         }
         public static FVector2 ToLVector2(this Vector2 vec){
             return new FVector2(
-                LMath.ToLFloat(vec.x),
-                LMath.ToLFloat(vec.y));
+                FMath.ToLFloat(vec.x),
+                FMath.ToLFloat(vec.y));
         }
 
         public static FVector3 ToLVector3(this Vector3 vec){
             return new FVector3(
-                LMath.ToLFloat(vec.x),
-                LMath.ToLFloat(vec.y),
-                LMath.ToLFloat(vec.z));
+                FMath.ToLFloat(vec.x),
+                FMath.ToLFloat(vec.y),
+                FMath.ToLFloat(vec.z));
         }
         public static FVector2 ToLVector2XZ(this Vector3 vec){
             return new FVector2(
-                LMath.ToLFloat(vec.x),
-                LMath.ToLFloat(vec.z));
+                FMath.ToLFloat(vec.x),
+                FMath.ToLFloat(vec.z));
         }
         public static Vector2 ToVector2(this FVector2 vec){
             return new Vector2(vec.x.ToFloat(), vec.y.ToFloat());

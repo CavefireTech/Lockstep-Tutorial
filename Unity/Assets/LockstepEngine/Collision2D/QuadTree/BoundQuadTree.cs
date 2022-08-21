@@ -87,7 +87,7 @@ namespace Lockstep.Collision2D {
             Count = 0;
             initialSize = initialWorldSize;
             minSize = minNodeSize;
-            looseness = LMath.Clamp(loosenessVal, 1.ToLFloat(), 2.ToLFloat());
+            looseness = FMath.Clamp(loosenessVal, 1.ToLFloat(), 2.ToLFloat());
             rootNode = new BoundsQuadTreeNode(null, initialSize, minSize, looseness, initialWorldPos);
         }
 

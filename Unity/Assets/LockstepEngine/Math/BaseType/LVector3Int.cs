@@ -33,7 +33,7 @@ namespace Lockstep.Math {
                 return a <= b ? b : a;
             }  
             public static FP Sqrt(FP val){
-                return Lockstep.Math.LMath.Sqrt(val);
+                return Lockstep.Math.FMath.Sqrt(val);
             }
         }
 
@@ -187,12 +187,12 @@ namespace Lockstep.Math {
         /// <param name="min"></param>
         /// <param name="max"></param>
         public void Clamp(LVector3Int min, LVector3Int max){
-            this.x = LMath.Max(min.x, this.x);
-            this.x = LMath.Min(max.x, this.x);
-            this.y = LMath.Max(min.y, this.y);
-            this.y = LMath.Min(max.y, this.y);
-            this.z = LMath.Max(min.z, this.z);
-            this.z = LMath.Min(max.z, this.z);
+            this.x = FMath.Max(min.x, this.x);
+            this.x = FMath.Min(max.x, this.x);
+            this.y = FMath.Max(min.y, this.y);
+            this.y = FMath.Min(max.y, this.y);
+            this.z = FMath.Max(min.z, this.z);
+            this.z = FMath.Min(max.z, this.z);
         }
 
         public static explicit operator LVector2Int(LVector3Int v){

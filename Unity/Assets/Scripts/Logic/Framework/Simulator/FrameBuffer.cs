@@ -59,7 +59,7 @@ namespace Lockstep.Game {
                         var preSend = _cmdBuffer._maxPing * 1.0f / NetworkDefine.UPDATE_DELTATIME;
                         _targetPreSendTick = _targetPreSendTick * _oldPercent + preSend * (1 - _oldPercent);
 
-                        var targetPreSendTick = LMath.Clamp((int) System.Math.Ceiling(_targetPreSendTick), 1, 60);
+                        var targetPreSendTick = FMath.Clamp((int) System.Math.Ceiling(_targetPreSendTick), 1, 60);
 #if UNITY_EDITOR
                         //if (targetPreSendTick != _simulatorService.PreSendInputCount) 
                         {
@@ -78,7 +78,7 @@ namespace Lockstep.Game {
                     var delayTick = _simulatorService.TargetTick - missTick;
                     var targetPreSendTick =
                         _simulatorService.PreSendInputCount + (int) System.Math.Ceiling(delayTick * _incPercent);
-                    targetPreSendTick = LMath.Clamp(targetPreSendTick, 1, 60);
+                    targetPreSendTick = FMath.Clamp(targetPreSendTick, 1, 60);
 #if UNITY_EDITOR
                     Debug.LogWarning(
                         $"Expend preSend buffer old:{_simulatorService.PreSendInputCount} new:{targetPreSendTick}");
@@ -273,9 +273,9 @@ namespace Lockstep.Game {
             _pingTimer += deltaTime;
             if (_pingTimer > 0.5f) {
                 _pingTimer = 0;
-                DelayVal = (int) (_delays.Sum() / LMath.Max(_delays.Count, 1));
+                DelayVal = (int) (_delays.Sum() / FMath.Max(_delays.Count, 1));
                 _delays.Clear();
-                PingVal = (int) (_pings.Sum() / LMath.Max(_pings.Count, 1));
+                PingVal = (int) (_pings.Sum() / FMath.Max(_pings.Count, 1));
                 _pings.Clear();
 
                 if (_minPing < _historyMinPing && _simulatorService._gameStartTimestampMs != -1) {
@@ -284,7 +284,7 @@ namespace Lockstep.Game {
                     Debug.LogWarning(
                         $"Recalc _gameStartTimestampMs {_simulatorService._gameStartTimestampMs} _guessServerStartTimestamp:{_guessServerStartTimestamp}");
 #endif
-                    _simulatorService._gameStartTimestampMs = LMath.Min(_guessServerStartTimestamp,
+                    _simulatorService._gameStartTimestampMs = FMath.Min(_guessServerStartTimestamp,
                         _simulatorService._gameStartTimestampMs);
                 }
 

@@ -146,7 +146,7 @@ namespace Lockstep.Game {
 
         public void JumpTo(int tick){
             if (tick + 1 == _world.Tick || tick == _world.Tick) return;
-            tick = LMath.Min(tick, _videoFrames.frames.Length - 1);
+            tick = FMath.Min(tick, _videoFrames.frames.Length - 1);
             var time = LTime.realtimeSinceStartupMS + 0.05f;
             if (!_isInitVideo) {
                 _constStateService.IsVideoLoading = true;

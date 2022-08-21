@@ -19,7 +19,7 @@ namespace Lockstep.PathFinding {
             var abLen2 = abX * abX + abY * abY + abZ * abZ;
             if (abLen2 > 0) { // Avoid NaN due to the indeterminate form 0/0
                 var t = ((point.x - start.x) * abX + (point.y - start.y) * abY + (point.z - start.z) * abZ) / abLen2;
-                var s = LMath.Clamp01(t);
+                var s = FMath.Clamp01(t);
                 nearest.x += abX * s;
                 nearest.y += abY * s;
                 nearest.z += abZ * s;
@@ -161,7 +161,7 @@ namespace Lockstep.PathFinding {
         }
 
         public static bool IsZero(FP value){
-            return LMath.Abs(value) <= GeometryUtil.FLOAT_ROUNDING_ERROR;
+            return FMath.Abs(value) <= GeometryUtil.FLOAT_ROUNDING_ERROR;
         }
     }
 }

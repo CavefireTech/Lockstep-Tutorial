@@ -1,7 +1,7 @@
 ﻿
 namespace Lockstep.Math
 {
-    public static partial class LMath
+    public static partial class FMath
     {
         public static readonly FP PIHalf = new FP(true,1571);
         public static readonly FP PI = new FP(true,3142);
@@ -157,7 +157,7 @@ namespace Lockstep.Math
                 return 0;
             }
 
-            return (int) LMath.Sqrt32((uint) a);
+            return (int) FMath.Sqrt32((uint) a);
         }
 
         public static int Sqrt(long a)
@@ -169,10 +169,10 @@ namespace Lockstep.Math
 
             if (a <= (long) (0xffffffffu))
             {
-                return (int) LMath.Sqrt32((uint) a);
+                return (int) FMath.Sqrt32((uint) a);
             }
 
-            return (int) LMath.Sqrt64((ulong) a);
+            return (int) FMath.Sqrt64((ulong) a);
         }
 
         public static FP Sqrt(FP a)

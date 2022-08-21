@@ -172,8 +172,8 @@ namespace Lockstep.UnsafeCollision2D {
         public static FVector2 NormalizedToPoint(
             LRect rectangle,
             FVector2 normalizedRectCoordinates){
-            return new FVector2(LMath.Lerp(rectangle.x, rectangle.xMax, normalizedRectCoordinates.x),
-                LMath.Lerp(rectangle.y, rectangle.yMax, normalizedRectCoordinates.y));
+            return new FVector2(FMath.Lerp(rectangle.x, rectangle.xMax, normalizedRectCoordinates.x),
+                FMath.Lerp(rectangle.y, rectangle.yMax, normalizedRectCoordinates.y));
         }
 
 

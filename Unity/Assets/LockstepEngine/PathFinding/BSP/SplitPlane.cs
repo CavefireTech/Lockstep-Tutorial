@@ -53,11 +53,11 @@ namespace Lockstep.PathFinding {
             var diff = p2 - p0;
             var d1 = p1 - p0;
             var d2 = p3 - p2;
-            var demo = LMath.Cross2D(d1, d2); //det
-            if (LMath.Abs(demo) < FP.EPSILON) //parallel
+            var demo = FMath.Cross2D(d1, d2); //det
+            if (FMath.Abs(demo) < FP.EPSILON) //parallel
                 return p0;
 
-            var t1 = LMath.Cross2D(diff, d2) / demo; // Cross2D(diff,-d2)
+            var t1 = FMath.Cross2D(diff, d2) / demo; // Cross2D(diff,-d2)
             return p0 + (p1 - p0) * t1;
         }
     }

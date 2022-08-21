@@ -4,7 +4,7 @@ using static Lockstep.Math.FVector3;
 
 namespace Lockstep.Math
 {
-    public static partial class LMath
+    public static partial class FMath
     {
         public static FVector3 Transform(ref FVector3 point, ref FVector3 axis_x, ref FVector3 axis_y, ref FVector3 axis_z,
             ref FVector3 trans)
@@ -43,21 +43,21 @@ namespace Lockstep.Math
         {
             FVector3 up = FVector3.up;
             FVector3 vInt = Cross(FVector3.up, forward);
-            return LMath.Transform(ref point, ref vInt, ref up, ref forward, ref trans);
+            return FMath.Transform(ref point, ref vInt, ref up, ref forward, ref trans);
         }
 
         public static FVector3 Transform(FVector3 point, FVector3 forward, FVector3 trans)
         {
             FVector3 up = FVector3.up;
             FVector3 vInt = Cross(FVector3.up, forward);
-            return LMath.Transform(ref point, ref vInt, ref up, ref forward, ref trans);
+            return FMath.Transform(ref point, ref vInt, ref up, ref forward, ref trans);
         }
 
         public static FVector3 Transform(FVector3 point, FVector3 forward, FVector3 trans, FVector3 scale)
         {
             FVector3 up = FVector3.up;
             FVector3 vInt = Cross(FVector3.up, forward);
-            return LMath.Transform(ref point, ref vInt, ref up, ref forward, ref trans, ref scale);
+            return FMath.Transform(ref point, ref vInt, ref up, ref forward, ref trans, ref scale);
         }
 
         public static FVector3 MoveTowards(FVector3 from, FVector3 to, FP dt)
@@ -73,7 +73,7 @@ namespace Lockstep.Math
 
         public static FP AngleInt(FVector3 lhs, FVector3 rhs)
         {
-            return LMath.Acos(Dot(lhs, rhs));
+            return FMath.Acos(Dot(lhs, rhs));
         }
 
         

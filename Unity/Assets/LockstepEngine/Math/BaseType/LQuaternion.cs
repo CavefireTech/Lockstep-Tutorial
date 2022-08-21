@@ -75,7 +75,7 @@ namespace LockStepLMath {
         public FVector3 eulerAngles {
             get {
                 LMatrix33 m = QuaternionToMatrix(this);
-                return (180 / LMath.PI * MatrixToEuler(m));
+                return (180 / FMath.PI * MatrixToEuler(m));
             }
             set { this = Euler(value); }
         }
@@ -92,7 +92,7 @@ namespace LockStepLMath {
         /// <returns></returns>
         public static FP Angle(LQuaternion a, LQuaternion b){
             FP single = Dot(a, b);
-            return LMath.Acos(LMath.Min(LMath.Abs(single), FP.one)) * 2 * (180 / LMath.PI);
+            return FMath.Acos(FMath.Min(FMath.Abs(single), FP.one)) * 2 * (180 / FMath.PI);
         }
 
         /// <summary>
@@ -103,14 +103,14 @@ namespace LockStepLMath {
         /// <returns></returns>
         public static LQuaternion AngleAxis(FP angle, FVector3 axis){
             axis = axis.normalized;
-            angle = angle * LMath.Deg2Rad;
+            angle = angle * FMath.Deg2Rad;
 
             LQuaternion q = new LQuaternion();
 
             FP halfAngle = angle * FP.half;
-            FP s = LMath.Sin(halfAngle);
+            FP s = FMath.Sin(halfAngle);
 
-            q.w = LMath.Cos(halfAngle);
+            q.w = FMath.Cos(halfAngle);
             q.x = s * axis.x;
             q.y = s * axis.y;
             q.z = s * axis.z;
@@ -145,14 +145,14 @@ namespace LockStepLMath {
         /// <param name="z"></param>
         /// <returns></returns>
         public static LQuaternion Euler(FP x, FP y, FP z){
-            FP cX = LMath.Cos(x * LMath.PI / 360);
-            FP sX = LMath.Sin(x * LMath.PI / 360);
+            FP cX = FMath.Cos(x * FMath.PI / 360);
+            FP sX = FMath.Sin(x * FMath.PI / 360);
 
-            FP cY = LMath.Cos(y * LMath.PI / 360);
-            FP sY = LMath.Sin(y * LMath.PI / 360);
+            FP cY = FMath.Cos(y * FMath.PI / 360);
+            FP sY = FMath.Sin(y * FMath.PI / 360);
 
-            FP cZ = LMath.Cos(z * LMath.PI / 360);
-            FP sZ = LMath.Sin(z * LMath.PI / 360);
+            FP cZ = FMath.Cos(z * FMath.PI / 360);
+            FP sZ = FMath.Sin(z * FMath.PI / 360);
 
             LQuaternion qX = new LQuaternion(sX, FP.zero, FP.zero, cX);
             LQuaternion qY = new LQuaternion(FP.zero, sY, FP.zero, cY);
@@ -223,7 +223,7 @@ namespace LockStepLMath {
                     a.w + t * (b.w - a.w));
             }
 
-            FP nor = LMath.Sqrt(Dot(tmpQuat, tmpQuat));
+            FP nor = FMath.Sqrt(Dot(tmpQuat, tmpQuat));
             return new LQuaternion(tmpQuat.x / nor, tmpQuat.y / nor, tmpQuat.z / nor, tmpQuat.w / nor);
         }
 
@@ -262,7 +262,7 @@ namespace LockStepLMath {
                 result = to;
             }
             else {
-                FP t = LMath.Min(FP.one, maxDegreesDelta / num);
+                FP t = FMath.Min(FP.one, maxDegreesDelta / num);
                 result = LQuaternion.SlerpUnclamped(from, to, t);
             }
 
@@ -308,11 +308,11 @@ namespace LockStepLMath {
 
 
             if (dot < 1) {
-                FP angle = LMath.Acos(dot);
+                FP angle = FMath.Acos(dot);
                 FP sinadiv, sinat, sinaomt;
-                sinadiv = 1 / LMath.Sin(angle);
-                sinat = LMath.Sin(angle * t);
-                sinaomt = LMath.Sin(angle * (1 - t));
+                sinadiv = 1 / FMath.Sin(angle);
+                sinat = FMath.Sin(angle * t);
+                sinaomt = FMath.Sin(angle * (1 - t));
                 tmpQuat.Set((q1.x * sinaomt + tmpQuat.x * sinat) * sinadiv,
                     (q1.y * sinaomt + tmpQuat.y * sinat) * sinadiv,
                     (q1.z * sinaomt + tmpQuat.z * sinat) * sinadiv,
@@ -370,15 +370,15 @@ namespace LockStepLMath {
         /// <param name="angle"></param>
         /// <param name="axis"></param>
         public void ToAngleAxis(out FP angle, out FVector3 axis){
-            angle = 2 * LMath.Acos(w);
+            angle = 2 * FMath.Acos(w);
             if (angle == 0) {
                 axis = FVector3.right;
                 return;
             }
 
-            FP div = 1 / LMath.Sqrt(1 - w * w);
+            FP div = 1 / FMath.Sqrt(1 - w * w);
             axis = new FVector3(x * div, y * div, z * div);
-            angle = angle * 180 / LMath.PI;
+            angle = angle * 180 / FMath.PI;
         }
 
         public override string ToString(){
@@ -402,28 +402,28 @@ namespace LockStepLMath {
             FVector3 v = new FVector3();
             if (m[1, 2] < 1) {
                 if (m[1, 2] > -1) {
-                    v.x = LMath.Asin(-m[1, 2]);
-                    v.y = LMath.Atan2(m[0, 2], m[2, 2]);
-                    v.z = LMath.Atan2(m[1, 0], m[1, 1]);
+                    v.x = FMath.Asin(-m[1, 2]);
+                    v.y = FMath.Atan2(m[0, 2], m[2, 2]);
+                    v.z = FMath.Atan2(m[1, 0], m[1, 1]);
                 }
                 else {
-                    v.x = LMath.PI * FP.half;
-                    v.y = LMath.Atan2(m[0, 1], m[0, 0]);
+                    v.x = FMath.PI * FP.half;
+                    v.y = FMath.Atan2(m[0, 1], m[0, 0]);
                     v.z = (FP) 0;
                 }
             }
             else {
-                v.x = -LMath.PI * FP.half;
-                v.y = LMath.Atan2(-m[0, 1], m[0, 0]);
+                v.x = -FMath.PI * FP.half;
+                v.y = FMath.Atan2(-m[0, 1], m[0, 0]);
                 v.z = (FP) 0;
             }
 
             for (int i = 0; i < 3; i++) {
                 if (v[i] < 0) {
-                    v[i] += LMath.PI2;
+                    v[i] += FMath.PI2;
                 }
-                else if (v[i] > LMath.PI2) {
-                    v[i] -= LMath.PI2;
+                else if (v[i] > FMath.PI2) {
+                    v[i] -= FMath.PI2;
                 }
             }
 
@@ -468,7 +468,7 @@ namespace LockStepLMath {
             FP root;
 
             if (fTrace > 0) {
-                root = LMath.Sqrt(fTrace + 1);
+                root = FMath.Sqrt(fTrace + 1);
                 quat.w = FP.half * root;
                 root = FP.half / root;
                 quat.x = (m[2, 1] - m[1, 2]) * root;
@@ -489,7 +489,7 @@ namespace LockStepLMath {
                 int j = s_iNext[i];
                 int k = s_iNext[j];
 
-                root = LMath.Sqrt(m[i, i] - m[j, j] - m[k, k] + 1);
+                root = FMath.Sqrt(m[i, i] - m[j, j] - m[k, k] + 1);
                 if (root < 0) {
                     throw new IndexOutOfRangeException("error!");
                 }
@@ -501,7 +501,7 @@ namespace LockStepLMath {
                 quat[k] = (m[k, i] + m[i, k]) * root;
             }
 
-            FP nor = LMath.Sqrt(Dot(quat, quat));
+            FP nor = FMath.Sqrt(Dot(quat, quat));
             quat = new LQuaternion(quat.x / nor, quat.y / nor, quat.z / nor, quat.w / nor);
 
             return quat;
