@@ -22,7 +22,7 @@ namespace Lockstep.Collision2D {
             float tintVal = depth / 7; // Will eventually get values > 1. Color rounds to 1 automatically
             Gizmos.color = new Color(tintVal, 0, 1.0f - tintVal);
 
-            LRect thisBounds = CreateLRect(Center, new FVector2(adjLength, adjLength));
+            FRect thisBounds = CreateLRect(Center, new FVector2(adjLength, adjLength));
             Gizmos.DrawWireCube(thisBounds.center.ToLVector3().ToVector3(), thisBounds.size.ToLVector3().ToVector3());
 
             if (children != null) {
@@ -67,7 +67,7 @@ namespace Lockstep.Collision2D {
 #if UNITY_EDITOR
         public void DrawCollisionChecks(){
             int count = 0;
-            foreach (LRect collisionCheck in lastBoundsCollisionChecks) {
+            foreach (FRect collisionCheck in lastBoundsCollisionChecks) {
                 Gizmos.color = new Color(1.0f, 1.0f - ((float) count / numCollisionsToSave), 1.0f);
                 Gizmos.DrawCube(collisionCheck.center.ToLVector3().ToVector3(), collisionCheck.size.ToLVector3().ToVector3());
                 count++;
@@ -91,7 +91,7 @@ namespace Lockstep.Collision2D {
         /// </summary>
         /// <param name="checkBounds">bounds that were passed in to check for collisions.</param>
 #if UNITY_EDITOR
-        void AddCollisionCheck(LRect checkBounds){
+        void AddCollisionCheck(FRect checkBounds){
             lastBoundsCollisionChecks.Enqueue(checkBounds);
             if (lastBoundsCollisionChecks.Count > numCollisionsToSave) {
                 lastBoundsCollisionChecks.Dequeue();

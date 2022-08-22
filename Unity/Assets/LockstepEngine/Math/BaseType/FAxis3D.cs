@@ -3,14 +3,14 @@ using static Lockstep.Math.FVector3;
 
 namespace Lockstep.Math
 {
-    public struct LAxis3D
+    public struct FAxis3D
     {
         public FVector3 x;
         public FVector3 y;
         public FVector3 z;
-        public static readonly LAxis3D identity = new LAxis3D(FVector3.right, FVector3.up, FVector3.forward);
+        public static readonly FAxis3D identity = new FAxis3D(FVector3.right, FVector3.up, FVector3.forward);
 
-        public LAxis3D(FVector3 right, FVector3 up, FVector3 forward)
+        public FAxis3D(FVector3 right, FVector3 up, FVector3 forward)
         {
             this.x = right;
             this.y = up;

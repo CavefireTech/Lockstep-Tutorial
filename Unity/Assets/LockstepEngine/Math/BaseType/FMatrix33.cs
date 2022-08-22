@@ -4,12 +4,12 @@ using System;
 
 namespace Lockstep.Math
 {
-    public struct LMatrix33 : IEquatable<LMatrix33>
+    public struct FMatrix33 : IEquatable<FMatrix33>
     {
-        public static readonly LMatrix33
-            zero = new LMatrix33(FVector3.zero, FVector3.zero, FVector3.zero);
+        public static readonly FMatrix33
+            zero = new FMatrix33(FVector3.zero, FVector3.zero, FVector3.zero);
 
-        public static readonly LMatrix33 identity = new LMatrix33(new FVector3(true,FP.Precision, 0, 0),
+        public static readonly FMatrix33 identity = new FMatrix33(new FVector3(true,FP.Precision, 0, 0),
             new FVector3(true,0, FP.Precision, 0), new FVector3(true,0, 0, FP.Precision));
 
         // mRowCol  列优先存储
@@ -23,7 +23,7 @@ namespace Lockstep.Math
         public int m12;
         public int m22;
 
-        public LMatrix33(FVector3 column0, FVector3 column1, FVector3 column2)
+        public FMatrix33(FVector3 column0, FVector3 column1, FVector3 column2)
         {
             this.m00 = column0._x;
             this.m01 = column1._x;
@@ -116,21 +116,21 @@ namespace Lockstep.Math
 
         public override bool Equals(object other)
         {
-            if (!(other is LMatrix33))
+            if (!(other is FMatrix33))
                 return false;
-            return this.Equals((LMatrix33) other);
+            return this.Equals((FMatrix33) other);
         }
 
-        public bool Equals(LMatrix33 other)
+        public bool Equals(FMatrix33 other)
         {
             return this.GetColumn(0).Equals(other.GetColumn(0))
                    && this.GetColumn(1).Equals(other.GetColumn(1))
                    && this.GetColumn(2).Equals(other.GetColumn(2));
         }
 
-        public static LMatrix33 operator *(LMatrix33 lhs, LMatrix33 rhs)
+        public static FMatrix33 operator *(FMatrix33 lhs, FMatrix33 rhs)
         {
-            LMatrix33 mat;
+            FMatrix33 mat;
             mat.m00 = (int) (((long) lhs.m00 * (long) rhs.m00 + (long) lhs.m01 * (long) rhs.m10 +
                               (long) lhs.m02 * (long) rhs.m20) / FP.Precision);
             mat.m01 = (int) (((long) lhs.m00 * (long) rhs.m01 + (long) lhs.m01 * (long) rhs.m11 +
@@ -152,7 +152,7 @@ namespace Lockstep.Math
             return mat;
         }
 
-        public static FVector3 operator *(LMatrix33 lhs, FVector3 vector3)
+        public static FVector3 operator *(FMatrix33 lhs, FVector3 vector3)
         {
             FVector3 vec;
             vec._x = (int) (((long) lhs.m00 * (long) vector3.x + (long) lhs.m01 * (long) vector3.y +
@@ -164,13 +164,13 @@ namespace Lockstep.Math
             return vec;
         }
 
-        public static bool operator ==(LMatrix33 lhs, LMatrix33 rhs)
+        public static bool operator ==(FMatrix33 lhs, FMatrix33 rhs)
         {
             return lhs.GetColumn(0) == rhs.GetColumn(0) && lhs.GetColumn(1) == rhs.GetColumn(1) &&
                    lhs.GetColumn(2) == rhs.GetColumn(2);
         }
 
-        public static bool operator !=(LMatrix33 lhs, LMatrix33 rhs)
+        public static bool operator !=(FMatrix33 lhs, FMatrix33 rhs)
         {
             return !(lhs == rhs);
         }

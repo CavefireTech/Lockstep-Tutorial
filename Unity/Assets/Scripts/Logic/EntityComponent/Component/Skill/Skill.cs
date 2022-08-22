@@ -108,7 +108,7 @@ namespace Lockstep.Game {
                 foreach (var part in Parts) { }
 
                 if (CurPart != null && CurPart.moveSpd != 0) {
-                    entity.transform.pos += CurPart.moveSpd * deltaTime * entity.transform.up;
+                    entity.transform.position += CurPart.moveSpd * deltaTime * entity.transform.up;
                 }
             }
             else {
@@ -153,7 +153,7 @@ namespace Lockstep.Game {
             if (col.radius > 0) {
                 var colPos = entity.transform.TransformPoint(col.pos);
                 foreach (var e in entity.GameStateService.GetEnemies()) {
-                    var targetCenter = e.transform.pos;
+                    var targetCenter = e.transform.position;
                     if ((targetCenter - colPos).sqrMagnitude < col.radius * col.radius) {
                         _tempEntities.Add(e);
                     }
@@ -161,7 +161,7 @@ namespace Lockstep.Game {
             }
 #endif
             foreach (var other in _tempEntities) {
-                other.TakeDamage(entity, CurPart.damage, other.transform.pos.ToLVector3());
+                other.TakeDamage(entity, CurPart.damage, other.transform.position.ToLVector3());
             }
 
             //add force
@@ -190,7 +190,7 @@ namespace Lockstep.Game {
         //private static readonly HashSet<Entity> _tempEntities = new HashSet<Entity>();
         private void _OnTriggerEnter(ColliderProxy other){
             if (CurPart.collider.IsCircle && CurPart.collider.deg > 0) {
-                var deg = (other.Transform2D.pos - entity.transform.pos).ToDeg();
+                var deg = (other.Transform2D.position - entity.transform.position).ToRot();
                 var degDiff = entity.transform.rot.Abs() - deg;
                 if (FMath.Abs(degDiff) <= CurPart.collider.deg) {
                     _tempEntities.Add(other.Entity);

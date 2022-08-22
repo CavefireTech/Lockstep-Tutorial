@@ -68,18 +68,41 @@ namespace Lockstep.Math {
         }
 
 
-        /// <summary>
-        /// clockwise 顺时针旋转  
-        /// 1表示顺时针旋转 90 degree
-        /// 2表示顺时针旋转 180 degree
-        /// </summary>
-        public static FVector2 Rotate(FVector2 v, int r){
-            r %= 4;
-            return new FVector2(true,
-                v._x * FVector2.Rotations[r * 4] + v._y * FVector2.Rotations[r * 4 + 1],
-                v._x * FVector2.Rotations[r * 4 + 2] + v._y * FVector2.Rotations[r * 4 + 3]);
+        // /// <summary>
+        // /// clockwise 顺时针旋转  
+        // /// 1表示顺时针旋转 90 degree
+        // /// 2表示顺时针旋转 180 degree
+        // /// </summary>
+        // public static FVector2 Rotate(FVector2 v, int r){
+        //     r %= 4;
+        //     return new FVector2(true,
+        //         v._x * FVector2.Rotations[r * 4] + v._y * FVector2.Rotations[r * 4 + 1],
+        //         v._x * FVector2.Rotations[r * 4 + 2] + v._y * FVector2.Rotations[r * 4 + 3]);
+        // }
+
+        
+        public static FVector2 Rotate(FVector2 v, FP degrees) {
+            FP sin, cos;
+            FMath.SinCos(out sin, out cos, FMath.Deg2Rad * degrees);
+            FP tx = v.x;
+            FP ty = v.y;
+            v.x = (cos * tx) - (sin * ty);
+            v.y = (sin * tx) + (cos * ty);
+            return v;
         }
 
+        public static FP SignedAngle(FVector2 from, FVector2 to) {
+            FP sign = FMath.Sign(Cross(from, to));
+            if (FMath.Abs(sign) < FP.EPSILON) {
+                sign = 1;
+            }
+            return Angle(from, to) * sign;
+        }
+        
+        public static FP Angle(FVector2 a, FVector2 b) {
+            return FMath.Acos(FMath.Clamp(a.normalized * b.normalized,new FP(-1),new FP(1))) * FMath.Rad2Deg;
+        }
+        
         public FVector2 Rotate( FP deg){
             var rad = FMath.Deg2Rad * deg;
             FP cos, sin;
@@ -187,6 +210,12 @@ namespace Lockstep.Math {
             lhs._y = lhs._y * rhs;
             return lhs;
         }
+        
+        public static FP operator *(FVector2 value1, FVector2 value2)
+        {
+            return Dot(value1, value2);
+        }
+        
         public static FVector2 operator /(FVector2 lhs, FP rhs){
             lhs._x = (int) (((long) lhs._x * FP.Precision) / rhs._val);
             lhs._y = (int) (((long) lhs._y * FP.Precision) / rhs._val);
@@ -197,6 +226,14 @@ namespace Lockstep.Math {
             lhs._y = lhs._y / rhs;
             return lhs;
         }
+        
+        public static FVector2 operator /(FVector2 value1, FVector2 value2)
+        {
+            value1.x /= value2.x;
+            value1.y /= value2.y;
+            return value1;
+        }
+        
         public static bool operator ==(FVector2 a, FVector2 b){
             return a._x == b._x && a._y == b._y;
         }

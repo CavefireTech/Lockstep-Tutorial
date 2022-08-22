@@ -4,13 +4,13 @@ using static Lockstep.Math.FMath;
 namespace Lockstep.Math
 {
    
-    public struct LAxis2D
+    public struct FAxis2D
     {
         public FVector3 x;
         public FVector3 y;
         
-        public static readonly LAxis2D identity = new LAxis2D(FVector3.right, FVector3.up);
-        public LAxis2D(FVector3 x, FVector3 y)
+        public static readonly FAxis2D identity = new FAxis2D(FVector3.right, FVector3.up);
+        public FAxis2D(FVector3 x, FVector3 y)
         {
             this.x = x;
             this.y = y;

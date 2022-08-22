@@ -4,28 +4,28 @@ using Lockstep.Math;
 using Ray2D = Lockstep.Collision2D.Ray2D;
 
 namespace Lockstep.UnsafeCollision2D {
-    public struct LRect {
+    public struct FRect {
         public FP x;
         public FP y;
         public FP xMax;
         public FP yMax;
 
-        public LRect(FP x, FP y, FP width, FP heigh){
+        public FRect(FP x, FP y, FP width, FP heigh){
             this.x = x;
             this.y = y;
             this.xMax = x + width;
             this.yMax = y + heigh;
         }
 
-        public LRect(FVector2 position, FVector2 size){
+        public FRect(FVector2 position, FVector2 size){
             this.x = position.x;
             this.y = position.y;
             this.xMax = x + size.x;
             this.yMax = y + size.y;
         }
 
-        public static LRect CreateRect(FVector2 center, FVector2 halfSize){
-            return new LRect(center - halfSize, halfSize * 2);
+        public static FRect CreateRect(FVector2 center, FVector2 halfSize){
+            return new FRect(center - halfSize, halfSize * 2);
         }
 
         public FP width {
@@ -41,12 +41,12 @@ namespace Lockstep.UnsafeCollision2D {
         /// <summary>
         ///   <para>Shorthand for writing new LRect(0,0,0,0).</para>
         /// </summary>
-        public static LRect zero {
-            get { return new LRect(FP.zero, FP.zero, FP.zero, FP.zero); }
+        public static FRect zero {
+            get { return new FRect(FP.zero, FP.zero, FP.zero, FP.zero); }
         }
 
-        public static LRect MinMaxRect(FP xmin, FP ymin, FP xmax, FP ymax){
-            return new LRect(xmin, ymin, xmax - xmin, ymax - ymin);
+        public static FRect MinMaxRect(FP xmin, FP ymin, FP xmax, FP ymax){
+            return new FRect(xmin, ymin, xmax - xmin, ymax - ymin);
         }
 
         public void Set(FP x, FP y, FP width, FP height){
@@ -120,7 +120,7 @@ namespace Lockstep.UnsafeCollision2D {
                    point.y >= this.y && point.y < this.yMax;
         }
 
-        private static LRect OrderMinMax(LRect rect){
+        private static FRect OrderMinMax(FRect rect){
             if (rect.x > rect.xMax) {
                 FP xMin = rect.x;
                 rect.x = rect.xMax;
@@ -141,7 +141,7 @@ namespace Lockstep.UnsafeCollision2D {
         /// </summary>
         /// <param name="other">Other rectangle to test overlapping with.</param>
         /// <param name="allowInverse">Does the test allow the widths and heights of the LRects to be negative?</param>
-        public bool Overlaps(LRect other){
+        public bool Overlaps(FRect other){
             return
                 other.xMax > this.x
                 && other.x < this.xMax
@@ -156,11 +156,11 @@ namespace Lockstep.UnsafeCollision2D {
         /// <summary>
         ///   <para>Returns true if the other rectangle overlaps this one. If allowInverse is present and true, the widths and heights of the LRects are allowed to take negative values (ie, the min value is greater than the max), and the test will still work.</para>
         /// </summary>
-        public bool Overlaps(LRect other, bool allowInverse){
+        public bool Overlaps(FRect other, bool allowInverse){
             var rect = this;
             if (allowInverse) {
-                rect = LRect.OrderMinMax(rect);
-                other = LRect.OrderMinMax(other);
+                rect = FRect.OrderMinMax(rect);
+                other = FRect.OrderMinMax(other);
             }
 
             return rect.Overlaps(other);
@@ -170,18 +170,18 @@ namespace Lockstep.UnsafeCollision2D {
         ///   <para>Returns a point inside a rectangle, given normalized coordinates.</para>
         /// </summary>
         public static FVector2 NormalizedToPoint(
-            LRect rectangle,
+            FRect rectangle,
             FVector2 normalizedRectCoordinates){
             return new FVector2(FMath.Lerp(rectangle.x, rectangle.xMax, normalizedRectCoordinates.x),
                 FMath.Lerp(rectangle.y, rectangle.yMax, normalizedRectCoordinates.y));
         }
 
 
-        public static bool operator !=(LRect lhs, LRect rhs){
+        public static bool operator !=(FRect lhs, FRect rhs){
             return !(lhs == rhs);
         }
 
-        public static bool operator ==(LRect lhs, LRect rhs){
+        public static bool operator ==(FRect lhs, FRect rhs){
             return lhs.x == rhs.x && lhs.y == rhs.y &&
                    lhs.xMax == rhs.xMax && lhs.yMax == rhs.yMax;
         }
@@ -192,12 +192,12 @@ namespace Lockstep.UnsafeCollision2D {
         }
 
         public override bool Equals(object other){
-            if (!(other is LRect))
+            if (!(other is FRect))
                 return false;
-            return this.Equals((LRect) other);
+            return this.Equals((FRect) other);
         }
 
-        public bool Equals(LRect other){
+        public bool Equals(FRect other){
             return this.x.Equals(other.x) && this.y.Equals(other.y) && this.xMax.Equals(other.xMax) &&
                    this.yMax.Equals(other.yMax);
         }

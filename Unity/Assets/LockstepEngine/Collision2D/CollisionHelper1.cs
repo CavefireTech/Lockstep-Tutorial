@@ -93,7 +93,7 @@ namespace Lockstep.Collision2D {
         public static bool CheckCollision(ColliderPrefab col1, CTransform2D trans1,FVector2 pos,FVector2 size,FVector2 up ){
             tempOBB.size = size;
             tempOBB.up = up;
-            tempTrans.pos = pos;
+            tempTrans.position = pos;
             foreach (var part1 in col1.parts) {
                 if (CheckCollision(part1.collider, trans1 + part1.transform, tempOBB, tempTrans)) {
                     return true;
@@ -103,7 +103,7 @@ namespace Lockstep.Collision2D {
         }
         public static bool CheckCollision(ColliderPrefab col1, CTransform2D trans1,FVector2 pos,FP radius){
             tempCircle.radius = radius;
-            tempTrans.pos = pos;
+            tempTrans.position = pos;
             foreach (var part1 in col1.parts) {
                 if (CheckCollision(part1.collider, trans1 + part1.transform, tempCircle, tempTrans)) {
                     return true;

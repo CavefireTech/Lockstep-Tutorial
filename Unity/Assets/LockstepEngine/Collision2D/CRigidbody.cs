@@ -32,14 +32,14 @@ namespace Lockstep.Game {
         public void DoStart(){
             //__id = __idCount++;
             FP y = FP.zero;
-            isOnFloor = TestOnFloor(transform.Pos3, ref y);
+            isOnFloor = TestOnFloor(transform.Position3, ref y);
             Speed = FVector3.zero;
             isSleep = isOnFloor;
         }
 
         public void DoUpdate(FP deltaTime){
             if (!isEnable) return;
-            if (!TestOnFloor(transform.Pos3)) {
+            if (!TestOnFloor(transform.Position3)) {
                 isSleep = false;
             }
 
@@ -49,11 +49,11 @@ namespace Lockstep.Game {
                     Speed.y = FMath.Max(MinYSpd, Speed.y);
                 }
 
-                var pos = transform.Pos3;
+                var pos = transform.Position3;
                 pos += Speed * deltaTime;
                 FP y = pos.y;
                 //Test floor
-                isOnFloor = TestOnFloor(transform.Pos3, ref y);
+                isOnFloor = TestOnFloor(transform.Position3, ref y);
                 if (isOnFloor && Speed.y <= 0) {
                     Speed.y = FP.zero;
                 }
@@ -77,7 +77,7 @@ namespace Lockstep.Game {
                     }
                 }
 
-                transform.Pos3 = pos;
+                transform.Position3 = pos;
             }
         }
 

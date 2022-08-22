@@ -7,7 +7,7 @@ using Lockstep.Math;
 using System;
 
 namespace Lockstep.Math  {
-    public struct LVector2Int : IEquatable<LVector2Int> {
+    public struct FVector2Int : IEquatable<FVector2Int> {
         public class Mathf {
             /// <summary>
             ///   <para>Returns the smallest of two or more values.</para>
@@ -34,16 +34,16 @@ namespace Lockstep.Math  {
             }
         }
 
-        private static readonly LVector2Int s_Zero = new LVector2Int(0, 0);
-        private static readonly LVector2Int s_One = new LVector2Int(1, 1);
-        private static readonly LVector2Int s_Up = new LVector2Int(0, 1);
-        private static readonly LVector2Int s_Down = new LVector2Int(0, -1);
-        private static readonly LVector2Int s_Left = new LVector2Int(-1, 0);
-        private static readonly LVector2Int s_Right = new LVector2Int(1, 0);
+        private static readonly FVector2Int s_Zero = new FVector2Int(0, 0);
+        private static readonly FVector2Int s_One = new FVector2Int(1, 1);
+        private static readonly FVector2Int s_Up = new FVector2Int(0, 1);
+        private static readonly FVector2Int s_Down = new FVector2Int(0, -1);
+        private static readonly FVector2Int s_Left = new FVector2Int(-1, 0);
+        private static readonly FVector2Int s_Right = new FVector2Int(1, 0);
         private int m_X;
         private int m_Y;
 
-        public LVector2Int(int x, int y){
+        public FVector2Int(int x, int y){
             this.m_X = x;
             this.m_Y = y;
         }
@@ -114,7 +114,7 @@ namespace Lockstep.Math  {
         /// </summary>
         /// <param name="a"></param>
         /// <param name="b"></param>
-        public static FP Distance(LVector2Int a, LVector2Int b){
+        public static FP Distance(FVector2Int a, FVector2Int b){
             var num1 = (a.x - b.x);
             var num2 = (a.y - b.y);
             return Mathf.Sqrt(new FP(num1 * num1 + num2 * num2));
@@ -125,8 +125,8 @@ namespace Lockstep.Math  {
         /// </summary>
         /// <param name="lhs"></param>
         /// <param name="rhs"></param>
-        public static LVector2Int Min(LVector2Int lhs, LVector2Int rhs){
-            return new LVector2Int(Mathf.Min(lhs.x, rhs.x), Mathf.Min(lhs.y, rhs.y));
+        public static FVector2Int Min(FVector2Int lhs, FVector2Int rhs){
+            return new FVector2Int(Mathf.Min(lhs.x, rhs.x), Mathf.Min(lhs.y, rhs.y));
         }
 
         /// <summary>
@@ -134,8 +134,8 @@ namespace Lockstep.Math  {
         /// </summary>
         /// <param name="lhs"></param>
         /// <param name="rhs"></param>
-        public static LVector2Int Max(LVector2Int lhs, LVector2Int rhs){
-            return new LVector2Int(Mathf.Max(lhs.x, rhs.x), Mathf.Max(lhs.y, rhs.y));
+        public static FVector2Int Max(FVector2Int lhs, FVector2Int rhs){
+            return new FVector2Int(Mathf.Max(lhs.x, rhs.x), Mathf.Max(lhs.y, rhs.y));
         }
 
         /// <summary>
@@ -143,15 +143,15 @@ namespace Lockstep.Math  {
         /// </summary>
         /// <param name="a"></param>
         /// <param name="b"></param>
-        public static LVector2Int Scale(LVector2Int a, LVector2Int b){
-            return new LVector2Int(a.x * b.x, a.y * b.y);
+        public static FVector2Int Scale(FVector2Int a, FVector2Int b){
+            return new FVector2Int(a.x * b.x, a.y * b.y);
         }
 
         /// <summary>
         ///   <para>Multiplies every component of this vector by the same component of scale.</para>
         /// </summary>
         /// <param name="scale"></param>
-        public void Scale(LVector2Int scale){
+        public void Scale(FVector2Int scale){
             this.x *= scale.x;
             this.y *= scale.y;
         }
@@ -161,7 +161,7 @@ namespace Lockstep.Math  {
         /// </summary>
         /// <param name="min"></param>
         /// <param name="max"></param>
-        public void Clamp(LVector2Int min, LVector2Int max){
+        public void Clamp(FVector2Int min, FVector2Int max){
             this.x = FMath.Max(min.x, this.x);
             this.x = FMath.Min(max.x, this.x);
             this.y = FMath.Max(min.y, this.y);
@@ -169,32 +169,32 @@ namespace Lockstep.Math  {
         }
 
 
-        public static explicit operator LVector3Int(LVector2Int v){
-            return new LVector3Int(v.x, v.y, 0);
+        public static explicit operator FVector3Int(FVector2Int v){
+            return new FVector3Int(v.x, v.y, 0);
         }
 
 
-        public static LVector2Int operator +(LVector2Int a, LVector2Int b){
-            return new LVector2Int(a.x + b.x, a.y + b.y);
+        public static FVector2Int operator +(FVector2Int a, FVector2Int b){
+            return new FVector2Int(a.x + b.x, a.y + b.y);
         }
 
-        public static LVector2Int operator -(LVector2Int a, LVector2Int b){
-            return new LVector2Int(a.x - b.x, a.y - b.y);
+        public static FVector2Int operator -(FVector2Int a, FVector2Int b){
+            return new FVector2Int(a.x - b.x, a.y - b.y);
         }
 
-        public static LVector2Int operator *(LVector2Int a, LVector2Int b){
-            return new LVector2Int(a.x * b.x, a.y * b.y);
+        public static FVector2Int operator *(FVector2Int a, FVector2Int b){
+            return new FVector2Int(a.x * b.x, a.y * b.y);
         }
 
-        public static LVector2Int operator *(LVector2Int a, int b){
-            return new LVector2Int(a.x * b, a.y * b);
+        public static FVector2Int operator *(FVector2Int a, int b){
+            return new FVector2Int(a.x * b, a.y * b);
         }
 
-        public static bool operator ==(LVector2Int lhs, LVector2Int rhs){
+        public static bool operator ==(FVector2Int lhs, FVector2Int rhs){
             return lhs.x == rhs.x && lhs.y == rhs.y;
         }
 
-        public static bool operator !=(LVector2Int lhs, LVector2Int rhs){
+        public static bool operator !=(FVector2Int lhs, FVector2Int rhs){
             return !(lhs == rhs);
         }
 
@@ -203,12 +203,12 @@ namespace Lockstep.Math  {
         /// </summary>
         /// <param name="other"></param>
         public override bool Equals(object other){
-            if (!(other is LVector2Int))
+            if (!(other is FVector2Int))
                 return false;
-            return this.Equals((LVector2Int) other);
+            return this.Equals((FVector2Int) other);
         }
 
-        public bool Equals(LVector2Int other){
+        public bool Equals(FVector2Int other){
             return this.x.Equals(other.x) && this.y.Equals(other.y);
         }
 
@@ -232,43 +232,43 @@ namespace Lockstep.Math  {
         /// <summary>
         ///   <para>Shorthand for writing Vector2Int (0, 0).</para>
         /// </summary>
-        public static LVector2Int zero {
-            get { return LVector2Int.s_Zero; }
+        public static FVector2Int zero {
+            get { return FVector2Int.s_Zero; }
         }
 
         /// <summary>
         ///   <para>Shorthand for writing Vector2Int (1, 1).</para>
         /// </summary>
-        public static LVector2Int one {
-            get { return LVector2Int.s_One; }
+        public static FVector2Int one {
+            get { return FVector2Int.s_One; }
         }
 
         /// <summary>
         ///   <para>Shorthand for writing Vector2Int (0, 1).</para>
         /// </summary>
-        public static LVector2Int up {
-            get { return LVector2Int.s_Up; }
+        public static FVector2Int up {
+            get { return FVector2Int.s_Up; }
         }
 
         /// <summary>
         ///   <para>Shorthand for writing Vector2Int (0, -1).</para>
         /// </summary>
-        public static LVector2Int down {
-            get { return LVector2Int.s_Down; }
+        public static FVector2Int down {
+            get { return FVector2Int.s_Down; }
         }
 
         /// <summary>
         ///   <para>Shorthand for writing Vector2Int (-1, 0).</para>
         /// </summary>
-        public static LVector2Int left {
-            get { return LVector2Int.s_Left; }
+        public static FVector2Int left {
+            get { return FVector2Int.s_Left; }
         }
 
         /// <summary>
         ///   <para>Shorthand for writing Vector2Int (1, 0).</para>
         /// </summary>
-        public static LVector2Int right {
-            get { return LVector2Int.s_Right; }
+        public static FVector2Int right {
+            get { return FVector2Int.s_Right; }
         }
     }
 }

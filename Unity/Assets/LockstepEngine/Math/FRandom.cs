@@ -2,9 +2,9 @@
 using Lockstep.Math;
 
 namespace Lockstep.Math {
-    public partial class Random {
+    public partial class FRandom {
         public ulong randSeed = 1;
-        public Random(uint seed = 17){
+        public FRandom(uint seed = 17){
             randSeed = seed;
         }
         public FP value => new FP(true, Range(0, 1000));

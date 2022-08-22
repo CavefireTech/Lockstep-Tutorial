@@ -36,7 +36,7 @@ namespace Lockstep.Collision2D {
         FP adjLength;
 
         // Bounding box that represents this node
-        LRect bounds = default(LRect);
+        FRect bounds = default(FRect);
 
         // Objects in this node
         readonly List<OctreeObject> objects = new List<OctreeObject>();
@@ -49,7 +49,7 @@ namespace Lockstep.Collision2D {
         }
 
         // Bounds of potential children to this node. These are actual size (with looseness taken into account), not base size
-        LRect[] childBounds;
+        FRect[] childBounds;
 
         // If there are already NUM_OBJECTS_ALLOWED in a node, we split it into children
         // A generally good number seems to be something around 8-15
@@ -59,7 +59,7 @@ namespace Lockstep.Collision2D {
         // An object in the octree
         struct OctreeObject {
             public ColliderProxy Obj;
-            public LRect Bounds;
+            public FRect Bounds;
         }
 
         public static int MonoID = 0;
@@ -92,7 +92,7 @@ namespace Lockstep.Collision2D {
         /// <param name="obj">Object to add.</param>
         /// <param name="objBounds">3D bounding box around the object.</param>
         /// <returns>True if the object fits entirely within this node.</returns>
-        public bool Add(ColliderProxy obj, LRect objBounds){
+        public bool Add(ColliderProxy obj, FRect objBounds){
             if (!Encapsulates(bounds, objBounds)) {
                 return false;
             }
@@ -129,11 +129,11 @@ namespace Lockstep.Collision2D {
         }
 
 
-        public bool ContainBound(LRect bound){
+        public bool ContainBound(FRect bound){
             return Encapsulates(bounds, bound);
         }
 
-        public void UpdateObj(ColliderProxy obj, LRect bound){
+        public void UpdateObj(ColliderProxy obj, FRect bound){
             for (int i = 0; i < objects.Count; i++) {
                 if (ReferenceEquals(objects[i].Obj, obj)) {
                     objects[i] = new OctreeObject() {Obj = obj, Bounds = bound};
@@ -155,7 +155,7 @@ namespace Lockstep.Collision2D {
         /// <param name="obj">Object to remove.</param>
         /// <param name="objBounds">3D bounding box around the object.</param>
         /// <returns>True if the object was removed successfully.</returns>
-        public bool Remove(ColliderProxy obj, LRect objBounds){
+        public bool Remove(ColliderProxy obj, FRect objBounds){
             if (!Encapsulates(bounds, objBounds)) {
                 return false;
             }
@@ -168,7 +168,7 @@ namespace Lockstep.Collision2D {
         /// </summary>
         /// <param name="checkBounds">Bounds to check.</param>
         /// <returns>True if there was a collision.</returns>
-        public bool IsColliding(ColliderProxy obj, ref LRect checkBounds){
+        public bool IsColliding(ColliderProxy obj, ref FRect checkBounds){
             // Are the input bounds at least partially in this node?
             if (!bounds.Overlaps(checkBounds)) {
                 return false;
@@ -195,11 +195,11 @@ namespace Lockstep.Collision2D {
         }
 
 
-        public bool CheckCollision(LRect checkBounds, FuncCollision callback){
+        public bool CheckCollision(FRect checkBounds, FuncCollision callback){
             return CheckCollision(ref checkBounds, callback);
         }
 
-        public bool CheckCollision(ref LRect checkBounds, FuncCollision callback){
+        public bool CheckCollision(ref FRect checkBounds, FuncCollision callback){
             // Are the input bounds at least partially in this node?
             if (!bounds.Overlaps(checkBounds)) {
                 return false;
@@ -224,7 +224,7 @@ namespace Lockstep.Collision2D {
             return false;
         }
 
-        public void CheckCollision(ColliderProxy obj, ref LRect checkBounds){
+        public void CheckCollision(ColliderProxy obj, ref FRect checkBounds){
             // Are the input bounds at least partially in this node?
             if (!bounds.Overlaps(checkBounds)) {
                 return;
@@ -293,7 +293,7 @@ namespace Lockstep.Collision2D {
         /// <param name="checkBounds">Bounds to check. Passing by ref as it improves performance with structs.</param>
         /// <param name="result">List result.</param>
         /// <returns>Objects that intersect with the specified bounds.</returns>
-        public void GetColliding(ref LRect checkBounds, List<ColliderProxy> result){
+        public void GetColliding(ref FRect checkBounds, List<ColliderProxy> result){
             // Are the input bounds at least partially in this node?
             if (!bounds.Overlaps(checkBounds)) {
                 return;
@@ -333,7 +333,7 @@ namespace Lockstep.Collision2D {
 #endif
         }
 
-        public LRect GetBounds(){
+        public FRect GetBounds(){
             return bounds;
         }
 
@@ -479,15 +479,15 @@ namespace Lockstep.Collision2D {
             FP quarter = BaseLength / 4;
             FP childActualLength = (BaseLength / 2) * looseness;
             FVector2 childActualSize = new FVector2(childActualLength, childActualLength);
-            childBounds = new LRect[NUM_CHILDREN];
+            childBounds = new FRect[NUM_CHILDREN];
             childBounds[0] = CreateLRect(Center + new FVector2(-quarter, -quarter), childActualSize);
             childBounds[1] = CreateLRect(Center + new FVector2(quarter, -quarter), childActualSize);
             childBounds[2] = CreateLRect(Center + new FVector2(-quarter, quarter), childActualSize);
             childBounds[3] = CreateLRect(Center + new FVector2(quarter, quarter), childActualSize);
         }
 
-        LRect CreateLRect(FVector2 center, FVector2 size){
-            return new LRect(center - size / 2, size);
+        FRect CreateLRect(FVector2 center, FVector2 size){
+            return new FRect(center - size / 2, size);
         }
 
 
@@ -499,7 +499,7 @@ namespace Lockstep.Collision2D {
         /// </summary>
         /// <param name="obj">Object to add.</param>
         /// <param name="objBounds">3D bounding box around the object.</param>
-        void SubAdd(ColliderProxy obj, LRect objBounds){
+        void SubAdd(ColliderProxy obj, FRect objBounds){
             // We know it fits at this level if we've got this far
 
             // We always put things in the deepest possible child
@@ -557,12 +557,12 @@ namespace Lockstep.Collision2D {
         }
 
         /// <summary>
-        /// Private counterpart to the public <see cref="Remove(ColliderProxy, LRect)"/> method.
+        /// Private counterpart to the public <see cref="Remove(ColliderProxy, FRect)"/> method.
         /// </summary>
         /// <param name="obj">Object to remove.</param>
         /// <param name="objBounds">3D bounding box around the object.</param>
         /// <returns>True if the object was removed successfully.</returns>
-        bool SubRemove(ColliderProxy obj, LRect objBounds){
+        bool SubRemove(ColliderProxy obj, FRect objBounds){
             bool removed = false;
 
             for (int i = 0; i < objects.Count; i++) {
@@ -642,7 +642,7 @@ namespace Lockstep.Collision2D {
         /// <param name="outerBounds">Outer bounds.</param>
         /// <param name="innerBounds">Inner bounds.</param>
         /// <returns>True if innerBounds is fully encapsulated by outerBounds.</returns>
-        static bool Encapsulates(LRect outerBounds, LRect innerBounds){
+        static bool Encapsulates(FRect outerBounds, FRect innerBounds){
             return outerBounds.Contains(innerBounds.min) && outerBounds.Contains(innerBounds.max);
         }
 

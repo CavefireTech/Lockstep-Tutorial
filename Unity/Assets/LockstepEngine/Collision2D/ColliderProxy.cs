@@ -26,7 +26,7 @@ namespace Lockstep.Collision2D {
         private FP _preDeg;
         public static FP DegGap = new FP(true, 100);
 
-        private LRect _bound;
+        private FRect _bound;
 
         public FuncOnTriggerEvent OnTriggerEvent;
 
@@ -46,7 +46,7 @@ namespace Lockstep.Collision2D {
             this.Prefab = prefab;
             _bound = prefab.GetBounds();
             Transform2D = trans;
-            _prePos = Transform2D.pos;
+            _prePos = Transform2D.position;
             _preDeg = Transform2D.rot;
             unchecked {
                 Id = autoIncId++;
@@ -54,7 +54,7 @@ namespace Lockstep.Collision2D {
         }
 
         public void DoUpdate(FP deltaTime){
-            var curPos = Transform2D.pos;
+            var curPos = Transform2D.position;
             if (_prePos != curPos) {
                 _prePos = curPos;
                 IsMoved = true;
@@ -71,10 +71,10 @@ namespace Lockstep.Collision2D {
         public bool IsMoved = true;
 
         public FVector2 pos {
-            get => Transform2D.pos;
+            get => Transform2D.position;
             set {
                 IsMoved = true;
-                Transform2D.pos = value;
+                Transform2D.position = value;
             }
         }
 
@@ -87,8 +87,8 @@ namespace Lockstep.Collision2D {
         }
 
 
-        public LRect GetBounds(){
-            return new LRect(_bound.position + pos, _bound.size);
+        public FRect GetBounds(){
+            return new FRect(_bound.position + pos, _bound.size);
         }
 
         public virtual void OnLPTriggerEnter(ColliderProxy other){ }

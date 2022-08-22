@@ -3,7 +3,7 @@ using Lockstep.Math;
 using static Lockstep.Math.FVector3;
 
 namespace LockStepLMath {
-    public struct LQuaternion {
+    public struct FQuaternion {
         #region public members
 
         public FP x;
@@ -15,14 +15,14 @@ namespace LockStepLMath {
 
         #region constructor
 
-        public LQuaternion(FP p_x, FP p_y, FP p_z, FP p_w){
+        public FQuaternion(FP p_x, FP p_y, FP p_z, FP p_w){
             x = p_x;
             y = p_y;
             z = p_z;
             w = p_w;
         }
 
-        public LQuaternion(int p_x, int p_y, int p_z, int p_w){
+        public FQuaternion(int p_x, int p_y, int p_z, int p_w){
             x._val = p_x;
             y._val = p_y;
             z._val = p_z;
@@ -68,13 +68,13 @@ namespace LockStepLMath {
             }
         }
 
-        public static LQuaternion identity {
-            get { return new LQuaternion(0, 0, 0, 1); }
+        public static FQuaternion identity {
+            get { return new FQuaternion(0, 0, 0, 1); }
         }
 
         public FVector3 eulerAngles {
             get {
-                LMatrix33 m = QuaternionToMatrix(this);
+                FMatrix33 m = QuaternionToMatrix(this);
                 return (180 / FMath.PI * MatrixToEuler(m));
             }
             set { this = Euler(value); }
@@ -90,7 +90,7 @@ namespace LockStepLMath {
         /// <param name="a"></param>
         /// <param name="b"></param>
         /// <returns></returns>
-        public static FP Angle(LQuaternion a, LQuaternion b){
+        public static FP Angle(FQuaternion a, FQuaternion b){
             FP single = Dot(a, b);
             return FMath.Acos(FMath.Min(FMath.Abs(single), FP.one)) * 2 * (180 / FMath.PI);
         }
@@ -101,11 +101,11 @@ namespace LockStepLMath {
         /// <param name="angle"></param>
         /// <param name="axis"></param>
         /// <returns></returns>
-        public static LQuaternion AngleAxis(FP angle, FVector3 axis){
+        public static FQuaternion AngleAxis(FP angle, FVector3 axis){
             axis = axis.normalized;
             angle = angle * FMath.Deg2Rad;
 
-            LQuaternion q = new LQuaternion();
+            FQuaternion q = new FQuaternion();
 
             FP halfAngle = angle * FP.half;
             FP s = FMath.Sin(halfAngle);
@@ -124,7 +124,7 @@ namespace LockStepLMath {
         /// <param name="a"></param>
         /// <param name="b"></param>
         /// <returns></returns>
-        public static FP Dot(LQuaternion a, LQuaternion b){
+        public static FP Dot(FQuaternion a, FQuaternion b){
             return a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w;
         }
 
@@ -133,7 +133,7 @@ namespace LockStepLMath {
         /// </summary>
         /// <param name="euler"></param>
         /// <returns></returns>
-        public static LQuaternion Euler(FVector3 euler){
+        public static FQuaternion Euler(FVector3 euler){
             return Euler(euler.x, euler.y, euler.z);
         }
 
@@ -144,7 +144,7 @@ namespace LockStepLMath {
         /// <param name="y"></param>
         /// <param name="z"></param>
         /// <returns></returns>
-        public static LQuaternion Euler(FP x, FP y, FP z){
+        public static FQuaternion Euler(FP x, FP y, FP z){
             FP cX = FMath.Cos(x * FMath.PI / 360);
             FP sX = FMath.Sin(x * FMath.PI / 360);
 
@@ -154,11 +154,11 @@ namespace LockStepLMath {
             FP cZ = FMath.Cos(z * FMath.PI / 360);
             FP sZ = FMath.Sin(z * FMath.PI / 360);
 
-            LQuaternion qX = new LQuaternion(sX, FP.zero, FP.zero, cX);
-            LQuaternion qY = new LQuaternion(FP.zero, sY, FP.zero, cY);
-            LQuaternion qZ = new LQuaternion(FP.zero, FP.zero, sZ, cZ);
+            FQuaternion qX = new FQuaternion(sX, FP.zero, FP.zero, cX);
+            FQuaternion qY = new FQuaternion(FP.zero, sY, FP.zero, cY);
+            FQuaternion qZ = new FQuaternion(FP.zero, FP.zero, sZ, cZ);
 
-            LQuaternion q = (qY * qX) * qZ;
+            FQuaternion q = (qY * qX) * qZ;
 
             return q;
         }
@@ -169,7 +169,7 @@ namespace LockStepLMath {
         /// <param name="fromDirection"></param>
         /// <param name="toDirection"></param>
         /// <returns></returns>
-        public static LQuaternion FromToRotation(FVector3 fromDirection, FVector3 toDirection){
+        public static FQuaternion FromToRotation(FVector3 fromDirection, FVector3 toDirection){
             throw new IndexOutOfRangeException("Not Available!");
         }
 
@@ -178,8 +178,8 @@ namespace LockStepLMath {
         /// </summary>
         /// <param name="rotation"></param>
         /// <returns></returns>
-        public static LQuaternion Inverse(LQuaternion rotation){
-            return new LQuaternion(-rotation.x, -rotation.y, -rotation.z, rotation.w);
+        public static FQuaternion Inverse(FQuaternion rotation){
+            return new FQuaternion(-rotation.x, -rotation.y, -rotation.z, rotation.w);
         }
 
         /// <summary>
@@ -189,7 +189,7 @@ namespace LockStepLMath {
         /// <param name="b"></param>
         /// <param name="t"></param>
         /// <returns></returns>
-        public static LQuaternion Lerp(LQuaternion a, LQuaternion b, FP t){
+        public static FQuaternion Lerp(FQuaternion a, FQuaternion b, FP t){
             if (t > 1) {
                 t = FP.one;
             }
@@ -208,8 +208,8 @@ namespace LockStepLMath {
         /// <param name="b"></param>
         /// <param name="t"></param>
         /// <returns></returns>
-        public static LQuaternion LerpUnclamped(LQuaternion a, LQuaternion b, FP t){
-            LQuaternion tmpQuat = new LQuaternion();
+        public static FQuaternion LerpUnclamped(FQuaternion a, FQuaternion b, FP t){
+            FQuaternion tmpQuat = new FQuaternion();
             if (Dot(a, b) < 0) {
                 tmpQuat.Set(a.x + t * (-b.x - a.x),
                     a.y + t * (-b.y - a.y),
@@ -224,7 +224,7 @@ namespace LockStepLMath {
             }
 
             FP nor = FMath.Sqrt(Dot(tmpQuat, tmpQuat));
-            return new LQuaternion(tmpQuat.x / nor, tmpQuat.y / nor, tmpQuat.z / nor, tmpQuat.w / nor);
+            return new FQuaternion(tmpQuat.x / nor, tmpQuat.y / nor, tmpQuat.z / nor, tmpQuat.w / nor);
         }
 
         /// <summary>
@@ -232,7 +232,7 @@ namespace LockStepLMath {
         /// </summary>
         /// <param name="forward"></param>
         /// <returns></returns>
-        public static LQuaternion LookRotation(FVector3 forward){
+        public static FQuaternion LookRotation(FVector3 forward){
             FVector3 up = FVector3.up;
             return LookRotation(forward, up);
         }
@@ -243,8 +243,8 @@ namespace LockStepLMath {
         /// <param name="forward"></param>
         /// <param name="upwards"></param>
         /// <returns></returns>
-        public static LQuaternion LookRotation(FVector3 forward, FVector3 upwards){
-            LMatrix33 m = LookRotationToMatrix(forward, upwards);
+        public static FQuaternion LookRotation(FVector3 forward, FVector3 upwards){
+            FMatrix33 m = LookRotationToMatrix(forward, upwards);
             return MatrixToQuaternion(m);
         }
 
@@ -255,15 +255,15 @@ namespace LockStepLMath {
         /// <param name="to"></param>
         /// <param name="maxDegreesDelta"></param>
         /// <returns></returns>
-        public static LQuaternion RotateTowards(LQuaternion from, LQuaternion to, FP maxDegreesDelta){
-            FP num = LQuaternion.Angle(from, to);
-            LQuaternion result = new LQuaternion();
+        public static FQuaternion RotateTowards(FQuaternion from, FQuaternion to, FP maxDegreesDelta){
+            FP num = FQuaternion.Angle(from, to);
+            FQuaternion result = new FQuaternion();
             if (num == 0) {
                 result = to;
             }
             else {
                 FP t = FMath.Min(FP.one, maxDegreesDelta / num);
-                result = LQuaternion.SlerpUnclamped(from, to, t);
+                result = FQuaternion.SlerpUnclamped(from, to, t);
             }
 
             return result;
@@ -276,7 +276,7 @@ namespace LockStepLMath {
         /// <param name="b"></param>
         /// <param name="t"></param>
         /// <returns></returns>
-        public static LQuaternion Slerp(LQuaternion a, LQuaternion b, FP t){
+        public static FQuaternion Slerp(FQuaternion a, FQuaternion b, FP t){
             if (t > 1) {
                 t = FP.one;
             }
@@ -295,10 +295,10 @@ namespace LockStepLMath {
         /// <param name="b"></param>
         /// <param name="t"></param>
         /// <returns></returns>
-        public static LQuaternion SlerpUnclamped(LQuaternion q1, LQuaternion q2, FP t){
+        public static FQuaternion SlerpUnclamped(FQuaternion q1, FQuaternion q2, FP t){
             FP dot = Dot(q1, q2);
 
-            LQuaternion tmpQuat = new LQuaternion();
+            FQuaternion tmpQuat = new FQuaternion();
             if (dot < 0) {
                 dot = -dot;
                 tmpQuat.Set(-q2.x, -q2.y, -q2.z, -q2.w);
@@ -391,14 +391,14 @@ namespace LockStepLMath {
         }
 
         public override bool Equals(object other){
-            return this == (LQuaternion) other;
+            return this == (FQuaternion) other;
         }
 
         #endregion
 
         #region private functions
 
-        private FVector3 MatrixToEuler(LMatrix33 m){
+        private FVector3 MatrixToEuler(FMatrix33 m){
             FVector3 v = new FVector3();
             if (m[1, 2] < 1) {
                 if (m[1, 2] > -1) {
@@ -430,8 +430,8 @@ namespace LockStepLMath {
             return v;
         }
 
-        public static LMatrix33 QuaternionToMatrix(LQuaternion quat){
-            LMatrix33 m = new LMatrix33();
+        public static FMatrix33 QuaternionToMatrix(FQuaternion quat){
+            FMatrix33 m = new FMatrix33();
 
             FP x = quat.x * 2;
             FP y = quat.y * 2;
@@ -461,8 +461,8 @@ namespace LockStepLMath {
             return m;
         }
 
-        private static LQuaternion MatrixToQuaternion(LMatrix33 m){
-            LQuaternion quat = new LQuaternion();
+        private static FQuaternion MatrixToQuaternion(FMatrix33 m){
+            FQuaternion quat = new FQuaternion();
 
             FP fTrace = m[0, 0] + m[1, 1] + m[2, 2];
             FP root;
@@ -502,18 +502,18 @@ namespace LockStepLMath {
             }
 
             FP nor = FMath.Sqrt(Dot(quat, quat));
-            quat = new LQuaternion(quat.x / nor, quat.y / nor, quat.z / nor, quat.w / nor);
+            quat = new FQuaternion(quat.x / nor, quat.y / nor, quat.z / nor, quat.w / nor);
 
             return quat;
         }
 
-        private static LMatrix33 LookRotationToMatrix(FVector3 viewVec, FVector3 upVec){
+        private static FMatrix33 LookRotationToMatrix(FVector3 viewVec, FVector3 upVec){
             FVector3 z = viewVec;
-            LMatrix33 m = new LMatrix33();
+            FMatrix33 m = new FMatrix33();
 
             FP mag = z.magnitude;
             if (mag <= 0) {
-                m = LMatrix33.identity;
+                m = FMatrix33.identity;
             }
 
             z /= mag;
@@ -521,7 +521,7 @@ namespace LockStepLMath {
             FVector3 x = Cross(upVec, z);
             mag = x.magnitude;
             if (mag <= 0) {
-                m = LMatrix33.identity;
+                m = FMatrix33.identity;
             }
 
             x /= mag;
@@ -545,14 +545,14 @@ namespace LockStepLMath {
 
         #region operator
 
-        public static LQuaternion operator *(LQuaternion lhs, LQuaternion rhs){
-            return new LQuaternion(lhs.w * rhs.x + lhs.x * rhs.w + lhs.y * rhs.z - lhs.z * rhs.y,
+        public static FQuaternion operator *(FQuaternion lhs, FQuaternion rhs){
+            return new FQuaternion(lhs.w * rhs.x + lhs.x * rhs.w + lhs.y * rhs.z - lhs.z * rhs.y,
                 lhs.w * rhs.y + lhs.y * rhs.w + lhs.z * rhs.x - lhs.x * rhs.z,
                 lhs.w * rhs.z + lhs.z * rhs.w + lhs.x * rhs.y - lhs.y * rhs.x,
                 lhs.w * rhs.w - lhs.x * rhs.x - lhs.y * rhs.y - lhs.z * rhs.z);
         }
 
-        public static FVector3 operator *(LQuaternion rotation, FVector3 point){
+        public static FVector3 operator *(FQuaternion rotation, FVector3 point){
             FP _2x = rotation.x * 2;
             FP _2y = rotation.y * 2;
             FP _2z = rotation.z * 2;
@@ -571,13 +571,13 @@ namespace LockStepLMath {
             return new FVector3(x, y, z);
         }
 
-        public static bool operator ==(LQuaternion lhs, LQuaternion rhs){
+        public static bool operator ==(FQuaternion lhs, FQuaternion rhs){
             var isEqu = lhs.x == rhs.x && lhs.y == rhs.y && lhs.z == rhs.z && lhs.w == rhs.w;
 
             return isEqu;
         }
 
-        public static bool operator !=(LQuaternion lhs, LQuaternion rhs){
+        public static bool operator !=(FQuaternion lhs, FQuaternion rhs){
             return !(lhs == rhs);
         }
 

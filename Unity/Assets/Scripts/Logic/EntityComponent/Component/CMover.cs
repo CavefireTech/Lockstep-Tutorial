@@ -28,8 +28,8 @@ namespace Lockstep.Game {
             }
 
             var dir = input.inputUV.normalized;
-            transform.pos = transform.pos + dir * speed * deltaTime;
-            var targetDeg = dir.ToDeg();
+            transform.position = transform.position + dir * speed * deltaTime;
+            var targetDeg = dir.ToRot();
             transform.rot = CTransform2D.TurnToward(targetDeg, transform.rot, player.turnSpd * deltaTime, out var hasReachDeg);
             hasReachTarget = !needChase;
         }

@@ -88,7 +88,7 @@ namespace Lockstep.Game {
             baseEntity.GameStateService = _gameStateService;
             baseEntity.ServiceContainer = _serviceContainer;
             baseEntity.DebugService = _debugService;
-            baseEntity.transform.Pos3 = position;
+            baseEntity.transform.Position3 = position;
             _debugService.Trace($"CreateEntity {prefabId} pos {prefabId} entityId:{baseEntity.EntityId}");
             baseEntity.DoBindRef();
             if (baseEntity is Entity entity) {

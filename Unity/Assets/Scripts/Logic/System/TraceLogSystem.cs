@@ -41,7 +41,7 @@ namespace Lockstep.Game {
         private void DumpEntity(BaseEntity entity){
             _dumpSb.Append("    ");
             _dumpSb.Append(" " + entity.EntityId);
-            _dumpSb.Append(" " + entity.transform.Pos3);
+            _dumpSb.Append(" " + entity.transform.Position3);
             _dumpSb.Append(" " + entity.transform.rot);
             _dumpSb.AppendLine();
         }

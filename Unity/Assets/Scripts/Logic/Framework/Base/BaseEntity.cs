@@ -14,6 +14,7 @@ namespace Lockstep.Game {
         public int EntityId;
         public int PrefabId;
         public CTransform2D transform = new CTransform2D();
+        public BaseEntity parent;
         [NoBackup] public object engineTransform;
         protected List<BaseComponent> allComponents;
 
@@ -24,7 +25,16 @@ namespace Lockstep.Game {
         [ReRefBackup] public IEntityView EntityView;
 
      
-     
+        public void SetParent(BaseEntity setParent) {
+            if (parent == setParent) return;
+            if (setParent == null) {
+                return;
+            }
+            
+            parent = setParent;
+            transform.SetParent(setParent.transform);
+            EntityView.SetParent(setParent.EntityView);
+        }
         
         public T GetService<T>() where T : IService{
             return ServiceContainer.GetService<T>();

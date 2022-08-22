@@ -1,29 +1,165 @@
 using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using Lockstep.Math;
 using Lockstep.Util;
+using UnityEngine;
 
 namespace Lockstep.Collision2D {
     [Serializable]
     public partial class CTransform2D : IComponent {
-        public FVector2 pos;
-        public FP rot; //same as Unity CW deg(up) =0
 
+        public CTransform2D parent;
+        public List<CTransform2D> children = new List<CTransform2D>();
+        private bool _worldPosDirty;
+        private FVector2 _storedWorldPos;
+        private FVector2 _localPosition;
+        private FP _localRot;
+        private FVector2 _localScale;
+        
+        public FVector2 localPosition {
+            get => _localPosition;
+            set {
+                _localPosition = value;
+                SetPosDirty();
+            }
+        }
+        
+        public FP localRot {
+            get => _localRot;
+            set {
+                _localRot = value;
+                SetRotDirty();
+            }
+        }
+        
+        public FVector2 localScale {
+            get => _localScale;
+            set {
+                _localScale = value;
+                SetScaleDirty();
+            }
+        }
+        
+        [NoBackup]
+        public bool IsPosDirty { get; private set; }
+        [NoBackup]
+        public bool IsRotDirty { get; private set; }
+        [NoBackup]
+        public bool IsScaleDirty { get; private set; }
+        
+        [NoBackup]
+        public FVector2 position {
+            get {
+                if (parent != null) {
+                    if (_worldPosDirty) {
+                        _storedWorldPos = localPosition;
+                        _storedWorldPos.x *= parent.lossyScale.x;
+                        _storedWorldPos.y *= parent.lossyScale.y;
+                        _storedWorldPos = FVector2.Rotate(_storedWorldPos, parent.rot);
+                        _storedWorldPos = parent.position + _storedWorldPos;
+                        _worldPosDirty = false;
+                    }
+                    return _storedWorldPos;
+                }
+                else {
+                    return localPosition;
+                }
+            }
+            set {
+                if (parent != null) {
+                    var offset = value - parent.position;
+                    offset.x /= parent.lossyScale.x;
+                    offset.y /= parent.lossyScale.y;
+                    localPosition = FVector2.Rotate(offset, -parent.rot);
+                    _storedWorldPos = value;
+                    _worldPosDirty = false;
+                }
+                else {
+                    localPosition = value;
+                }
+            }
+        }
+        
+        [NoBackup]
+        public FP rot {
+            get {
+                if (parent != null) {
+                    return localRot + parent.rot;
+                }
+                else {
+                    return localRot;
+                }
+            }
+            set {
+                if (parent != null) {
+                    localRot = value - parent.rot;
+                }
+                else {
+                    localRot = value;
+                }
+            }
+        }
+        
+        [NoBackup]
+        public FVector2 lossyScale {
+            get {
+                if (parent != null) {
+                    var parentLossyScale = parent.lossyScale;
+                    return new FVector2(localScale.x * parentLossyScale.x, localScale.y * parentLossyScale.y);
+                }
+                else {
+                    return localScale;
+                }
+            }
+        }
+        
         [NoBackup]
         public FVector2 up {
-            get {
-                FP s, c;
-                var ccwDeg = (-rot + 90);
-                FMath.SinCos(out s, out c, FMath.Deg2Rad * ccwDeg);
-                return new FVector2(c, s);
-            }
+            get => FVector2.Rotate(FVector2.up, rot);
             set => rot = ToRot(value);
         }
 
+        [NoBackup]
+        public FVector2 right {
+            get => FVector2.Rotate(FVector2.right, rot);
+            set => rot = FVector2.SignedAngle(FVector2.right, value);
+        }
+
+        void SetPosDirty() {
+            IsPosDirty = true;
+            _worldPosDirty = true;
+            foreach (var child in children) {
+                child.SetPosDirty();
+            }
+        }
+
+        void SetRotDirty() {
+            IsRotDirty = true;
+            foreach (var child in children) {
+                child.SetRotDirty();
+            }
+        }
+
+        void SetScaleDirty() {
+            IsScaleDirty = true;
+            foreach (var child in children) {
+                child.SetScaleDirty();
+            }
+        }
+        
+        public void Rotate(FP angle) {
+            up = FVector2.Rotate(up, angle);
+        }
+        
+        public void Translate(FVector2 translation) {
+            position += translation;
+        }
+        
         public static FP ToRot(FVector2 value){
             var ccwRot = FMath.Atan2(value.y, value.x) * FMath.Rad2Deg;
             var deg = 90 - ccwRot;
-            return AbsDeg(deg);
+            return AbsRot(deg);
         }
 
         public static FP TurnToward(FVector2 targetPos, FVector2 currentPos, FP cursDeg, FP turnVal,
@@ -35,7 +171,7 @@ namespace Lockstep.Collision2D {
 
         public static FP TurnToward(FP toRot, FP cursRot, FP turnVal,
             out bool isLessDeg){
-            var curRot = CTransform2D.AbsDeg(cursRot);
+            var curRot = CTransform2D.AbsRot(cursRot);
             var diff = toRot - curRot;
             var absDiff = FMath.Abs(diff);
             isLessDeg = absDiff < turnVal;
@@ -56,27 +192,27 @@ namespace Lockstep.Collision2D {
             }
         }
 
-        public static FP AbsDeg(FP deg){
+        public static FP AbsRot(FP deg){
             var rawVal = deg._val % ((FP) 360)._val;
             return new FP(true, rawVal);
         }
 
         public CTransform2D(){ }
-        public CTransform2D(FVector2 pos) : this(pos, FP.zero){ }
+        public CTransform2D(FVector2 position) : this(position, FP.zero){ }
 
-        public CTransform2D(FVector2 pos, FP rot){
-            this.pos = pos;
+        public CTransform2D(FVector2 position, FP rot){
+            this.position = position;
             this.rot = rot;
         }
-
-
+        
         public void Reset(){
-            pos = FVector2.zero;
+            position = FVector2.zero;
             rot = FP.zero;
+            localScale = FVector2.one;
         }
 
         public FVector2 TransformPoint(FVector2 point){
-            return pos + TransformDirection(point);
+            return position + TransformDirection(point);
         }
 
         public FVector2 TransformVector(FVector2 vec){
@@ -90,24 +226,71 @@ namespace Lockstep.Collision2D {
         }
 
         public static Transform2D operator +(CTransform2D a, CTransform2D b){
-            return new Transform2D {pos = a.pos + b.pos, rot = a.rot + b.rot};
+            return new Transform2D {position = a.position + b.position, rot = a.rot + b.rot};
         }
+        
         [NoBackup]
-        public FVector3 Pos3 {
-            get => new FVector3(pos.x, pos.y, FP.zero);
+        public FVector3 Position3 {
+            get => new FVector3(position.x, position.y, FP.zero);
             set {
-                pos = new FVector2(value.x, value.y);
+                position = new FVector2(value.x, value.y);
+            }
+        }
+        
+        [NoBackup]
+        public FVector3 LocPosition3 {
+            get => new FVector3(localPosition.x, localPosition.y, FP.zero);
+            set {
+                localPosition = new FVector2(value.x, value.y);
             }
         }
 
+        
+        [NoBackup]
+        public FVector3 LocScale3 {
+            get => new FVector3(localScale.x, localScale.y, FP.one);
+            set {
+                localScale = new FVector2(value.x, value.y);
+            }
+        }
+
+        public void ResetParent() {
+            if (parent != null) {
+                //没有父物体时，localPosition 就是之前的世界position， localRot就是之前的世界rot
+                this.localPosition = this.position;
+                this.localRot = this.rot;
+                parent.children.Remove(this);
+                parent = null;
+            }
+        }
+        
+        public CTransform2D GetChild(int index) {
+            return children[index];
+        }
+        
+        public void SetParent(CTransform2D setParent) {
+            if (parent == setParent) return;
+            ResetParent();
+            if (setParent == null) {
+                return;
+            }
+            
+            parent = setParent;
+            parent.children.Add(this);
+
+            //因为设置坐标时一定会ResetParent，所以利用已经有的tsParent将世界坐标转化成本地坐标
+            position = localPosition;
+            rot = localRot;
+        }
+        
         public override string ToString(){
-            return $"(rot:{rot}, pos:{pos})";
+            return $"(rot:{rot}, pos:{position})";
         }
     }
 
     [StructLayout(LayoutKind.Sequential, Pack = NativeHelper.STRUCT_PACK)]
     public unsafe struct Transform2D {
-        public FVector2 pos;
+        public FVector2 position;
         public FP rot;
     }
 }

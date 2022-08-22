@@ -1,11 +1,10 @@
 using System;
 using Lockstep.Logging;
 using Lockstep.Math;
-using Random = Lockstep.Math.Random;
 
 namespace Lockstep.Game {
     public partial class RandomService : BaseService, IRandomService {
-        Random _i = new Math.Random();
+        FRandom _i = new Math.FRandom();
         public FP value => _i.value;
 
         public uint Next(){

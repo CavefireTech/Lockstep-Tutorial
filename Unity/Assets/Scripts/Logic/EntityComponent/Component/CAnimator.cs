@@ -71,7 +71,7 @@ namespace Lockstep.Game {
             if (curAnimBindInfo.isMoveByAnim) {
                 var animOffset = curAnimInfo[idx].pos;
                 var pos = transform.TransformDirection(animOffset.ToLVector2XZ());
-                transform.Pos3 = (_intiPos + pos.ToLVector3XZ(animOffset.y));
+                transform.Position3 = (_intiPos + pos.ToLVector3XZ(animOffset.y));
             }
         }
 
@@ -105,9 +105,9 @@ namespace Lockstep.Game {
         public void SetTime(FP timer){
             if (config == null) return;
             var idx = GetTimeIdx(timer);
-            _intiPos = transform.Pos3 - curAnimInfo[idx].pos;
+            _intiPos = transform.Position3 - curAnimInfo[idx].pos;
             DebugService.Trace(
-                $"{baseEntity.EntityId} SetTime  idx:{idx} intiPos {baseEntity.transform.Pos3}",
+                $"{baseEntity.EntityId} SetTime  idx:{idx} intiPos {baseEntity.transform.Position3}",
                 true);
             this._timer = timer;
         }

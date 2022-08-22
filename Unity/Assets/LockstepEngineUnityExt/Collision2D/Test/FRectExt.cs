@@ -1,7 +1,7 @@
 using UnityEngine;
 
 namespace Lockstep.Collision2D {
-    public static partial class LRectExt {
+    public static partial class FRectExt {
         public static Vector2 ToVector2XZ(this Vector3 vec){
             return new Vector2(vec.x, vec.z);
         }

@@ -84,7 +84,7 @@ namespace Lockstep.Collision2D {
             _tempForward = forward;
             _tempPos = pos;
             var radius = size.magnitude;
-            var checkBounds = LRect.CreateRect(pos, new FVector2(radius, radius));
+            var checkBounds = FRect.CreateRect(pos, new FVector2(radius, radius));
             GetBoundTree(layerType).CheckCollision(ref checkBounds, _CheckRegionOBB);
         }
 

@@ -28,7 +28,7 @@ using UnityEngine;
 // they actually give much better performance than using Foreach, even in the compiled build.
 // Using a LINQ expression is worse again than Foreach.
 namespace Lockstep.Collision2D {
-    public static partial class LRectExt {
+    public static partial class FRectExt {
         public static FVector2 ToLVector2XZ(this FVector3 vec){
             return new FVector2(vec.x, vec.z);
         }
@@ -66,7 +66,7 @@ namespace Lockstep.Collision2D {
         // For collision visualisation. Automatically removed in builds.
 #if UNITY_EDITOR
         const int numCollisionsToSave = 4;
-        readonly Queue<LRect> lastBoundsCollisionChecks = new Queue<LRect>();
+        readonly Queue<FRect> lastBoundsCollisionChecks = new Queue<FRect>();
         readonly Queue<Ray> lastRayCollisionChecks = new Queue<Ray>();
 #endif
 
@@ -91,7 +91,7 @@ namespace Lockstep.Collision2D {
             rootNode = new BoundsQuadTreeNode(null, initialSize, minSize, looseness, initialWorldPos);
         }
 
-        public void UpdateObj(ColliderProxy obj, LRect bound){
+        public void UpdateObj(ColliderProxy obj, FRect bound){
             Debug.Trace($"ColliderProxy UpdateObj { obj.Id} objBounds  {bound}");
             var node = GetNode(obj);
             if (node == null) {
@@ -124,7 +124,7 @@ namespace Lockstep.Collision2D {
         /// </summary>
         /// <param name="obj">Object to add.</param>
         /// <param name="objBounds">3D bounding box around the object.</param>
-        public void Add(ColliderProxy obj, LRect objBounds){
+        public void Add(ColliderProxy obj, FRect objBounds){
             Debug.Trace($"ColliderProxy Add { obj.Id} objBounds  {objBounds}");
             // Add object or expand the octree until it can be added
             int count = 0; // Safety check against infinite/excessive growth
@@ -165,7 +165,7 @@ namespace Lockstep.Collision2D {
         /// <param name="obj">Object to remove.</param>
         /// <param name="objBounds">3D bounding box around the object.</param>
         /// <returns>True if the object was removed successfully.</returns>
-        public bool Remove(ColliderProxy obj, LRect objBounds){
+        public bool Remove(ColliderProxy obj, FRect objBounds){
             Debug.Trace($"ColliderProxy Add { obj.Id} objBounds  {objBounds}");
             bool removed = rootNode.Remove(obj, objBounds);
 
@@ -183,7 +183,7 @@ namespace Lockstep.Collision2D {
         /// </summary>
         /// <param name="checkBounds">bounds to check.</param>
         /// <returns>True if there was a collision.</returns>
-        public bool IsColliding(ColliderProxy obj, LRect checkBounds){
+        public bool IsColliding(ColliderProxy obj, FRect checkBounds){
             //#if UNITY_EDITOR
             // For debugging
             //AddCollisionCheck(checkBounds);
@@ -191,14 +191,14 @@ namespace Lockstep.Collision2D {
             return rootNode.IsColliding(obj, ref checkBounds);
         }
 
-        public void CheckCollision(ColliderProxy obj, LRect checkBounds){
+        public void CheckCollision(ColliderProxy obj, FRect checkBounds){
             rootNode.CheckCollision(obj, ref checkBounds);
         }
-        public void CheckCollision(ref LRect checkBounds, FuncCollision callback){
+        public void CheckCollision(ref FRect checkBounds, FuncCollision callback){
             rootNode.CheckCollision(ref checkBounds, callback);
         }
         public void CheckCollision( FVector2 pos, FP radius, FuncCollision callback){
-            var rect = LRect.CreateRect(pos,new FVector2(radius,radius));
+            var rect = FRect.CreateRect(pos,new FVector2(radius,radius));
             rootNode.CheckCollision(rect, callback);
         }
 
@@ -212,7 +212,7 @@ namespace Lockstep.Collision2D {
         /// <param name="collidingWith">list to store intersections.</param>
         /// <param name="checkBounds">bounds to check.</param>
         /// <returns>Objects that intersect with the specified bounds.</returns>
-        public void GetColliding(List<ColliderProxy> collidingWith, LRect checkBounds){
+        public void GetColliding(List<ColliderProxy> collidingWith, FRect checkBounds){
             //#if UNITY_EDITOR
             // For debugging
             //AddCollisionCheck(checkBounds);
@@ -221,7 +221,7 @@ namespace Lockstep.Collision2D {
         }
 
 
-        public LRect GetMaxBounds(){
+        public FRect GetMaxBounds(){
             return rootNode.GetBounds();
         }
 #if UNITY_EDITOR

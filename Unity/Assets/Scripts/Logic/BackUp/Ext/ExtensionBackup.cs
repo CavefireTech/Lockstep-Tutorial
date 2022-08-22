@@ -191,24 +191,24 @@ namespace Lockstep.Game{
 namespace Lockstep.Collision2D{                                                                                               
     public partial class CTransform2D :IBackup{                                                                  
        public void WriteBackup(Serializer writer){                                           
-			writer.Write(pos);
+			writer.Write(position);
 			writer.Write(rot);                                                                                     
        }                                                                                            
                                                                                                     
        public void ReadBackup(Deserializer reader){                                       
-			pos = reader.ReadFVector2();
+			position = reader.ReadFVector2();
 			rot = reader.ReadFP();                                                                                     
        }                                                                                            
                                                                                                     
        public int GetHash(ref int idx){                                      
            int hash = 1;                                                                             
-			hash += pos.GetHash(ref idx) * PrimerLUT.GetPrimer(idx++);
+			hash += position.GetHash(ref idx) * PrimerLUT.GetPrimer(idx++);
 			hash += rot.GetHash(ref idx) * PrimerLUT.GetPrimer(idx++);                                                                                     
            return hash;                                                                                    
        }                                                                                            
                                                                                                     
        public void DumpStr(StringBuilder sb,string prefix){                                       
-			sb.AppendLine(prefix + "pos"+":" + pos.ToString());
+			sb.AppendLine(prefix + "pos"+":" + position.ToString());
 			sb.AppendLine(prefix + "rot"+":" + rot.ToString());                                                                                     
        }                                                                                            
     }                                                               
