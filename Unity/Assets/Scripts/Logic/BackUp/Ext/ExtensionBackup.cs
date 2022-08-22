@@ -191,25 +191,29 @@ namespace Lockstep.Game{
 namespace Lockstep.Collision2D{                                                                                               
     public partial class CTransform2D :IBackup{                                                                  
        public void WriteBackup(Serializer writer){                                           
-			writer.Write(position);
-			writer.Write(rot);                                                                                     
+			writer.Write(localPosition);
+			writer.Write(localRot);
+			writer.Write(localScale);                                                                                     
        }                                                                                            
                                                                                                     
        public void ReadBackup(Deserializer reader){                                       
-			position = reader.ReadFVector2();
-			rot = reader.ReadFP();                                                                                     
+			localPosition = reader.ReadFVector2();
+			localRot = reader.ReadFP();
+			localScale = reader.ReadFVector2();                                                                                     
        }                                                                                            
                                                                                                     
        public int GetHash(ref int idx){                                      
            int hash = 1;                                                                             
-			hash += position.GetHash(ref idx) * PrimerLUT.GetPrimer(idx++);
-			hash += rot.GetHash(ref idx) * PrimerLUT.GetPrimer(idx++);                                                                                     
+			hash += localPosition.GetHash(ref idx) * PrimerLUT.GetPrimer(idx++);
+			hash += localRot.GetHash(ref idx) * PrimerLUT.GetPrimer(idx++);
+			hash += localScale.GetHash(ref idx) * PrimerLUT.GetPrimer(idx++);                                                                                     
            return hash;                                                                                    
        }                                                                                            
                                                                                                     
        public void DumpStr(StringBuilder sb,string prefix){                                       
-			sb.AppendLine(prefix + "pos"+":" + position.ToString());
-			sb.AppendLine(prefix + "rot"+":" + rot.ToString());                                                                                     
+			sb.AppendLine(prefix + "localPosition"+":" + localPosition.ToString());
+			sb.AppendLine(prefix + "localRot"+":" + localRot.ToString());
+			sb.AppendLine(prefix + "localScale"+":" + localScale.ToString());                                                                                     
        }                                                                                            
     }                                                               
 }                                                              
@@ -275,7 +279,6 @@ namespace Lockstep.Game{
 			animator.WriteBackup(writer);
 			brain.WriteBackup(writer);
 			colliderData.WriteBackup(writer);
-			rigidbody.WriteBackup(writer);
 			skillBox.WriteBackup(writer);
 			transform.WriteBackup(writer);                                                                                     
        }                                                                                            
@@ -293,7 +296,6 @@ namespace Lockstep.Game{
 			animator.ReadBackup(reader);
 			brain.ReadBackup(reader);
 			colliderData.ReadBackup(reader);
-			rigidbody.ReadBackup(reader);
 			skillBox.ReadBackup(reader);
 			transform.ReadBackup(reader);                                                                                     
        }                                                                                            
@@ -312,7 +314,6 @@ namespace Lockstep.Game{
 			hash += animator.GetHash(ref idx) * PrimerLUT.GetPrimer(idx++);
 			hash += brain.GetHash(ref idx) * PrimerLUT.GetPrimer(idx++);
 			hash += colliderData.GetHash(ref idx) * PrimerLUT.GetPrimer(idx++);
-			hash += rigidbody.GetHash(ref idx) * PrimerLUT.GetPrimer(idx++);
 			hash += skillBox.GetHash(ref idx) * PrimerLUT.GetPrimer(idx++);
 			hash += transform.GetHash(ref idx) * PrimerLUT.GetPrimer(idx++);                                                                                     
            return hash;                                                                                    
@@ -331,7 +332,6 @@ namespace Lockstep.Game{
 			sb.AppendLine(prefix + "animator" +":");  animator.DumpStr(sb,"\t" + prefix);
 			sb.AppendLine(prefix + "brain" +":");  brain.DumpStr(sb,"\t" + prefix);
 			sb.AppendLine(prefix + "colliderData" +":");  colliderData.DumpStr(sb,"\t" + prefix);
-			sb.AppendLine(prefix + "rigidbody" +":");  rigidbody.DumpStr(sb,"\t" + prefix);
 			sb.AppendLine(prefix + "skillBox" +":");  skillBox.DumpStr(sb,"\t" + prefix);
 			sb.AppendLine(prefix + "transform" +":");  transform.DumpStr(sb,"\t" + prefix);                                                                                     
        }                                                                                            
@@ -355,7 +355,6 @@ namespace Lockstep.Game{
 			colliderData.WriteBackup(writer);
 			input.WriteBackup(writer);
 			mover.WriteBackup(writer);
-			rigidbody.WriteBackup(writer);
 			skillBox.WriteBackup(writer);
 			transform.WriteBackup(writer);                                                                                     
        }                                                                                            
@@ -375,7 +374,6 @@ namespace Lockstep.Game{
 			colliderData.ReadBackup(reader);
 			input.ReadBackup(reader);
 			mover.ReadBackup(reader);
-			rigidbody.ReadBackup(reader);
 			skillBox.ReadBackup(reader);
 			transform.ReadBackup(reader);                                                                                     
        }                                                                                            
@@ -396,7 +394,6 @@ namespace Lockstep.Game{
 			hash += colliderData.GetHash(ref idx) * PrimerLUT.GetPrimer(idx++);
 			hash += input.GetHash(ref idx) * PrimerLUT.GetPrimer(idx++);
 			hash += mover.GetHash(ref idx) * PrimerLUT.GetPrimer(idx++);
-			hash += rigidbody.GetHash(ref idx) * PrimerLUT.GetPrimer(idx++);
 			hash += skillBox.GetHash(ref idx) * PrimerLUT.GetPrimer(idx++);
 			hash += transform.GetHash(ref idx) * PrimerLUT.GetPrimer(idx++);                                                                                     
            return hash;                                                                                    
@@ -417,7 +414,6 @@ namespace Lockstep.Game{
 			sb.AppendLine(prefix + "colliderData" +":");  colliderData.DumpStr(sb,"\t" + prefix);
 			sb.AppendLine(prefix + "input" +":");  input.DumpStr(sb,"\t" + prefix);
 			sb.AppendLine(prefix + "mover" +":");  mover.DumpStr(sb,"\t" + prefix);
-			sb.AppendLine(prefix + "rigidbody" +":");  rigidbody.DumpStr(sb,"\t" + prefix);
 			sb.AppendLine(prefix + "skillBox" +":");  skillBox.DumpStr(sb,"\t" + prefix);
 			sb.AppendLine(prefix + "transform" +":");  transform.DumpStr(sb,"\t" + prefix);                                                                                     
        }                                                                                            

@@ -8,7 +8,7 @@ namespace Lockstep.Game {
     [Serializable]
     [NoBackup]
     public partial class Entity : BaseEntity {
-        public CRigidbody rigidbody = new CRigidbody();
+        // public CRigidbody rigidbody = new CRigidbody();
         public ColliderData colliderData = new ColliderData();
         public CAnimator animator = new CAnimator();
         public CSkillBox skillBox = new CSkillBox();
@@ -29,17 +29,17 @@ namespace Lockstep.Game {
             base.BindRef();
             RegisterComponent(animator);
             RegisterComponent(skillBox);
-            rigidbody.BindRef(transform);
+            // rigidbody.BindRef(transform);
         }
 
         public override void DoStart(){
             base.DoStart();
-            rigidbody.DoStart();
+            // rigidbody.DoStart();
             curHealth = maxHealth;
         }
 
         public override void DoUpdate(FP deltaTime){
-            rigidbody.DoUpdate(deltaTime);
+            // rigidbody.DoUpdate(deltaTime);
             base.DoUpdate(deltaTime);
         }
 

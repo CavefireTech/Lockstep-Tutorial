@@ -18,10 +18,6 @@ namespace Lockstep.Game {
         public bool needMove = true;
 
         public override void DoUpdate(FP deltaTime){
-            if (!entity.rigidbody.isOnFloor) {
-                return;
-            }
-
             var needChase = input.inputUV.sqrMagnitude > new FP(true, 10);
             if (needChase) {
                 

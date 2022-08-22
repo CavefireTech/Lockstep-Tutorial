@@ -12,13 +12,13 @@ public class EditorPlayerView : Editor {
         base.OnInspectorGUI();
         owner = target as EntityView;
         force = EditorGUILayoutExt.Vector3Field("force", force);
-        if (GUILayout.Button("AddImpulse")) {
-            owner.entity.rigidbody.AddImpulse(force);
-        }
+        // if (GUILayout.Button("AddImpulse")) {
+        //     owner.entity.rigidbody.AddImpulse(force);
+        // }
 
         resetYSpd = EditorGUILayoutExt.FloatField("resetYSpd", resetYSpd);
-        if (GUILayout.Button("ResetSpeed")) {
-            owner.entity.rigidbody.ResetSpeed(resetYSpd);
-        }
+        // if (GUILayout.Button("ResetSpeed")) {
+        //     owner.entity.rigidbody.ResetSpeed(resetYSpd);
+        // }
     }
 }

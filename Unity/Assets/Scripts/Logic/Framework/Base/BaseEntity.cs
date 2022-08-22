@@ -14,7 +14,7 @@ namespace Lockstep.Game {
         public int EntityId;
         public int PrefabId;
         public CTransform2D transform = new CTransform2D();
-        public BaseEntity parent;
+        [NoBackup] public BaseEntity Parent { get; private set; }
         [NoBackup] public object engineTransform;
         protected List<BaseComponent> allComponents;
 
@@ -24,7 +24,7 @@ namespace Lockstep.Game {
 
         [ReRefBackup] public IEntityView EntityView;
 
-        public bool IsActive => parent != null ? _isActive && parent.IsActive : IsActive;
+        [NoBackup] public bool IsActive => Parent != null ? _isActive && Parent.IsActive : _isActive;
         
         private bool _isActive = true;
         
@@ -33,12 +33,12 @@ namespace Lockstep.Game {
         }
         
         public void SetParent(BaseEntity setParent) {
-            if (parent == setParent) return;
+            if (Parent == setParent) return;
             if (setParent == null) {
                 return;
             }
 
-            parent = setParent;
+            Parent = setParent;
             transform.SetParent(setParent.transform);
         }
 

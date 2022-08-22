@@ -17,9 +17,9 @@ namespace Lockstep.Game {
         }
 
         public override void DoUpdate(FP deltaTime){
-            if (!entity.rigidbody.isOnFloor) {
-                return;
-            }
+            // if (!entity.rigidbody.isOnFloor) {
+            //     return;
+            // }
 
             //find target
             var allPlayer = GameStateService.GetPlayers();

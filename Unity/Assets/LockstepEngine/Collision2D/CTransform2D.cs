@@ -8,13 +8,13 @@ using UnityEngine;
 namespace Lockstep.Collision2D {
     [Serializable]
     public partial class CTransform2D : IComponent {
-        public CTransform2D parent;
-        public bool WorldPosDirty => parent != null ? _worldPosDirty || parent._worldPosDirty : _worldPosDirty;
-        private bool _worldPosDirty;
-        private FVector2 _storedWorldPos;
-        private FVector2 _localPosition;
-        private FP _localRot;
-        private FVector2 _localScale;
+        [NoBackup] public CTransform2D Parent { get; private set; }
+        [NoBackup] public bool WorldPosDirty => Parent != null ? _worldPosDirty || Parent.WorldPosDirty : _worldPosDirty;
+        [NoBackup] private bool _worldPosDirty;
+        [NoBackup] private FVector2 _storedWorldPos;
+        [NoBackup] private FVector2 _localPosition = FVector2.zero;
+        [NoBackup] private FP _localRot = 0;
+        [NoBackup] private FVector2 _localScale = FVector2.one;
 
         public FVector2 localPosition {
             get => _localPosition;
@@ -47,13 +47,13 @@ namespace Lockstep.Collision2D {
         [NoBackup]
         public FVector2 position {
             get {
-                if (parent != null) {
+                if (Parent != null) {
                     if (WorldPosDirty) {
                         _storedWorldPos = localPosition;
-                        _storedWorldPos.x *= parent.lossyScale.x;
-                        _storedWorldPos.y *= parent.lossyScale.y;
-                        _storedWorldPos = FVector2.Rotate(_storedWorldPos, parent.rot);
-                        _storedWorldPos = parent.position + _storedWorldPos;
+                        _storedWorldPos.x *= Parent.lossyScale.x;
+                        _storedWorldPos.y *= Parent.lossyScale.y;
+                        _storedWorldPos = FVector2.Rotate(_storedWorldPos, Parent.rot);
+                        _storedWorldPos = Parent.position + _storedWorldPos;
                         _worldPosDirty = false;
                     }
                     return _storedWorldPos;
@@ -64,11 +64,11 @@ namespace Lockstep.Collision2D {
                 }
             }
             set {
-                if (parent != null) {
-                    var offset = value - parent.position;
-                    offset.x /= parent.lossyScale.x;
-                    offset.y /= parent.lossyScale.y;
-                    localPosition = FVector2.Rotate(offset, -parent.rot);
+                if (Parent != null) {
+                    var offset = value - Parent.position;
+                    offset.x /= Parent.lossyScale.x;
+                    offset.y /= Parent.lossyScale.y;
+                    localPosition = FVector2.Rotate(offset, -Parent.rot);
                     _storedWorldPos = value;
                 }
                 else {
@@ -81,16 +81,16 @@ namespace Lockstep.Collision2D {
         [NoBackup]
         public FP rot {
             get {
-                if (parent != null) {
-                    return localRot + parent.rot;
+                if (Parent != null) {
+                    return localRot + Parent.rot;
                 }
                 else {
                     return localRot;
                 }
             }
             set {
-                if (parent != null) {
-                    localRot = value - parent.rot;
+                if (Parent != null) {
+                    localRot = value - Parent.rot;
                 }
                 else {
                     localRot = value;
@@ -101,8 +101,8 @@ namespace Lockstep.Collision2D {
         [NoBackup]
         public FVector2 lossyScale {
             get {
-                if (parent != null) {
-                    var parentLossyScale = parent.lossyScale;
+                if (Parent != null) {
+                    var parentLossyScale = Parent.lossyScale;
                     return new FVector2(localScale.x * parentLossyScale.x, localScale.y * parentLossyScale.y);
                 }
                 else {
@@ -243,22 +243,22 @@ namespace Lockstep.Collision2D {
         public FVector3 LossyScale3 => new FVector3(lossyScale.x, lossyScale.y, FP.one);
 
         public void ResetParent() {
-            if (parent != null) {
+            if (Parent != null) {
                 //没有父物体时，localPosition 就是之前的世界position， localRot就是之前的世界rot
                 this.localPosition = this.position;
                 this.localRot = this.rot;
-                parent = null;
+                Parent = null;
             }
         }
 
         public void SetParent(CTransform2D setParent) {
-            if (parent == setParent) return;
+            if (Parent == setParent) return;
             ResetParent();
             if (setParent == null) {
                 return;
             }
 
-            parent = setParent;
+            Parent = setParent;
 
             //因为设置坐标时一定会ResetParent，所以利用已经有的tsParent将世界坐标转化成本地坐标
             position = localPosition;

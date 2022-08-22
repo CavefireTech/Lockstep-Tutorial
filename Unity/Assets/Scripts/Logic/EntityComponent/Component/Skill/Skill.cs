@@ -173,13 +173,13 @@ namespace Lockstep.Game {
                 force.x = z.x;
                 force.z = z.y;
                 foreach (var other in _tempEntities) {
-                    other.rigidbody.AddImpulse(force);
+                    // other.rigidbody.AddImpulse(force);
                 }
             }
 
             if (part.isResetForce) {
                 foreach (var other in _tempEntities) {
-                    other.rigidbody.ResetSpeed(new FP(3));
+                    // other.rigidbody.ResetSpeed(new FP(3));
                 }
             }
 
