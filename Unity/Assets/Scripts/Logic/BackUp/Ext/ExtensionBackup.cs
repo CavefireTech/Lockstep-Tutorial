@@ -21,6 +21,7 @@ using System.Text;
 namespace Lockstep.Game{                                                                                               
     public partial class CAnimator :IBackup{                                                                  
        public void WriteBackup(Serializer writer){                                           
+			writer.Write(Enable);
 			writer.Write(_animLen);
 			writer.Write(_curAnimIdx);
 			writer.Write(_curAnimName);
@@ -29,6 +30,7 @@ namespace Lockstep.Game{
        }                                                                                            
                                                                                                     
        public void ReadBackup(Deserializer reader){                                       
+			Enable = reader.ReadBoolean();
 			_animLen = reader.ReadFP();
 			_curAnimIdx = reader.ReadInt32();
 			_curAnimName = reader.ReadString();
@@ -38,6 +40,7 @@ namespace Lockstep.Game{
                                                                                                     
        public int GetHash(ref int idx){                                      
            int hash = 1;                                                                             
+			hash += Enable.GetHash(ref idx) * PrimerLUT.GetPrimer(idx++);
 			hash += _animLen.GetHash(ref idx) * PrimerLUT.GetPrimer(idx++);
 			hash += _curAnimIdx.GetHash(ref idx) * PrimerLUT.GetPrimer(idx++);
 			hash += _curAnimName.GetHash(ref idx) * PrimerLUT.GetPrimer(idx++);
@@ -47,6 +50,7 @@ namespace Lockstep.Game{
        }                                                                                            
                                                                                                     
        public void DumpStr(StringBuilder sb,string prefix){                                       
+			sb.AppendLine(prefix + "Enable"+":" + Enable.ToString());
 			sb.AppendLine(prefix + "_animLen"+":" + _animLen.ToString());
 			sb.AppendLine(prefix + "_curAnimIdx"+":" + _curAnimIdx.ToString());
 			sb.AppendLine(prefix + "_curAnimName"+":" + _curAnimName.ToString());
@@ -59,6 +63,7 @@ namespace Lockstep.Game{
 namespace Lockstep.Game{                                                                                               
     public partial class CBrain :IBackup{                                                                  
        public void WriteBackup(Serializer writer){                                           
+			writer.Write(Enable);
 			writer.Write(_atkTimer);
 			writer.Write(atkInterval);
 			writer.Write(stopDistSqr);
@@ -66,6 +71,7 @@ namespace Lockstep.Game{
        }                                                                                            
                                                                                                     
        public void ReadBackup(Deserializer reader){                                       
+			Enable = reader.ReadBoolean();
 			_atkTimer = reader.ReadFP();
 			atkInterval = reader.ReadFP();
 			stopDistSqr = reader.ReadFP();
@@ -74,6 +80,7 @@ namespace Lockstep.Game{
                                                                                                     
        public int GetHash(ref int idx){                                      
            int hash = 1;                                                                             
+			hash += Enable.GetHash(ref idx) * PrimerLUT.GetPrimer(idx++);
 			hash += _atkTimer.GetHash(ref idx) * PrimerLUT.GetPrimer(idx++);
 			hash += atkInterval.GetHash(ref idx) * PrimerLUT.GetPrimer(idx++);
 			hash += stopDistSqr.GetHash(ref idx) * PrimerLUT.GetPrimer(idx++);
@@ -82,6 +89,7 @@ namespace Lockstep.Game{
        }                                                                                            
                                                                                                     
        public void DumpStr(StringBuilder sb,string prefix){                                       
+			sb.AppendLine(prefix + "Enable"+":" + Enable.ToString());
 			sb.AppendLine(prefix + "_atkTimer"+":" + _atkTimer.ToString());
 			sb.AppendLine(prefix + "atkInterval"+":" + atkInterval.ToString());
 			sb.AppendLine(prefix + "stopDistSqr"+":" + stopDistSqr.ToString());
@@ -93,23 +101,27 @@ namespace Lockstep.Game{
 namespace Lockstep.Game{                                                                                               
     public partial class CMover :IBackup{                                                                  
        public void WriteBackup(Serializer writer){                                           
+			writer.Write(Enable);
 			writer.Write(hasReachTarget);
 			writer.Write(needMove);                                                                                     
        }                                                                                            
                                                                                                     
        public void ReadBackup(Deserializer reader){                                       
+			Enable = reader.ReadBoolean();
 			hasReachTarget = reader.ReadBoolean();
 			needMove = reader.ReadBoolean();                                                                                     
        }                                                                                            
                                                                                                     
        public int GetHash(ref int idx){                                      
            int hash = 1;                                                                             
+			hash += Enable.GetHash(ref idx) * PrimerLUT.GetPrimer(idx++);
 			hash += hasReachTarget.GetHash(ref idx) * PrimerLUT.GetPrimer(idx++);
 			hash += needMove.GetHash(ref idx) * PrimerLUT.GetPrimer(idx++);                                                                                     
            return hash;                                                                                    
        }                                                                                            
                                                                                                     
        public void DumpStr(StringBuilder sb,string prefix){                                       
+			sb.AppendLine(prefix + "Enable"+":" + Enable.ToString());
 			sb.AppendLine(prefix + "hasReachTarget"+":" + hasReachTarget.ToString());
 			sb.AppendLine(prefix + "needMove"+":" + needMove.ToString());                                                                                     
        }                                                                                            
@@ -157,6 +169,7 @@ namespace Lockstep.Game{
 namespace Lockstep.Game{                                                                                               
     public partial class CSkillBox :IBackup{                                                                  
        public void WriteBackup(Serializer writer){                                           
+			writer.Write(Enable);
 			writer.Write(_curSkillIdx);
 			writer.Write(configId);
 			writer.Write(isFiring);
@@ -164,6 +177,7 @@ namespace Lockstep.Game{
        }                                                                                            
                                                                                                     
        public void ReadBackup(Deserializer reader){                                       
+			Enable = reader.ReadBoolean();
 			_curSkillIdx = reader.ReadInt32();
 			configId = reader.ReadInt32();
 			isFiring = reader.ReadBoolean();
@@ -172,6 +186,7 @@ namespace Lockstep.Game{
                                                                                                     
        public int GetHash(ref int idx){                                      
            int hash = 1;                                                                             
+			hash += Enable.GetHash(ref idx) * PrimerLUT.GetPrimer(idx++);
 			hash += _curSkillIdx.GetHash(ref idx) * PrimerLUT.GetPrimer(idx++);
 			hash += configId.GetHash(ref idx) * PrimerLUT.GetPrimer(idx++);
 			hash += isFiring.GetHash(ref idx) * PrimerLUT.GetPrimer(idx++);
@@ -180,6 +195,7 @@ namespace Lockstep.Game{
        }                                                                                            
                                                                                                     
        public void DumpStr(StringBuilder sb,string prefix){                                       
+			sb.AppendLine(prefix + "Enable"+":" + Enable.ToString());
 			sb.AppendLine(prefix + "_curSkillIdx"+":" + _curSkillIdx.ToString());
 			sb.AppendLine(prefix + "configId"+":" + configId.ToString());
 			sb.AppendLine(prefix + "isFiring"+":" + isFiring.ToString());

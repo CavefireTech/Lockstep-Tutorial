@@ -72,21 +72,27 @@ namespace Lockstep.Game {
         public override void DoAwake() {
             if (allComponents == null) return;
             foreach (var comp in allComponents) {
-                comp.DoAwake();
+                if (comp.Enable) {
+                    comp.DoAwake();
+                }
             }
         }
 
         public override void DoStart() {
             if (allComponents == null) return;
             foreach (var comp in allComponents) {
-                comp.DoStart();
+                if (comp.Enable) {
+                    comp.DoStart();
+                }
             }
         }
 
         public override void DoUpdate(FP deltaTime) {
             if (allComponents == null) return;
             foreach (var comp in allComponents) {
-                comp.DoUpdate(deltaTime);
+                if (comp.Enable) {
+                    comp.DoUpdate(deltaTime);
+                }
             }
         }
 
