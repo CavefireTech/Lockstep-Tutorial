@@ -127,7 +127,7 @@ namespace Lockstep.Game {
 
             IsRunning = true;
             if (_constStateService.IsClientMode) {
-                _gameStartTimestampMs = LTime.realtimeSinceStartupMS;
+                _gameStartTimestampMs = FTime.realtimeSinceStartupMS;
             }
 
             _world.StartGame(_gameStartInfo, LocalActorId);
@@ -147,13 +147,13 @@ namespace Lockstep.Game {
         public void JumpTo(int tick){
             if (tick + 1 == _world.Tick || tick == _world.Tick) return;
             tick = FMath.Min(tick, _videoFrames.frames.Length - 1);
-            var time = LTime.realtimeSinceStartupMS + 0.05f;
+            var time = FTime.realtimeSinceStartupMS + 0.05f;
             if (!_isInitVideo) {
                 _constStateService.IsVideoLoading = true;
                 while (_world.Tick < _videoFrames.frames.Length) {
                     var sFrame = _videoFrames.frames[_world.Tick];
                     Simulate(sFrame, true);
-                    if (LTime.realtimeSinceStartupMS > time) {
+                    if (FTime.realtimeSinceStartupMS > time) {
                         EventHelper.Trigger(EEvent.VideoLoadProgress, _world.Tick * 1.0f / _videoFrames.frames.Length);
                         return;
                     }
@@ -174,18 +174,18 @@ namespace Lockstep.Game {
             }
 
             _viewService.RebindAllEntities();
-            _timestampOnLastJumpToMs = LTime.realtimeSinceStartupMS;
+            _timestampOnLastJumpToMs = FTime.realtimeSinceStartupMS;
             _tickOnLastJumpTo = tick;
         }
 
 
         public void RunVideo(){
             if (_tickOnLastJumpTo == _world.Tick) {
-                _timestampOnLastJumpToMs = LTime.realtimeSinceStartupMS;
+                _timestampOnLastJumpToMs = FTime.realtimeSinceStartupMS;
                 _tickOnLastJumpTo = _world.Tick;
             }
 
-            var frameDeltaTime = (LTime.timeSinceLevelLoad - _timestampOnLastJumpToMs) * 1000;
+            var frameDeltaTime = (FTime.timeSinceLevelLoad - _timestampOnLastJumpToMs) * 1000;
             var targetTick = System.Math.Ceiling(frameDeltaTime / NetworkDefine.UPDATE_DELTATIME) + _tickOnLastJumpTo;
             while (_world.Tick <= targetTick) {
                 if (_world.Tick < _videoFrames.frames.Length) {
@@ -205,7 +205,7 @@ namespace Lockstep.Game {
 
             if (_hasRecvInputMsg) {
                 if (_gameStartTimestampMs == -1) {
-                    _gameStartTimestampMs = LTime.realtimeSinceStartupMS;
+                    _gameStartTimestampMs = FTime.realtimeSinceStartupMS;
                 }
             }
 
@@ -214,7 +214,7 @@ namespace Lockstep.Game {
             }
 
             _tickSinceGameStart =
-                (int) ((LTime.realtimeSinceStartupMS - _gameStartTimestampMs) / NetworkDefine.UPDATE_DELTATIME);
+                (int) ((FTime.realtimeSinceStartupMS - _gameStartTimestampMs) / NetworkDefine.UPDATE_DELTATIME);
             if (_constStateService.IsVideoMode) {
                 return;
             }
@@ -303,7 +303,7 @@ namespace Lockstep.Game {
             var minTickToBackup = (maxContinueServerTick - (maxContinueServerTick % snapshotFrameInterval));
 
             // Pursue Server frames
-            var deadline = LTime.realtimeSinceStartupMS + MaxSimulationMsPerFrame;
+            var deadline = FTime.realtimeSinceStartupMS + MaxSimulationMsPerFrame;
             while (_world.Tick < _cmdBuffer.CurTickInServer) {
                 var tick = _world.Tick;
                 var sFrame = _cmdBuffer.GetServerFrame(tick);
@@ -314,7 +314,7 @@ namespace Lockstep.Game {
 
                 _cmdBuffer.PushLocalFrame(sFrame);
                 Simulate(sFrame, tick == minTickToBackup);
-                if (LTime.realtimeSinceStartupMS > deadline) {
+                if (FTime.realtimeSinceStartupMS > deadline) {
                     OnPursuingFrame();
                     return;
                 }

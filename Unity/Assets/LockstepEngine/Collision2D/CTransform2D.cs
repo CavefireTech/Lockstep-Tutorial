@@ -238,6 +238,9 @@ namespace Lockstep.Collision2D {
             get => new FVector3(localScale.x, localScale.y, FP.one);
             set { localScale = new FVector2(value.x, value.y); }
         }
+        
+        [NoBackup]
+        public FVector3 LossyScale3 => new FVector3(lossyScale.x, lossyScale.y, FP.one);
 
         public void ResetParent() {
             if (parent != null) {

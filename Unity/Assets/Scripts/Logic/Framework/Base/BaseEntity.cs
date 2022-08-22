@@ -39,8 +39,7 @@ namespace Lockstep.Game {
             }
 
             parent = setParent;
-            transform?.SetParent(setParent.transform);
-            EntityView?.SetParent(setParent.EntityView);
+            transform.SetParent(setParent.transform);
         }
 
         public T GetService<T>() where T : IService {

@@ -5,12 +5,12 @@ using Lockstep.Logging;
 namespace Lockstep.Util {
     public class Utils {
         public static void StartServices(){
-            LTime.DoStart();
+            FTime.DoStart();
             CoroutineHelper.DoStart();
         }
 
         public static void UpdateServices(){
-            LTime.DoUpdate();
+            FTime.DoUpdate();
             CoroutineHelper.DoUpdate();
         }
 

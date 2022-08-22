@@ -8,6 +8,5 @@ namespace Lockstep.Game {
         void OnTakeDamage(int amount, FVector3 hitPoint);
         void OnDead();
         void OnRollbackDestroy();
-        void SetParent(IEntityView parentView);
     }
 }

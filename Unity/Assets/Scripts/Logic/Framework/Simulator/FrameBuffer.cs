@@ -159,12 +159,12 @@ namespace Lockstep.Game {
 
         public void OnPlayerPing(Msg_G2C_PlayerPing msg){
             //PushServerFrames(frames, isNeedDebugCheck);
-            var ping = LTime.realtimeSinceStartupMS - msg.sendTimestamp;
+            var ping = FTime.realtimeSinceStartupMS - msg.sendTimestamp;
             _pings.Add(ping);
             if (ping > _maxPing) _maxPing = ping;
             if (ping < _minPing) {
                 _minPing = ping;
-                _guessServerStartTimestamp = (LTime.realtimeSinceStartupMS - msg.timeSinceServerStart) - _minPing / 2;
+                _guessServerStartTimestamp = (FTime.realtimeSinceStartupMS - msg.timeSinceServerStart) - _minPing / 2;
             }
 
             //Debug.Log("OnPlayerPing " + ping);
@@ -187,7 +187,7 @@ namespace Lockstep.Game {
                 var data = frames[i];
                 //Debug.Log("PushServerFrames" + data.tick);
                 if (_tick2SendTimestamp.TryGetValue(data.tick, out var sendTick)) {
-                    var delay = LTime.realtimeSinceStartupMS - sendTick;
+                    var delay = FTime.realtimeSinceStartupMS - sendTick;
                     _delays.Add(delay);
                     _tick2SendTimestamp.Remove(data.tick);
                 }
@@ -224,7 +224,7 @@ namespace Lockstep.Game {
 
 
         public void DoUpdate(float deltaTime){
-            _networkService.SendPing(_simulatorService.LocalActorId, LTime.realtimeSinceStartupMS);
+            _networkService.SendPing(_simulatorService.LocalActorId, FTime.realtimeSinceStartupMS);
             _predictHelper.DoUpdate(deltaTime);
             int worldTick = _simulatorService.World.Tick;
             UpdatePingVal(deltaTime);
@@ -294,7 +294,7 @@ namespace Lockstep.Game {
         }
 
         public void SendInput(Msg_PlayerInput input){
-            _tick2SendTimestamp[input.Tick] = LTime.realtimeSinceStartupMS;
+            _tick2SendTimestamp[input.Tick] = FTime.realtimeSinceStartupMS;
 #if DEBUG_SHOW_INPUT
             var cmd = input.Commands[0];
             var playerInput = new Deserializer(cmd.content).Parse<Lockstep.Game. PlayerInput>();

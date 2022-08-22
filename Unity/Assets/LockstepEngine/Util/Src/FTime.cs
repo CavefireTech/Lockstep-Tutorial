@@ -52,7 +52,7 @@ namespace Lockstep.Util {
     }
 
 
-    public class LTime {
+    public class FTime {
         /// The total number of frames that have passed (Read Only).
         public static int frameCount { get; private set; }
 

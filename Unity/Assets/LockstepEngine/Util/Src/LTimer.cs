@@ -51,7 +51,7 @@ namespace Lockstep.Util {
         private static IEnumerator WaitWhileTrueCoroutine(Func<bool> condition, DoneHandler callback,
             float timeoutSeconds, bool reverseCondition = false){
             while ((timeoutSeconds > 0) && (condition.Invoke() == !reverseCondition)) {
-                timeoutSeconds -= LTime.deltaTime;
+                timeoutSeconds -= FTime.deltaTime;
                 yield return null;
             }
 
