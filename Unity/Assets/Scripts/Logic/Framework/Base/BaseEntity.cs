@@ -24,76 +24,87 @@ namespace Lockstep.Game {
 
         [ReRefBackup] public IEntityView EntityView;
 
-     
+        public bool IsActive => parent != null ? _isActive && parent.IsActive : IsActive;
+        
+        private bool _isActive = true;
+        
+        public virtual void SetActive(bool isActive) {
+            _isActive = isActive;
+        }
+        
         public void SetParent(BaseEntity setParent) {
             if (parent == setParent) return;
             if (setParent == null) {
                 return;
             }
-            
+
             parent = setParent;
-            transform.SetParent(setParent.transform);
-            EntityView.SetParent(setParent.EntityView);
+            transform?.SetParent(setParent.transform);
+            EntityView?.SetParent(setParent.EntityView);
         }
-        
-        public T GetService<T>() where T : IService{
+
+        public T GetService<T>() where T : IService {
             return ServiceContainer.GetService<T>();
         }
-        
-        public void DoBindRef(){
+
+        public void DoBindRef() {
             BindRef();
         }
 
-        public virtual void OnRollbackDestroy(){
+        public virtual void OnRollbackDestroy() {
             EntityView?.OnRollbackDestroy();
             EntityView = null;
             engineTransform = null;
         }
 
-        protected virtual void BindRef(){
+        protected virtual void BindRef() {
             allComponents?.Clear();
         }
 
-        protected void RegisterComponent(BaseComponent comp){
+        protected void RegisterComponent(BaseComponent comp) {
             if (allComponents == null) {
                 allComponents = new List<BaseComponent>();
             }
+
             allComponents.Add(comp);
             comp.BindEntity(this);
         }
 
-        public override void DoAwake(){
+        public override void DoAwake() {
             if (allComponents == null) return;
             foreach (var comp in allComponents) {
                 comp.DoAwake();
             }
         }
 
-        public override void DoStart(){
+        public override void DoStart() {
             if (allComponents == null) return;
             foreach (var comp in allComponents) {
                 comp.DoStart();
             }
         }
 
-        public override void DoUpdate(FP deltaTime){
+        public override void DoUpdate(FP deltaTime) {
             if (allComponents == null) return;
             foreach (var comp in allComponents) {
                 comp.DoUpdate(deltaTime);
             }
         }
 
-        public override void DoDestroy(){
+        public override void DoDestroy() {
             if (allComponents == null) return;
             foreach (var comp in allComponents) {
                 comp.DoDestroy();
             }
         }
 
-        public virtual void OnLPTriggerEnter(ColliderProxy other){ }
+        public virtual void OnLPTriggerEnter(ColliderProxy other) {
+        }
 
-        public virtual void OnLPTriggerStay(ColliderProxy other){ }
+        public virtual void OnLPTriggerStay(ColliderProxy other) {
+        }
 
-        public virtual void OnLPTriggerExit(ColliderProxy other){ }
+        public virtual void OnLPTriggerExit(ColliderProxy other) {
+        }
     }
 }

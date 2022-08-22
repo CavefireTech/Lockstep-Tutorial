@@ -27,11 +27,15 @@ namespace Lockstep.Game {
 
         public override void DoUpdate(FP deltaTime){
             foreach (var spawner in Spawners) {
-                spawner.DoUpdate(deltaTime);
+                if (spawner.IsActive) {
+                    spawner.DoUpdate(deltaTime);
+                }
             }
 
             foreach (var enemy in AllEnemy) {
-                enemy.DoUpdate(deltaTime);
+                if (enemy.IsActive) {
+                    enemy.DoUpdate(deltaTime);
+                }
             }
         }
     }

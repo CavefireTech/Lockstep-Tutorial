@@ -12,7 +12,9 @@ namespace Lockstep.Game{
     public class HeroSystem : BaseSystem {
         public override void DoUpdate(FP deltaTime){
             foreach (var player in _gameStateService.GetPlayers()) {
-                player.DoUpdate(deltaTime);
+                if (player.IsActive) {
+                    player.DoUpdate(deltaTime);
+                }
             }
         }
     }
