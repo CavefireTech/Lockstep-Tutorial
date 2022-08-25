@@ -27,10 +27,11 @@ public class MainScript : MonoBehaviour {
         Screen.SetResolution(1024, 768, false);
 
         launcher.DoAwake(_serviceContainer);
+        DoStart();
     }
 
 
-    private void Start(){
+    private void DoStart(){
         var stateService = GetService<IConstStateService>();
         string path = Application.dataPath;
 #if UNITY_EDITOR
@@ -61,5 +62,10 @@ public class MainScript : MonoBehaviour {
 
     public T GetService<T>() where T : IService{
         return _serviceContainer.GetService<T>();
+    }
+
+    private void OnDrawGizmos() {
+        if(PhysicSystem.Instance!=null)
+            PhysicSystem.Instance.OnDrawGizmos();
     }
 }

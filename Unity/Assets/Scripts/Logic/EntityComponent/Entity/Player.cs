@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Lockstep;
+using Lockstep.Collision2D;
 using Lockstep.Game;
 using Lockstep.Math;
 using UnityEngine;
@@ -22,6 +23,11 @@ namespace Lockstep.Game {
             if (input.skillId != 0) {
                 Fire(input.skillId);
             }
+        }
+
+        public override void OnLPTriggerEnter(ColliderProxy other) {
+            base.OnLPTriggerEnter(other);
+            Debug.Log($"trigger enter: {other}");
         }
     }
 }

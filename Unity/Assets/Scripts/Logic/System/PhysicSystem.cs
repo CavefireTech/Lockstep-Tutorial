@@ -16,6 +16,7 @@ namespace Lockstep.Game {
     public class PhysicSystem : BaseSystem {
         private static PhysicSystem _instance;
         public static PhysicSystem Instance => _instance;
+
         ICollisionSystem collisionSystem;
         public CollisionConfig config;
 
@@ -155,6 +156,15 @@ namespace Lockstep.Game {
 
             collisionSystem.AddCollider(proxy);
         }
+        
+        public ColliderProxy CreateColliderProxy(ColliderPrefab prefab, FVector2 pos, bool isStatic, int layer){
+            var proxy = new ColliderProxy();
+            proxy.Init(prefab, pos);
+            proxy.IsStatic = isStatic;
+            proxy.LayerType = layer;
+            collisionSystem.AddCollider(proxy);
+            return proxy;
+        }
 
         public void RemoveCollider(ILPTriggerEventHandler handler){
             if (_mono2ColProxy.TryGetValue(handler, out var proxy)) {
@@ -168,7 +178,7 @@ namespace Lockstep.Game {
             collisionSystem.RemoveCollider(collider);
         }
 
-        void OnDrawGizmos(){
+        public void OnDrawGizmos(){
             collisionSystem?.DrawGizmos();
         }
     }

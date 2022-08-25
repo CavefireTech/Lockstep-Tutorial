@@ -84,7 +84,7 @@ namespace Lockstep.Collision2D {
         }
 
         Dictionary<EShape2D, PrimitiveType> type2PType = new Dictionary<EShape2D, PrimitiveType>() {
-            {EShape2D.Circle, PrimitiveType.Cylinder},
+            {EShape2D.Circle, PrimitiveType.Sphere},
             {EShape2D.AABB, PrimitiveType.Cube},
             {EShape2D.OBB, PrimitiveType.Cube},
         };
@@ -94,25 +94,24 @@ namespace Lockstep.Collision2D {
             var type = (EShape2D) prefab.collider.TypeId;
             var obj = GameObject.CreatePrimitive(type2PType[type]).GetComponent<Collider>();
             obj.transform.SetParent(transform, false);
-            obj.transform.position = new Vector3(Random.Range(-halfworldSize, halfworldSize), 0,
-                Random.Range(-halfworldSize, halfworldSize));
+            obj.transform.position = new Vector3(Random.Range(-halfworldSize, halfworldSize), Random.Range(-halfworldSize, halfworldSize),0);
             switch (type) {
                 case EShape2D.Circle: {
                     var colInfo = (CCircle) prefab.collider;
                     obj.transform.localScale =
-                        new Vector3(colInfo.radius.ToFloat() * 2, 1, colInfo.radius.ToFloat() * 2);
+                        new Vector3(colInfo.radius.ToFloat() * 2, colInfo.radius.ToFloat() * 2, colInfo.radius.ToFloat() * 2);
                     break;
                 }
                 case EShape2D.AABB: {
                     var colInfo = (CAABB) prefab.collider;
                     obj.transform.localScale =
-                        new Vector3(colInfo.size.x.ToFloat() * 2, 1, colInfo.size.y.ToFloat() * 2);
+                        new Vector3(colInfo.size.x.ToFloat() * 2, colInfo.size.y.ToFloat() * 2, colInfo.size.y.ToFloat() * 2);
                     break;
                 }
                 case EShape2D.OBB: {
                     var colInfo = (COBB) prefab.collider;
                     obj.transform.localScale =
-                        new Vector3(colInfo.size.x.ToFloat() * 2, 1, colInfo.size.y.ToFloat() * 2);
+                        new Vector3(colInfo.size.x.ToFloat() * 2, colInfo.size.y.ToFloat() * 2, colInfo.size.y.ToFloat() * 2);
                     break;
                 }
             }
@@ -123,6 +122,7 @@ namespace Lockstep.Collision2D {
                 var mover = obj.gameObject.AddComponent<RandomMove>();
                 mover.halfworldSize = halfworldSize;
                 mover.isNeedRotate = type == EShape2D.OBB;
+                mover.SetupProxy(proxy);
             }
 
             proxy.IsStatic = isStatic;

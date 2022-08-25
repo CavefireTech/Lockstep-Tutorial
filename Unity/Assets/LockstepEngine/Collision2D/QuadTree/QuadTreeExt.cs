@@ -68,9 +68,10 @@ namespace Lockstep.Collision2D {
         public void DrawCollisionChecks(){
             int count = 0;
             foreach (FRect collisionCheck in lastBoundsCollisionChecks) {
-                Gizmos.color = new Color(1.0f, 1.0f - ((float) count / numCollisionsToSave), 1.0f);
+                Gizmos.color = Color.red;
                 Gizmos.DrawCube(collisionCheck.center.ToLVector3().ToVector3(), collisionCheck.size.ToLVector3().ToVector3());
                 count++;
+                Debug.Log($"collisionCheck: {collisionCheck.center}");
             }
 
             foreach (Ray collisionCheck in lastRayCollisionChecks) {

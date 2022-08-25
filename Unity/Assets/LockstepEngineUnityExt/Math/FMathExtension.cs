@@ -45,7 +45,7 @@ namespace Lockstep.Math {
         public static FVector2 ToLVector2XZ(this Vector3 vec){
             return new FVector2(
                 FMath.ToLFloat(vec.x),
-                FMath.ToLFloat(vec.z));
+                FMath.ToLFloat(vec.y));
         }
         public static Vector2 ToVector2(this FVector2 vec){
             return new Vector2(vec.x.ToFloat(), vec.y.ToFloat());
@@ -53,11 +53,11 @@ namespace Lockstep.Math {
         public static Vector3 ToVector3(this FVector2 vec){
             return new Vector3(vec.x.ToFloat(), vec.y.ToFloat(),0);
         }
-        public static Vector3 ToVector3XZ(this FVector2 vec,FP y){
-            return new Vector3(vec.x.ToFloat(), y.ToFloat(),vec.y.ToFloat());
+        public static Vector3 ToVector3XZ(this FVector2 vec,FP z){
+            return new Vector3(vec.x.ToFloat(), vec.y.ToFloat(),z);
         }
         public static Vector3 ToVector3XZ(this FVector2 vec){
-            return new Vector3(vec.x.ToFloat(), 0,vec.y.ToFloat());
+            return new Vector3(vec.x.ToFloat(), vec.y.ToFloat(),0);
         }
         public static Vector3 ToVector3(this FVector3 vec){
             return new Vector3(vec.x.ToFloat(), vec.y.ToFloat(), vec.z.ToFloat());

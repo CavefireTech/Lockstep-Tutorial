@@ -1,3 +1,4 @@
+using Lockstep.Math;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -18,8 +19,17 @@ namespace Lockstep.Collision2D {
         }
 
         void UpdateTargetPos(){
-            targetPos = new Vector3(Random.Range(-halfworldSize, halfworldSize), 0,
-                Random.Range(-halfworldSize, halfworldSize));
+            targetPos = new Vector3(Random.Range(-halfworldSize, halfworldSize), Random.Range(-halfworldSize, halfworldSize), 0);
+        }
+
+        private ColliderProxy _proxy;
+        public void SetupProxy(ColliderProxy proxy) {
+            _proxy = proxy;
+            _proxy.OnTriggerEvent += OnTrigger;
+        }
+
+        private void OnTrigger(ColliderProxy other, ECollisionEvent type) {
+            Debug.Log($"collision {other.pos}, {type}");
         }
 
         private void Update(){
@@ -34,11 +44,13 @@ namespace Lockstep.Collision2D {
             }
 
             if (isNeedRotate) {
-                var deg = transform.localRotation.eulerAngles.y;
-                transform.localRotation = Quaternion.Euler(0,deg + Time.deltaTime * rotateSpd,0);
+                var deg = transform.localRotation.eulerAngles.z;
+                transform.localRotation = Quaternion.Euler(0,0,deg + Time.deltaTime * rotateSpd);
             }
 
             transform.position += (targetPos - transform.position).normalized * Time.deltaTime * spd;
+            _proxy.pos = transform.position.ToLVector2XZ();
+            _proxy.rot = transform.localEulerAngles.z.ToLFloat();
         }
     }
 }

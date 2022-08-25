@@ -30,14 +30,14 @@ using UnityEngine;
 namespace Lockstep.Collision2D {
     public static partial class FRectExt {
         public static FVector2 ToLVector2XZ(this FVector3 vec){
-            return new FVector2(vec.x, vec.z);
+            return new FVector2(vec.x, vec.y);
         }
 
-        public static FVector3 ToLVector3(this FVector2 vec, int y = 1){
-            return new FVector3(vec.x, y.ToLFloat(), vec.y);
+        public static FVector3 ToLVector3(this FVector2 vec, int z = 1){
+            return new FVector3(vec.x, vec.y, z.ToLFloat());
         }
-        public static FVector3 ToLVector3XZ(this FVector2 vec,FP y){
-            return new FVector3(vec.x, y,vec.y);
+        public static FVector3 ToLVector3XZ(this FVector2 vec,FP z){
+            return new FVector3(vec.x,vec.y, z);
         }
     }
 
