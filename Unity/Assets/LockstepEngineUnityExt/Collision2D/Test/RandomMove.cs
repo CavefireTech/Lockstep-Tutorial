@@ -49,8 +49,8 @@ namespace Lockstep.Collision2D {
             }
 
             transform.position += (targetPos - transform.position).normalized * Time.deltaTime * spd;
-            _proxy.pos = transform.position.ToLVector2XZ();
-            _proxy.rot = transform.localEulerAngles.z.ToLFloat();
+            _proxy.pos = transform.position.ToFVector2();
+            _proxy.rot = transform.localEulerAngles.z.ToFP();
         }
     }
 }

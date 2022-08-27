@@ -133,12 +133,12 @@ public class EditorNavMeshTool : UnityEditor.Editor {
         }
 
         _property.pathTriangles = triangulatedNavMesh.indices;
-        _property.startX = minX.ToLFloat();
-        _property.startZ = minZ.ToLFloat();
-        _property.endX = maxX.ToLFloat();
-        _property.endZ = maxZ.ToLFloat();
-        _property.width  = (maxX - minX).ToLFloat();
-        _property.height = (maxZ - minZ).ToLFloat();
+        _property.startX = minX.ToFP();
+        _property.startZ = minZ.ToFP();
+        _property.endX = maxX.ToFP();
+        _property.endZ = maxZ.ToFP();
+        _property.width  = (maxX - minX).ToFP();
+        _property.height = (maxZ - minZ).ToFP();
 
         MergeVertices(triangulatedNavMesh.vertices);
         var strs = JsonUtil.ToJson(_property);

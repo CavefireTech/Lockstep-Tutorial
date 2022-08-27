@@ -40,7 +40,7 @@ namespace Lockstep.PathFinding {
             // project it to the closest
             // triangle edge. Otherwise the funnel calculation might generate spurious path
             // segments.
-            Ray ray = new Ray((V3_UP.scl(1000.ToLFloat())).Add(start), V3_DOWN); // 起始坐标从上向下的射线
+            Ray ray = new Ray((V3_UP.scl(1000.ToFP())).Add(start), V3_DOWN); // 起始坐标从上向下的射线
             if (!GeometryUtil.IntersectRayTriangle(ray, startTri.a, startTri.b, startTri.c, out var ss)) {
                 FP minDst = FP.MaxValue;
                 FVector3 projection = new FVector3(); // 规划坐标

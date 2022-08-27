@@ -21,7 +21,7 @@ namespace Lockstep.Game {
         
         protected virtual void Update()
         {
-            var timeRate = Time.deltaTime / FTime.deltaTime.ToLFloat();
+            var timeRate = Time.deltaTime / FTime.deltaTime.ToFP();
             var pos = baseEntity.transform.Position3.ToVector3();
             transform.position = Vector3.Lerp(transform.position, pos, timeRate);
             var rot = baseEntity.transform.rot.ToFloat();

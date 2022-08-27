@@ -25,7 +25,7 @@ namespace Lockstep.Game {
             if (World.Instance != null && !IsReplay) {
                 float h = Input.GetAxisRaw("Horizontal");
                 float v = Input.GetAxisRaw("Vertical");
-                inputUV = new FVector2(h.ToLFloat(), v.ToLFloat());
+                inputUV = new FVector2(h.ToFP(), v.ToFP());
                 
                 isInputFire = Input.GetButton("Fire1");
                 hasHitFloor = Input.GetMouseButtonDown(1);
@@ -33,7 +33,7 @@ namespace Lockstep.Game {
                     Ray camRay = Camera.main.ScreenPointToRay(Input.mousePosition);
                     RaycastHit floorHit;
                     if (Physics.Raycast(camRay, out floorHit, camRayLength, floorMask)) {
-                        mousePos = floorHit.point.ToLVector2XZ();
+                        mousePos = floorHit.point.ToFVector2();
                     }
                 }
 

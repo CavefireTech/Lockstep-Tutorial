@@ -76,8 +76,8 @@ namespace Lockstep.PathFinding {
             var e = or + dir * worldSize;
             var perp = new FVector2(-dir.y, dir.x);
             const float lineSize = 0.3f;
-            var s1 = perp * lineSize.ToLFloat() + s;
-            var e1 = perp * lineSize.ToLFloat() + e;
+            var s1 = perp * lineSize.ToFP() + s;
+            var e1 = perp * lineSize.ToFP() + e;
             List<Vector3> vertices = new List<Vector3>();
             List<int> tirs = new List<int>();
             vertices.Add(s.ToVector3XZ());

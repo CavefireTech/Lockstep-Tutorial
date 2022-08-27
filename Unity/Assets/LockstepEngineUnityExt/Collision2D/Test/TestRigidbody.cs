@@ -17,7 +17,7 @@ namespace Lockstep.Collision2D {
         private void Start(){
             CRigidbody = new CRigidbody();
             CTransform2D = new CTransform2D();
-            CTransform2D.Position3 = transform.position.ToLVector3();
+            CTransform2D.Position3 = transform.position.ToFVector3();
             CRigidbody.BindRef(CTransform2D); 
             CRigidbody.DoStart();
         }
@@ -28,7 +28,7 @@ namespace Lockstep.Collision2D {
             CRigidbody.FloorFriction = FloorFriction;
             
             CRigidbody.Mass = Mass;
-            CRigidbody.DoUpdate(Time.deltaTime.ToLFloat());
+            CRigidbody.DoUpdate(Time.deltaTime.ToFP());
             transform.position = CTransform2D.Position3.ToVector3();
         }
 

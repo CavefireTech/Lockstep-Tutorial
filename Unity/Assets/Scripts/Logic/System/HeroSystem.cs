@@ -4,9 +4,11 @@ using UnityEngine;
 
 namespace Lockstep.Game{    
     public enum EColliderLayer {
-        Static,
+        Ground,
+        Wall,
         Enemy,
         Hero,
+        Bullet,
         EnumCount
     }
     public class HeroSystem : BaseSystem {

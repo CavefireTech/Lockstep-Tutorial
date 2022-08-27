@@ -94,7 +94,7 @@ namespace Lockstep.PathFinding {
             NodeRecord<N> startRecord = GetNodeRecord(startNode);
             startRecord.node = startNode;
             startRecord.connection = null;
-            startRecord.costSoFar = 0.ToLFloat();
+            startRecord.costSoFar = 0.ToFP();
             AddToOpenList(startRecord, heuristic.Estimate(startNode, endNode));
 
             _current = null;

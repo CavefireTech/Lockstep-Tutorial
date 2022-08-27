@@ -44,7 +44,8 @@ namespace Lockstep.Collision2D {
             Gizmos.color = new Color(0, 1.0f - tintVal, tintVal, 0.25f);
 
             foreach (OctreeObject obj in objects) {
-                Gizmos.DrawCube(obj.Bounds.center.ToLVector3().ToVector3(), obj.Bounds.size.ToLVector3().ToVector3());
+                // Gizmos.DrawWireCube(obj.Obj.pos.ToLVector3().ToVector3(), obj.Bounds.ToVector3());
+                Gizmos.DrawWireCube(obj.Bounds.center.ToLVector3().ToVector3(), obj.Bounds.size.ToLVector3().ToVector3());
             }
 
             if (children != null) {

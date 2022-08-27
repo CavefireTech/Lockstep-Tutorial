@@ -13,8 +13,8 @@ namespace Lockstep.Collision2D {
         public uint[] _collisionMask = new uint[32];
 
         public List<BoundsQuadTree> boundsTrees = new List<BoundsQuadTree>();
-        public FP worldSize = 150.ToLFloat();
-        public FP minNodeSize = 1.ToLFloat();
+        public FP worldSize = 150.ToFP();
+        public FP minNodeSize = 1.ToFP();
         public FP loosenessval = new FP(true, 1250);
         public FVector3 pos;
 

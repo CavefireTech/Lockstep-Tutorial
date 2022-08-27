@@ -13,7 +13,7 @@ public static class LVectorExtension {
     public static FVector3[] ToLVecArray(this Vector3[] lVecs){
         var vecs = new FVector3[lVecs.Length];
         for (int i = 0; i < lVecs.Length; i++) {
-            vecs[i] = lVecs[i].ToLVector3();
+            vecs[i] = lVecs[i].ToFVector3();
         }
         return vecs;
     }

@@ -132,7 +132,7 @@ namespace Lockstep.Game {
         public void DoUpdate(float fDeltaTime){
             _syncContext.Update();
             Utils.UpdateServices();
-            var deltaTime = fDeltaTime.ToLFloat();
+            var deltaTime = fDeltaTime.ToFP();
             _networkService.DoUpdate(deltaTime);
             if (IsVideoMode && IsRunVideo && CurTick < MaxRunTick) {
                 _simulatorService.RunVideo();

@@ -28,7 +28,7 @@ namespace Lockstep.PathFinding {
             this.c = c;
             this.y = (a.y + b.y + c.y) / 3;
             this.index = index;
-            this.center = a.Add(b).Add(c).scl(1/3.ToLFloat());
+            this.center = a.Add(b).Add(c).scl(1/3.ToFP());
             this.connections = new List<Connection<Triangle>>();
             this.vectorIndex = vectorIndex;
         }

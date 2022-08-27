@@ -34,7 +34,7 @@ namespace Lockstep.Collision2D {
         }
 
         public static FVector3 ToLVector3(this FVector2 vec, int z = 1){
-            return new FVector3(vec.x, vec.y, z.ToLFloat());
+            return new FVector3(vec.x, vec.y, z.ToFP());
         }
         public static FVector3 ToLVector3XZ(this FVector2 vec,FP z){
             return new FVector3(vec.x,vec.y, z);
@@ -87,7 +87,7 @@ namespace Lockstep.Collision2D {
             Count = 0;
             initialSize = initialWorldSize;
             minSize = minNodeSize;
-            looseness = FMath.Clamp(loosenessVal, 1.ToLFloat(), 2.ToLFloat());
+            looseness = FMath.Clamp(loosenessVal, 1.ToFP(), 2.ToFP());
             rootNode = new BoundsQuadTreeNode(null, initialSize, minSize, looseness, initialWorldPos);
         }
 

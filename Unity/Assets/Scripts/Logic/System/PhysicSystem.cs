@@ -36,8 +36,7 @@ namespace Lockstep.Game {
         public FP loosenessval => config.loosenessval;
 
         private FP halfworldSize => worldSize / 2 - 5;
-
-        private int[] allTypes = new int[] {0, 1, 2};
+        
 
         public int showTreeId = 0;
 
@@ -61,6 +60,12 @@ namespace Lockstep.Game {
             };
             _debugService.Trace($"worldSize:{worldSize} pos:{pos} minNodeSize:{minNodeSize} loosenessval:{loosenessval}");
             this.collisionSystem = collisionSystem;
+            
+            int[] allTypes = new int[(int)EColliderLayer.EnumCount];
+            for (int i = 0; i < allTypes.Length; i++) {
+                allTypes[i] = i;
+            }
+            
             collisionSystem.DoStart(collisionMatrix, allTypes);
             collisionSystem.funcGlobalOnTriggerEvent += GlobalOnTriggerEvent;
         }

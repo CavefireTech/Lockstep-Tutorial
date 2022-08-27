@@ -38,10 +38,10 @@ namespace Lockstep.Collision2D {
         private void Start(){
             // Initial size (metres), initial centre position, minimum node size (metres), looseness
             collisionSystem = new CollisionSystem() {
-                worldSize = worldSize.ToLFloat(),
-                pos = pos.ToLVector3(),
-                minNodeSize = minNodeSize.ToLFloat(),
-                loosenessval = loosenessval.ToLFloat()
+                worldSize = worldSize.ToFP(),
+                pos = pos.ToFVector3(),
+                minNodeSize = minNodeSize.ToFP(),
+                loosenessval = loosenessval.ToFP()
             };
             collisionSystem.DoStart(InterestingMasks, allTypes);
             //init prefab 
@@ -60,7 +60,7 @@ namespace Lockstep.Collision2D {
                 for (int j = 1; j < size; j++) {
                     CreatePrefab(new CAABB(new FVector2(i, j)));
                     CreatePrefab(new COBB(new FVector2(i, j), FP.zero));
-                    CreatePrefab(new CCircle(((i + j) * 0.5f).ToLFloat()));
+                    CreatePrefab(new CCircle(((i + j) * 0.5f).ToFP()));
                 }
             }
 
@@ -117,7 +117,7 @@ namespace Lockstep.Collision2D {
             }
 
             var proxy = new ColliderProxy();
-            proxy.Init(prefab, obj.transform.position.ToLVector2XZ());
+            proxy.Init(prefab, obj.transform.position.ToFVector2());
             if (!isStatic) {
                 var mover = obj.gameObject.AddComponent<RandomMove>();
                 mover.halfworldSize = halfworldSize;
@@ -134,7 +134,7 @@ namespace Lockstep.Collision2D {
 
         private void Update(){
             collisionSystem.ShowTreeId = showTreeId;
-            collisionSystem.DoUpdate(Time.deltaTime.ToLFloat());
+            collisionSystem.DoUpdate(Time.deltaTime.ToFP());
             ////class version 1.41ms
             //Profiler.BeginSample("CheckCollision");
             //CheckCollision();

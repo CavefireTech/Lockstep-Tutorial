@@ -50,7 +50,7 @@ namespace Lockstep.PathFinding {
                 return;
             }
 
-            var lscale = scale.ToLFloat();
+            var lscale = scale.ToFP();
             for (int i = 0; i < vertices.Length; i++) {
                 vertices[i].x += (-this.startX); // 缩放移动
                 vertices[i].z += (-this.startZ);
